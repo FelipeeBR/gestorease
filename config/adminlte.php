@@ -333,25 +333,33 @@ return [
             'icon' => 'fa fa-fw fa-pizza-slice',
             //'label' => 4,
             'label_color' => 'success',
+            'can'  => 'gerenciar_produtos',
         ],
         [
             'text' => 'Pedidos',
             'url' => 'admin/pedidos',
             'icon' => 'fa fa-fw fa-file-powerpoint',
-            'label' => 4,
+            'label' => 30,
             'label_color' => 'success',
         ],
-        ['header' => 'Configurações de Usuários'],
         [
-            'text' => 'Usuários',
+            'text' => 'Mesas',
+            'url' => 'admin/mesas',
+            'icon' => 'fa fa-fw fa-table',
+            'label' => 12,
+            'label_color' => 'info',
+        ],
+        ['header' => 'Gerencia de Usuários', 'can'  => 'gerenciar_usuarios',],
+        [
+            'text' => 'Usuários do Sistema',
             'route' => 'users.index',
             'icon' => 'fas fa-fw fa-user',
-            'can'  => 'gerenciar-usuarios', // nome da permissão ou gate
+            'can'  => 'gerenciar_usuarios', // nome da permissão ou gate
         ],
         [
-            'text' => 'change_password',
+            'text' => 'Funcionários',
             'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-fw fa-user-tie',
         ],
         [
             'text' => 'multilevel',

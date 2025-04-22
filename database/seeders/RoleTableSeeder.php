@@ -20,11 +20,17 @@ class RoleTableSeeder extends Seeder
             'gerente' => [
                 'description' => 'Gerente do estabelecimento',
                 'permissions' => [
-                    'gerenciar_mesas',
-                    'fechar_comanda',
+                    'gerenciar_mesas', // Permissão para gerenciar as mesas
+                    'gerenciar_produtos',
+                    'gerenciar_usuarios', // Permissão para gerenciar os usuários
+                    'gerenciar_funcionarios',// Permissão para gerenciar os funcionários
+                    'fechar_comanda', // Permissão para fechar a comanda
+                    'abrir_comanda', // Permissão para abrir a comanda
+                    'registrar_pedidos',
                     'modificar_pedidos',
                     'gerar_relatorios',
-                    'consultar_estoque'
+                    'gerenciar_estoque',
+                    'emitir_comprovante'
                 ]
             ],
             'garcom' => [
@@ -32,7 +38,9 @@ class RoleTableSeeder extends Seeder
                 'permissions' => [
                     'abrir_comanda',
                     'registrar_pedidos',
-                    'gerenciar_mesas'
+                    'gerenciar_mesas',
+                    'emitir_comprovante',
+                    'fechar_comanda',
                 ]
             ],
             'caixa' => [

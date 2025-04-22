@@ -20,8 +20,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('gerenciar-usuarios', function ($user) {
+        Gate::define('gerenciar_usuarios', function ($user) {
             return $user->temRole('admin'); // método personalizado que você cria
+        });
+
+        Gate::define('gerenciar_produtos', function ($user) {
+            return $user->temRole('gerente');
         });
     }
 }
