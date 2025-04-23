@@ -344,7 +344,7 @@ return [
         ],
         [
             'text' => 'Mesas',
-            'url' => 'admin/mesas',
+            'url' => '/mesas',
             'icon' => 'fa fa-fw fa-table',
             'label' => 12,
             'label_color' => 'info',
