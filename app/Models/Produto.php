@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Categoria;
+use App\Models\VariacaoProduto;
 
 class Produto extends Model
 {
@@ -24,5 +25,16 @@ class Produto extends Model
     public function categoria()
     {
         return $this->belongsTo(Categoria::class);
+    }
+
+    public function variacoes() {
+        return $this->hasMany(VariacaoProduto::class);
+    }
+    
+    // Helper para pizzas
+    public function tamanhosDisponiveis() {
+        return $this->variacoes()
+            ->where('nome', 'Tamanho')
+            ->pluck('valor', 'id');
     }
 }

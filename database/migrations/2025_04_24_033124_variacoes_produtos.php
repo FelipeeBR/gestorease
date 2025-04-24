@@ -1,0 +1,32 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('variacoes_produtos', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('produto_id')->constrained()->onDelete('cascade');
+            $table->string('nome')->comment('Ex: Tamanho, Cor, Sabor'); // "Tamanho" para pizzas
+            $table->string('valor')->comment('Ex: Pequena, Média, Grande'); // Valores específicos
+            $table->decimal('preco_adicional', 10, 2)->default(0);
+            $table->integer('estoque')->default(0);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('variacoes_produtos');
+    }
+};
