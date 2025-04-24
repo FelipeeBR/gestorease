@@ -30,7 +30,7 @@
         </div>
         
         <div class="form-group">
-            <label for="categoria_id">Categoria*</label>
+            <label for="categoria_id">Categoria</label>
             <select class="form-control" id="categoria_id" name="categoria_id" required>
                 <option value="">Selecione...</option>
                 @foreach($categorias as $categoria)
@@ -43,7 +43,7 @@
         </div>
         
         <div class="form-group">
-            <label for="descricao">Descrição</label>
+            <label for="descricao">Descrição (Ingredientes)</label>
             <textarea class="form-control" id="descricao" name="descricao" rows="3">{{ old('descricao', $produto->descricao ?? '') }}</textarea>
         </div>
         
