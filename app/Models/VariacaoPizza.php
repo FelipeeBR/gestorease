@@ -8,6 +8,8 @@ use App\Models\Produto;
 
 class VariacaoPizza extends Model
 {
+    protected $table = 'variacao_pizza';
+
     protected $fillable = [
         'produto_id',
         'tamanho_pizza_id',

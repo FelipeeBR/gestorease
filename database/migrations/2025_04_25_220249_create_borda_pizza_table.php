@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tamanho_pizzas', function (Blueprint $table) {
+        Schema::create('borda_pizza', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 100);
+            $table->decimal('preco_adicional', 10, 2)->default(0);
+            $table->boolean('ativo')->default(true);
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tamanho_pizzas');
+        Schema::dropIfExists('borda_pizza');
     }
 };

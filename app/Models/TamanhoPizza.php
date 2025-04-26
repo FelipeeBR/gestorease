@@ -7,8 +7,11 @@ use App\Models\VariacaoPizza;
 
 class TamanhoPizza extends Model
 {
+    protected $table = 'tamanho_pizza';
+
     protected $fillable = ['nome'];
-    public function variacoes_pizza()
+
+    public function pizza_variacao()
     {
         return $this->hasMany(VariacaoPizza::class);
     }
@@ -18,7 +21,7 @@ class TamanhoPizza extends Model
         parent::boot();
 
         static::deleting(function($tamanho) {
-            if ($tamanho->variacoes_pizza()->count() > 0) {
+            if ($tamanho->pizza_variacao()->count() > 0) {
                 throw new \Exception("Não pode deletar tamanho com produtos vinculados");
             }
         });

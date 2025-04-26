@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('variacoes_pizzas', function (Blueprint $table) {
+        Schema::create('variacao_pizza', function (Blueprint $table) {
             $table->id();
             $table->foreignId('produto_id')->constrained('produtos')->onDelete('cascade');
-            $table->foreignId('tamanho_pizza_id')->constrained('tamanho_pizzas')->onDelete('cascade');
+            $table->foreignId('tamanho_pizza_id')->constrained('tamanho_pizza')->onDelete('cascade');
             $table->decimal('preco', 10, 2);
             $table->enum('tipo', ['salgada', 'doce'])->default('salgada');
             $table->timestamps();
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('variacoes_pizzas');
+        Schema::dropIfExists('variacao_pizza');
     }
 };
