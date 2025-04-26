@@ -328,14 +328,6 @@ return [
             'label_color' => 'success',
         ],
         [
-            'text' => 'Produtos',
-            'url' => '/produtos',
-            'icon' => 'fa fa-fw fa-pizza-slice',
-            //'label' => 4,
-            'label_color' => 'success',
-            'can'  => 'gerenciar_produtos',
-        ],
-        [
             'text' => 'Pedidos',
             'url' => 'admin/pedidos',
             'icon' => 'fa fa-fw fa-file-powerpoint',
@@ -348,6 +340,28 @@ return [
             'icon' => 'fa fa-fw fa-table',
             'label' => 12,
             'label_color' => 'info',
+        ],
+        [
+            'text' => 'Produtos',
+            'icon' => 'fas fa-fw fa-store',
+            'can'  => 'gerenciar_produtos',
+            'submenu' => [
+                [
+                    'text' => 'Gerenciar Produtos',
+                    'url' => '/produtos',
+                    'icon' => 'fa fa-fw fa-pen-alt',
+                ],
+                [
+                    'text' => 'Pizzas',
+                    'url' => '/pizzas',
+                    'icon' => 'fa fa-fw fa-pizza-slice',
+                ],
+                [
+                    'text' => 'Bebidas',
+                    'url' => '/bebidas',
+                    'icon' => 'fa fa-fw fa-cocktail',
+                ],
+            ],
         ],
         ['header' => 'Gerencia de Usuários', 'can'  => 'gerenciar_usuarios',],
         [

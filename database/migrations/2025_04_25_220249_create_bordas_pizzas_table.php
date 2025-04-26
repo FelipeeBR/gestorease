@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('variacoes_produtos', function (Blueprint $table) {
+        Schema::create('bordas_pizzas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('produto_id')->constrained()->onDelete('cascade');
-            $table->string('nome')->comment('Ex: Tamanho, Cor, Sabor'); // "Tamanho" para pizzas
-            $table->string('valor')->comment('Ex: Pequena, Média, Grande'); // Valores específicos
+            $table->string('nome', 100);
             $table->decimal('preco_adicional', 10, 2)->default(0);
-            $table->integer('estoque')->default(0);
+            $table->boolean('ativo')->default(true);
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('variacoes_produtos');
+        Schema::dropIfExists('bordas_pizzas');
     }
 };
