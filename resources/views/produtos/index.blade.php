@@ -53,9 +53,15 @@
                                             @endif
                                         </li>
                                     </td>
-                                    <td>{{ $produto->descricao }}</td>
+                                    <td class="text-truncate" style="max-width: 150px;">{{ $produto->descricao }}</td>
                                     <td>{{ $produto->quantidade_estoque }}</td>
-                                    <td>{{ $produto->preco_venda }}</td>
+                                    <td>
+                                        @if ($produto->categoria_id == 3)
+                                            <em>Preços variados</em>
+                                        @else
+                                            R$ {{ $produto->preco_venda }}
+                                        @endif
+                                    </td>
                                     <td>{{ $produto->updated_at }}</td>
                                     <td class="d-flex flex-row project-actions text-right">
                                         <div class="mx-1">

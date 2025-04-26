@@ -18,18 +18,6 @@
         </div>
         
         <div class="form-group">
-            <label for="preco_venda">Preço de Venda</label>
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">R$</span>
-                </div>
-                <input type="number" class="form-control" id="preco_venda" 
-                    name="preco_venda" step="0.01" min="0" 
-                    value="{{ old('preco_venda', $produto->preco_venda ?? '') }}" required>
-            </div>
-        </div>
-        
-        <div class="form-group">
             <label for="categoria_id">Categoria</label>
             <select class="form-control" id="categoria_id" name="categoria_id" required>
                 <option value="">Selecione...</option>
@@ -41,13 +29,25 @@
                 @endforeach
             </select>
         </div>
-        
-        <div class="form-group">
-            <label for="descricao">Descrição (Ingredientes)</label>
-            <textarea class="form-control" id="descricao" name="descricao" rows="3">{{ old('descricao', $produto->descricao ?? '') }}</textarea>
+
+        <div class="form-group price-quantity-group" style="{{ isset($produto->categoria_id) && $produto->categoria_id == 3 ? 'display: none;' : '' }}">
+            <label for="preco_venda">Preço de Venda</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">R$</span>
+                </div>
+                <input type="number" class="form-control" id="preco_venda" 
+                    name="preco_venda" step="0.01" min="0" 
+                    value="{{ old('preco_venda', $produto->preco_venda ?? 0) }}" required>
+            </div>
         </div>
         
         <div class="form-group">
+            <label for="descricao">Descrição (Ex: Ingredientes)</label>
+            <textarea class="form-control" id="descricao" name="descricao" rows="3">{{ old('descricao', $produto->descricao ?? '') }}</textarea>
+        </div>
+        
+        <div class="form-group" style="{{ isset($produto->categoria_id) && $produto->categoria_id == 3 ? 'display: none;' : '' }}">
             <label for="quantidade_estoque">Quantidade em Estoque</label>
             <input type="number" class="form-control" id="quantidade_estoque" 
                 name="quantidade_estoque" min="0" 
@@ -56,22 +56,34 @@
     </div>
     <div class="card-footer">
         <button type="submit" class="btn btn-primary">
-            {{ isset($produto->id) ? 'Atualizar Produto' : 'Adicionar Produto' }}
+            <i class="fas fa-save"></i> {{ isset($produto->id) ? 'Atualizar Produto' : 'Adicionar Produto' }}
         </button>
     </div>
 </form>
 
 @section('js')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    console.log('oi');
     $(document).ready(function() {
-        function toggleVariacoesContainer() {
-            $('#variacoes-container').toggle($('#tem_variacoes').is(':checked'));
+        // Função para verificar e mostrar/esconder os campos
+        function togglePriceQuantityFields() {
+            const categoriaId = $('#categoria_id').val();
+            if (categoriaId == '3') { // ID da Pizza
+                $('.price-quantity-group').hide();
+                $('#preco_venda').removeAttr('required');
+            } else {
+                $('.price-quantity-group').show();
+                $('#preco_venda').attr('required', 'required');
+            }
         }
-
-        $('#tem_variacoes').change(toggleVariacoesContainer);
-
-        toggleVariacoesContainer();
+        
+        // Verificar ao carregar a página
+        togglePriceQuantityFields();
+        
+        // Verificar quando a categoria é alterada
+        $('#categoria_id').change(function() {
+            togglePriceQuantityFields();
+        });
     });
 </script>
 @endsection

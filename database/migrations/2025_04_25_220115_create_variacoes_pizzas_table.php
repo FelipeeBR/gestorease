@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('produto_id')->constrained('produtos')->onDelete('cascade');
             $table->foreignId('tamanho_pizza_id')->constrained('tamanho_pizzas')->onDelete('cascade');
             $table->decimal('preco', 10, 2);
-            $table->integer('estoque')->default(0);
             $table->enum('tipo', ['salgada', 'doce'])->default('salgada');
             $table->timestamps();
         });

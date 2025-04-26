@@ -29,7 +29,7 @@ class ProdutoController extends Controller
         // Validação básica do produto
         $validated = $request->validate([
             'nome' => 'required|string|max:100',
-            'preco_venda' => 'required|numeric|min:0.01', 
+            'preco_venda' => 'numeric|min:0.00', 
             'categoria_id' => 'required|exists:categorias,id',  
             'descricao' => 'nullable|string|max:500',  
             'quantidade_estoque' => 'required|integer|min:0'  
@@ -56,7 +56,7 @@ class ProdutoController extends Controller
 
         $request->validate([
             'nome' => 'required|string|max:255',
-            'preco_venda' => 'required|numeric|min:0.01',
+            'preco_venda' => 'numeric|min:0.00',
             'categoria_id' => 'required|exists:categorias,id',
             'descricao' => 'nullable|string|max:255',
             'quantidade_estoque' => 'required|integer|min:0',
