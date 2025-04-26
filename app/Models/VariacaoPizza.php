@@ -33,7 +33,7 @@ class VariacaoPizza extends Model
     }
 
     public function scopeTipo($query, $tipo)
-{
-    return $query->where('tipo', $tipo);
-}
+    {
+        return $query->where('tipo', $tipo);
+    }
 }

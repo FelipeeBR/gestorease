@@ -28,10 +28,10 @@ class VariacaoPizzaController extends Controller
      */
     public function create()
     {
-        $produtos = Produto::where('tipo', 'pizza')->get();
+        $produtos = Produto::where('categoria_id', 3)->get();
         $tamanhos = TamanhoPizza::all();
         
-        return view('variacoes_pizza.create', compact('produtos', 'tamanhos'));
+        return view('pizzas.create', compact('produtos', 'tamanhos'));
     }
 
     /**
@@ -43,14 +43,13 @@ class VariacaoPizzaController extends Controller
             'produto_id' => 'required|exists:produtos,id',
             'tamanho_pizza_id' => [
                 'required',
-                'exists:tamanhos_pizza,id',
-                Rule::unique('variacoes_pizza')->where(function ($query) use ($request) {
+                'exists:tamanho_pizza,id',
+                Rule::unique('variacao_pizza')->where(function ($query) use ($request) {
                     return $query->where('produto_id', $request->produto_id)
                                  ->where('tamanho_pizza_id', $request->tamanho_pizza_id);
                 })
             ],
             'preco' => 'required|numeric|min:0.01',
-            'estoque' => 'required|integer|min:0',
             'tipo' => 'required|in:salgada,doce'
         ], [
             'tamanho_pizza_id.unique' => 'Já existe uma variação para este produto com o mesmo tamanho.'
@@ -58,7 +57,7 @@ class VariacaoPizzaController extends Controller
 
         VariacaoPizza::create($validated);
 
-        return redirect()->route('variacoes-pizza.index')
+        return redirect()->route('pizzas.index')
             ->with('success', 'Variação criada com sucesso!');
     }
 
@@ -67,7 +66,7 @@ class VariacaoPizzaController extends Controller
      */
     public function show(VariacaoPizza $variacaoPizza)
     {
-        return view('variacoes_pizza.show', compact('variacaoPizza'));
+        return view('pizzas.show', compact('variacaoPizza'));
     }
 
     /**
@@ -78,7 +77,7 @@ class VariacaoPizzaController extends Controller
         $produtos = Produto::where('tipo', 'pizza')->get();
         $tamanhos = TamanhoPizza::all();
         
-        return view('variacoes_pizza.edit', compact('variacaoPizza', 'produtos', 'tamanhos'));
+        return view('pizzas.edit', compact('variacaoPizza', 'produtos', 'tamanhos'));
     }
 
     /**
@@ -107,7 +106,7 @@ class VariacaoPizzaController extends Controller
 
         $variacaoPizza->update($validated);
 
-        return redirect()->route('variacoes-pizza.index')
+        return redirect()->route('pizzas.index')
             ->with('success', 'Variação atualizada com sucesso!');
     }
 
@@ -118,7 +117,7 @@ class VariacaoPizzaController extends Controller
     {
         try {
             $variacaoPizza->delete();
-            return redirect()->route('variacoes-pizza.index')
+            return redirect()->route('pizzas.index')
                 ->with('success', 'Variação excluída com sucesso!');
         } catch (\Exception $e) {
             return redirect()->back()

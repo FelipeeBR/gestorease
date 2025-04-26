@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Pizzas')
+@section('title', 'Variações de Pizza')
 
 @section('content_header')
-    <h1>Pizzas</h1>
+    <h1>Variações de Pizza</h1>
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Lista de Pizzas Vendidas</h3>
+                    <h3 class="card-title">Lista de Variações de Pizza</h3>
 
                     <div class="card-tools">
                         <div class="input-group input-group-sm" style="width: 150px;">
@@ -19,7 +19,7 @@
 
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-default">
-                                <i class="fas fa-search"></i>
+                                    <i class="fas fa-search"></i>
                                 </button>
                             </div>
                         </div>
@@ -29,31 +29,39 @@
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th>NOME</th>
+                                <th>PRODUTO</th>
                                 <th>TAMANHO</th>
                                 <th>TIPO</th>
-                                <th>PREÇO DE VENDA</th>
+                                <th>PREÇO</th>
                                 <th>ATUALIZADO EM</th>
-                                <th><a href="/pizzas/create" class="btn btn-primary">Nova Pizza <i class="fas fa-plus"></i></a></th>
+                                <th>
+                                    <a href="{{ route('pizzas.create') }}" class="btn btn-primary">
+                                        Nova Variação <i class="fas fa-plus"></i>
+                                    </a>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($pizzas as $pizza)
+                            @forelse ($variacoes as $variacao)
                                 <tr>
-                                    <td>{{ $pizza->nome }}</td>
-                                    <td>{{ $pizza->tamanho }}</td>
-                                    <td>{{ $pizza->tipo }}</td>
-                                    <td>R$ {{ $pizza->preco_venda }}</td>
-                                    <td>{{ $pizza->updated_at }}</td>
+                                    <td>{{ $variacao->produto->nome }}</td>
+                                    <td>{{ $variacao->tamanhoPizza->nome }}</td>
+                                    <td>{{ ucfirst($variacao->tipo) }}</td>
+                                    <td>R$ {{ number_format($variacao->preco, 2, ',', '.') }}</td>
+                                    <td>{{ $variacao->updated_at->format('d/m/Y H:i') }}</td>
                                     <td class="d-flex flex-row project-actions text-right">
                                         <div class="mx-1">
-                                            <a href="/pizzas/{{ $pizza->id }}/edit" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                                            <a href="{{ route('pizzas.edit', $variacao->id) }}" class="btn btn-success">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
                                         </div>
                                         <div class="mx-1">
-                                            <form action="{{ route('pizzas.destroy', $pizza->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este produto?');">
+                                            <form action="{{ route('pizzas.destroy', $variacao->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta variação?');">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
                                             </form>
                                         </div>
                                     </td>
@@ -72,9 +80,22 @@
 @stop
 
 @section('css')
- 
+    <style>
+        .card-footer {
+            background-color: transparent;
+        }
+    </style>
 @stop
 
 @section('js')
-    <script> console.log(""); </script>
+    <script>
+        $(document).ready(function() {
+            $('input[name="table_search"]').on('keyup', function() {
+                const value = $(this).val().toLowerCase();
+                $('table tbody tr').filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
 @stop
