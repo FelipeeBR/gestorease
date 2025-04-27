@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\VariacaoPizza;
 use App\Models\TamanhoPizza;
 use App\Models\Produto;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Cache;
 
 class VariacaoPizzaController extends Controller
 {
@@ -28,7 +30,11 @@ class VariacaoPizzaController extends Controller
      */
     public function create()
     {
-        $produtos = Produto::where('categoria_id', 3)->get();
+        $categoria_pizza = Categoria::where('nome', 'Pizza')->first();
+        if (!$categoria_pizza) {
+            return back()->with('error', 'Categoria "pizza" não encontrada');
+        }
+        $produtos = Produto::where('categoria_id', $categoria_pizza->id)->get();
         $tamanhos = TamanhoPizza::all();
         
         return view('pizzas.create', compact('produtos', 'tamanhos'));
@@ -74,7 +80,13 @@ class VariacaoPizzaController extends Controller
      */
     public function edit(VariacaoPizza $variacaoPizza)
     {
-        $produtos = Produto::where('tipo', 'pizza')->get();
+        $categoria_pizza = Cache::remember('categoria_pizza', now()->addDay(), function () {
+            return Categoria::where('nome', 'pizza')->firstOrFail();
+        });
+        
+        $produtos = Produto::where('categoria_id', $categoria_pizza->id)
+            ->orderBy('nome')
+            ->get();
         $tamanhos = TamanhoPizza::all();
         
         return view('pizzas.edit', compact('variacaoPizza', 'produtos', 'tamanhos'));
