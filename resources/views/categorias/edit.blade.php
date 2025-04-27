@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Editar Pizza')
+@section('title', 'Editar Categoria')
 
 @section('content_header')
-    <h1>Editar Pizza</h1>
+    <h1>Editar Categoria</h1>
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -26,6 +26,6 @@
         <div class="card-header">
             <h3 class="card-title">Atualize os Campos</h3>
         </div>
-        @include('pizzas.form', ['variacaoPizza' => $variacaoPizza])
+        @include('categorias.form', ['variacaoPizza' => $variacaoPizza])
     </div>
 @stop
