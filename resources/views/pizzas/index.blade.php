@@ -53,12 +53,13 @@
                                     <!--<th><input type="text" name="atualizado_em" class="form-control form-control-sm" placeholder="Filtrar Data" value="{{ request('atualizado_em') }}"></th> -->
                                     <th>
                                         <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                                            <input type="text" class="form-control form-control-sm datetimepicker-input" 
-                                                   data-target="#datetimepicker1" 
-                                                   data-toggle="datetimepicker"/>
-                                            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                            </div>
+                                            <x-adminlte-date-picker name="data_exemplo" :config="$config" placeholder="Selecione uma data...">
+                                                <x-slot name="appendSlot">
+                                                    <div class="input-group-text bg-gradient-info">
+                                                        <i class="fas fa-calendar-alt"></i>
+                                                    </div>
+                                                </x-slot>
+                                            </x-adminlte-date-picker>
                                         </div>
                                     </th>
                                     <th>
