@@ -15,14 +15,41 @@ class VariacaoPizzaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $variacoes = VariacaoPizza::with(['produto', 'tamanhoPizza'])
+        /*$variacoes = VariacaoPizza::with(['produto', 'tamanhoPizza'])
             ->orderBy('produto_id')
             ->orderBy('tamanho_pizza_id')
-            ->paginate(10);
+            ->paginate(15);*/
+        
+        $query = VariacaoPizza::query();
 
-        return view('pizzas.index', compact('variacoes'));
+        if ($request->filled('produto')) {
+            $query->whereHas('produto', function ($q) use ($request) {
+                $q->where('nome', 'like', '%' . $request->produto . '%');
+            });
+        }
+    
+        if ($request->filled('tamanho')) {
+            $query->where('tamanho_pizza_id', $request->tamanho);
+        }
+    
+        if ($request->filled('tipo')) {
+            $query->where('tipo', 'like', '%' . $request->tipo . '%');
+        }
+    
+        if ($request->filled('preco')) {
+            $query->where('preco', $request->preco);
+        }
+    
+        if ($request->filled('atualizado_em')) {
+            $query->whereDate('updated_at', $request->atualizado_em);
+        }
+    
+        $variacoes = $query->paginate(15);
+        $tamanhos = TamanhoPizza::all();
+
+        return view('pizzas.index', compact('variacoes', 'tamanhos'));
     }
 
     /**
@@ -125,10 +152,12 @@ class VariacaoPizzaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(VariacaoPizza $variacaoPizza)
+    public function destroy($id)
     {
         try {
+            $variacaoPizza = VariacaoPizza::findOrFail($id);
             $variacaoPizza->delete();
+
             return redirect()->route('pizzas.index')
                 ->with('success', 'Variação excluída com sucesso!');
         } catch (\Exception $e) {

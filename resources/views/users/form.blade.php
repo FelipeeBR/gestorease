@@ -47,5 +47,8 @@
         <button type="submit" class="btn btn-primary">
             {{ isset($usuario->id) ? 'Atualizar Usuário' : 'Cadastrar Novo Usuário' }}
         </button>
+        <a href="{{ route('users.index') }}" class="btn btn-secondary ml-2">
+            <i class="fas fa-arrow-left"></i> Cancelar
+        </a>
     </div>
 </form>

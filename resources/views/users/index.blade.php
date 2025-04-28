@@ -35,7 +35,7 @@
                                 <th>FUNÇÕES</th>
                                 <th>CRIADO</th>
                                 <th>ATUALIZADO</th>
-                                <th><a href="/users/create" class="btn btn-primary">Novo Usuário <i class="fas fa-plus"></i></a></th>
+                                <th><a href="/users/create" class="btn btn-primary"><i class="fas fa-plus"></i> Novo Usuário</a></th>
                             </tr>
                         </thead>
                         <tbody>

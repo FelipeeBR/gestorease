@@ -12,18 +12,6 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Lista de Variações de Pizza</h3>
-
-                    <div class="card-tools">
-                        <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" name="table_search" class="form-control float-right" placeholder="Pesquisar">
-
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="card-body table-responsive p-0">
                     <table class="table table-hover text-nowrap">
@@ -36,9 +24,52 @@
                                 <th>ATUALIZADO EM</th>
                                 <th>
                                     <a href="{{ route('pizzas.create') }}" class="btn btn-primary">
-                                        Nova Variação <i class="fas fa-plus"></i>
+                                        <i class="fas fa-plus"></i> Nova Variação
                                     </a>
                                 </th>
+                            </tr>
+                            <!-- Linha de filtros -->
+                            <tr>
+                                <form method="GET" action="{{ route('pizzas.index') }}">
+                                    <th><input type="text" name="produto" class="form-control form-control-sm" placeholder="Filtrar Produto" value="{{ request('produto') }}"></th>
+                                    <th>
+                                        <select type="text" name="tamanho" class="form-control form-control-sm" placeholder="Filtrar Tamanho">
+                                            <option value="">-- Filtrar Tamanho --</option>
+                                            @foreach ($tamanhos as $tamanho)
+                                                <option value="{{ $tamanho->id }}" {{ request('tamanho') == $tamanho->id ? 'selected' : '' }}>
+                                                    {{ $tamanho->nome }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </th>
+                                    <th>
+                                        <select type="text" name="tipo" class="form-control form-control-sm" placeholder="Filtrar Tipo">
+                                            <option value="">-- Filtrar Tipo --</option>
+                                            <option value="salgada" {{ request('tipo') == 'salgada' ? 'selected' : '' }}>Salgada</option>
+                                            <option value="doce" {{ request('tipo') == 'doce' ? 'selected' : '' }}>Doce</option>
+                                        </select>
+                                    </th>
+                                    <th><input type="text" name="preco" class="form-control form-control-sm" placeholder="Filtrar Preço" value="{{ request('preco') }}"></th>
+                                    <!--<th><input type="text" name="atualizado_em" class="form-control form-control-sm" placeholder="Filtrar Data" value="{{ request('atualizado_em') }}"></th> -->
+                                    <th>
+                                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                                            <input type="text" class="form-control form-control-sm datetimepicker-input" 
+                                                   data-target="#datetimepicker1" 
+                                                   data-toggle="datetimepicker"/>
+                                            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-filter"></i> Filtrar
+                                        </button>
+                                        <a href="{{ route('pizzas.index') }}" class="btn btn-secondary btn-sm ml-2">
+                                            <i class="fas fa-brush"></i> Limpar Filtros
+                                        </a>
+                                    </th>
+                                </form>
                             </tr>
                         </thead>
                         <tbody>
@@ -89,13 +120,6 @@
 
 @section('js')
     <script>
-        $(document).ready(function() {
-            $('input[name="table_search"]').on('keyup', function() {
-                const value = $(this).val().toLowerCase();
-                $('table tbody tr').filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
-            });
-        });
+        
     </script>
 @stop

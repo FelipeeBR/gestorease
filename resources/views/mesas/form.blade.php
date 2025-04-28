@@ -36,10 +36,10 @@
 
     <div class="card-footer">
         <button type="submit" class="btn btn-primary">
-            <i class="fas fa-save"></i> {{ isset($mesa) ? 'Atualizar' : 'Salvar' }}
+            <i class="fas fa-save"></i> {{ isset($mesa) ? 'Atualizar' : 'Salvar Mesa' }}
         </button>
-        <a href="{{ route('mesas.index') }}" class="btn btn-default float-right">
-            <i class="fas fa-times"></i> Cancelar
+        <a href="{{ route('mesas.index') }}" class="btn btn-secondary ml-2">
+            <i class="fas fa-arrow-left"></i> Cancelar
         </a>
     </div>
 </form>

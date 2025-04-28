@@ -33,7 +33,7 @@
                                 <th>NUMERO</th>
                                 <th>STATUS</th>
                                 <th>CRIADO POR</th>
-                                <th><a href="/mesas/create" class="btn btn-primary">Nova Mesa <i class="fas fa-plus"></i></a></th>
+                                <th><a href="/mesas/create" class="btn btn-primary"><i class="fas fa-plus"></i> Nova Mesa</a></th>
                             </tr>
                         </thead>
                         <tbody>

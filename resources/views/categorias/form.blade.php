@@ -17,8 +17,8 @@
         <button type="submit" class="btn btn-primary">
             <i class="fas fa-save"></i> {{ isset($categoria->id) ? 'Atualizar Categoria' : 'Salvar' }}
         </button>
-        <a href="{{ route('categorias.index') }}" class="btn btn-default float-right">
-            <i class="fas fa-times"></i> Cancelar
+        <a href="{{ route('categorias.index') }}" class="btn btn-secondary ml-2">
+            <i class="fas fa-arrow-left"></i> Cancelar
         </a>
     </div>
 </form>
