@@ -1,5 +1,8 @@
 @extends('adminlte::page')
 
+@section('plugins.TempusDominusBs4', true)
+@section('plugins.Moment', true)
+
 @section('title', 'Variações de Pizza')
 
 @section('content_header')
@@ -72,7 +75,7 @@
                                             <i class="fas fa-filter"></i> Filtrar
                                         </button>
                                         <a href="{{ route('pizzas.index') }}" class="btn btn-secondary btn-sm ml-2">
-                                            <i class="fas fa-brush"></i> Limpar Filtros
+                                            <i class="fas fa-backspace"></i> Limpar Filtros
                                         </a>
                                     </th>
                                 </form>
@@ -85,7 +88,7 @@
                                     <td>{{ $variacao->tamanhoPizza->nome }}</td>
                                     <td>{{ ucfirst($variacao->tipo) }}</td>
                                     <td>R$ {{ number_format($variacao->preco, 2, ',', '.') }}</td>
-                                    <td>{{ $variacao->updated_at->format('d/m/Y H:i') }}</td>
+                                    <td>{{ $variacao->updated_at->timezone('America/Sao_Paulo')->format('d/m/Y H:i') }}</td>
                                     <td class="d-flex flex-row project-actions text-right">
                                         <div class="mx-1">
                                             <a href="{{ route('pizzas.edit', $variacao->id) }}" class="btn btn-success">
@@ -127,6 +130,7 @@
 @section('js')
     <script>
         $(document).ready(function() {
+            moment.locale('pt-br');
             $('#atualizado_em_filter').datetimepicker({
                 format: 'DD/MM/YYYY',
                 locale: 'pt-br'

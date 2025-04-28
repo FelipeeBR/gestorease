@@ -21,7 +21,6 @@ class VariacaoPizzaController extends Controller
             ->orderBy('produto_id')
             ->orderBy('tamanho_pizza_id')
             ->paginate(15);*/
-        
         $query = VariacaoPizza::query();
 
         if ($request->filled('produto')) {
@@ -43,7 +42,8 @@ class VariacaoPizzaController extends Controller
         }
     
         if ($request->filled('atualizado_em')) {
-            $query->whereDate('updated_at', $request->atualizado_em);
+            $dataFormatada = \Carbon\Carbon::createFromFormat('d/m/Y', $request->atualizado_em)->format('Y-m-d');
+            $query->whereDate('updated_at', $dataFormatada);
         }
     
         $variacoes = $query->paginate(15);
