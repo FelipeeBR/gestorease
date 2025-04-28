@@ -50,16 +50,21 @@
                                         </select>
                                     </th>
                                     <th><input type="text" name="preco" class="form-control form-control-sm" placeholder="Filtrar Preço" value="{{ request('preco') }}"></th>
-                                    <!--<th><input type="text" name="atualizado_em" class="form-control form-control-sm" placeholder="Filtrar Data" value="{{ request('atualizado_em') }}"></th> -->
                                     <th>
-                                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                                            <x-adminlte-date-picker name="data_exemplo" :config="$config" placeholder="Selecione uma data...">
-                                                <x-slot name="appendSlot">
-                                                    <div class="input-group-text bg-gradient-info">
-                                                        <i class="fas fa-calendar-alt"></i>
-                                                    </div>
-                                                </x-slot>
-                                            </x-adminlte-date-picker>
+                                        <div class="input-group input-group-sm">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text bg-gradient-info">
+                                                    <i class="fas fa-calendar-alt"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" 
+                                                   name="atualizado_em" 
+                                                   class="form-control form-control-sm datetimepicker-input" 
+                                                   id="atualizado_em_filter"
+                                                   placeholder="Filtrar Data"
+                                                   value="{{ request('atualizado_em') }}"
+                                                   data-toggle="datetimepicker"
+                                                   data-target="#atualizado_em_filter">
                                         </div>
                                     </th>
                                     <th>
@@ -121,6 +126,11 @@
 
 @section('js')
     <script>
-        
+        $(document).ready(function() {
+            $('#atualizado_em_filter').datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'pt-br'
+            });
+        });
     </script>
 @stop
