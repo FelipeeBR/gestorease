@@ -8,11 +8,29 @@ use App\Models\Categoria;
 
 class ProdutoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $produtos = Produto::paginate(15);
+        $query = Produto::query();
+        $categorias = Categoria::all();
 
-        return view('produtos.index', compact('produtos'));
+        if($request->filled('nome')) {
+            $query->where('nome', 'like', '%' . $request->nome . '%');
+        }
+        if($request->filled('categoria')) {
+            $query->where('categoria_id', $request->categoria);
+        }
+        if($request->filled('preco_venda')) {
+            $query->where('preco_venda', $request->preco_venda);
+        }
+        if($request->filled('atualizado_em')) {
+            $dataFormatada = \Carbon\Carbon::createFromFormat('d/m/Y', $request->atualizado_em, 'America/Sao_Paulo')
+                ->timezone('UTC') // converte para UTC
+                ->format('Y-m-d');
+            $query->whereDate('updated_at', $dataFormatada);
+        }
+
+        $produtos = $query->paginate(15);
+        return view('produtos.index', compact('produtos', 'categorias'));
     }
 
     public function create()
