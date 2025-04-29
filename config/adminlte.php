@@ -343,7 +343,7 @@ return [
         ],
         [
             'text' => 'Produtos',
-            'icon' => 'fas fa-fw fa-store',
+            'icon' => 'fas fa-fw fa-barcode',
             'can'  => 'gerenciar_produtos',
             'submenu' => [
                 [

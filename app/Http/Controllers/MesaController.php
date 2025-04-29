@@ -9,12 +9,20 @@ use Illuminate\Support\Facades\Auth;
 class MesaController extends Controller
 {
     // Listar todas as mesas
-    public function index()
+    public function index(Request $request)
     {
-        $mesas = Mesa::with(['criador', 'editor'])
-                    ->latest()
-                    ->get();
+        $query = Mesa::query()
+        ->with(['criador', 'editor']) 
+        ->orderBy('id', 'asc'); 
 
+        if ($request->filled('numero')) {
+            $query->where('numero', 'like', '%' . $request->numero . '%');
+        }
+        if ($request->filled('status')) {
+            $query->where('status', 'like', '%' . $request->status . '%');
+        }
+
+        $mesas = $query->get();
         return view('mesas.index', compact('mesas'));
     }
 
