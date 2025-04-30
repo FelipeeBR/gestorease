@@ -13,23 +13,22 @@
             <input type="text" class="form-control" id="nome" name="nome" 
                 value="{{ old('nome', $borda->nome ?? '') }}" required>
         </div>
-        <div>
+        <div class="form-group">
             <label for="preco">Preço Adicional</label>
             <input type="number" class="form-control" id="preco_adicional" name="preco_adicional" 
                 value="{{ old('preco_adicional', $borda->preco_adicional ?? '') }}" required>
         </div>
-        
+
         <div class="form-group">
-            <div class="custom-control custom-switch">
-                <input type="checkbox" 
-                       class="custom-control-input" 
-                       id="statusSwitch" 
-                       name="status"
-                       {{ isset($borda) && $borda->status ? 'checked' : '' }}>
-                <label class="custom-control-label" for="statusSwitch">
-                    {{ isset($borda) && $borda->status ? 'Ativo' : 'Inativo' }}
-                </label>
-            </div>
+            <label for="preco">Status</label>
+            <x-adminlte-input-switch 
+                name="sw2" 
+                data-on-text="ATIVO"
+                data-off-text="INATIVO"
+                data-on-color="success"
+                data-off-color="danger"
+                checked="{{ old('status', $borda->status ?? false) ? true : false }}"
+            />
         </div>
     </div>
     <div class="card-footer">
@@ -44,8 +43,6 @@
 
 @section('js')
     <script> 
-        $(function() {
-            $('[data-toggle="toggle"]').bootstrapToggle();
-        });
+        
     </script>
 @stop
