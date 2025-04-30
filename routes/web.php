@@ -5,6 +5,7 @@ use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\MesaController;
 use App\Http\Controllers\VariacaoPizzaController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\BordaPizzaController;
 use App\Models\Categoria;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +25,7 @@ Route::middleware(['verifica.role:gerente'])->group(function () {
 Route::resource('mesas', MesaController::class);
 Route::resource('pizzas', VariacaoPizzaController::class);
 Route::resource('categorias', CategoriaController::class);
+Route::resource('bordas-pizza', BordaPizzaController::class);
 
 //Route::resource('users', UserController::class);
 //Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
