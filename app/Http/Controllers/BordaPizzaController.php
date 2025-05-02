@@ -33,11 +33,15 @@ class BordaPizzaController extends Controller
         $request->merge([
             'ativo' => $request->input('ativo') === 'true'
         ]);
-        
+
         $request->validate([
             'nome' => 'required|string|max:100',
             'preco_adicional' => 'required|numeric|min:0',
             'ativo' => 'boolean'
+        ], [
+            'nome.required' => 'O campo Nome é obrigatório.',
+            'preco_adicional.required' => 'O campo Preço é obrigatório.',
+            'ativo.boolean' => 'O campo Status é obrigatório.'
         ]);
 
         BordaPizza::create($request->all());

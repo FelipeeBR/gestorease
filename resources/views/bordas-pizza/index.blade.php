@@ -4,6 +4,23 @@
 
 @section('content_header')
     <h1>Bordas Pizza</h1>
+    @if(session('success'))
+        <x-adminlte-callout theme="success" class="bg-gradient-success" title-class="text-bold text-dark"
+            icon="fas fa-lg fa-check" icon-class="text-bold text-dark" title="Sucesso">
+            {{ session('success') }}
+        </x-adminlte-callout>
+    @endif
+
+    @if ($errors->any())
+        <x-adminlte-callout theme="danger" class="bg-gradient-danger" title-class="text-bold text-dark"
+            icon="fas fa-lg fa-exclamation-circle" icon-class="text-bold text-dark" title="Erro">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </x-adminlte-callout>
+    @endif
 @stop
 
 @section('content')

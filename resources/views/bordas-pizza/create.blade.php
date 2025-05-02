@@ -5,19 +5,19 @@
 @section('content_header')
     <h1>Criar Borda Pizza</h1>
     @if(session('success'))
-        <div class="alert alert-success">
+        <x-adminlte-alert theme="success" title="Successo">
             {{ session('success') }}
-        </div>
+        </x-adminlte-alert>
     @endif
 
     @if ($errors->any())
-        <div class="alert alert-danger">
+        <x-adminlte-alert theme="danger" title="Erro">
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
             </ul>
-        </div>
+        </x-adminlte-alert>
     @endif
 @stop
 
