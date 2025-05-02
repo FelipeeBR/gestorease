@@ -26,6 +26,6 @@
         <div class="card-header">
             <h3 class="card-title">Atualize os Campos</h3>
         </div>
-        @include('bordas-pizza.form', ['variacaoPizza' => $variacaoPizza])
+        @include('bordas-pizza.form', ['borda' => $borda])
     </div>
 @stop

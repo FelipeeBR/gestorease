@@ -30,13 +30,13 @@
                                 <tr>
                                     <td>{{ $borda->id }}</td>
                                     <td>{{ $borda->nome }}</td>
-                                    <td>{{ $borda->status }}</td>
+                                    <td>{{ ($borda->ativo == '1' || $borda->ativo === true ? 'Ativo' : 'Inativo') }}</td>
                                     <td class="d-flex flex-row project-actions text-right">
                                         <div class="mx-1">
                                             <a href="/bordas-pizza/{{ $borda->id }}/edit" class="btn btn-success"><i class="fas fa-edit"></i></a>
                                         </div>
                                         <div class="mx-1">
-                                            <form action="{{ route('bordas.destroy', $borda->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta borda?');">
+                                            <form action="{{ route('bordas-pizza.destroy', $borda->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta borda?');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>

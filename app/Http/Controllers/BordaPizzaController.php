@@ -21,7 +21,8 @@ class BordaPizzaController extends Controller
      */
     public function create()
     {
-        return view('bordas-pizza.create');
+        $bordas = new BordaPizza();
+        return view('bordas-pizza.create', compact('bordas'));
     }
 
     /**
@@ -52,23 +53,33 @@ class BordaPizzaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(BordaPizza $borda)
+    public function edit($id)
     {
+        $borda = BordaPizza::findOrFail($id);
         return view('bordas-pizza.edit', compact('borda'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, BordaPizza $borda)
+    public function update(Request $request, $id)
     {
+        $borda = BordaPizza::findOrFail($id);
+        $request->merge([
+            'ativo' => $request->input('ativo') === 'true'
+        ]);
+
         $request->validate([
             'nome' => 'required|string|max:100',
             'preco_adicional' => 'required|numeric|min:0',
             'ativo' => 'boolean'
         ]);
 
-        $borda->update($request->all());
+        $borda->nome = $request->input('nome');
+        $borda->preco_adicional = $request->input('preco_adicional');
+        $borda->ativo = $request->input('ativo');
+
+        $borda->save();
 
         return redirect()->route('bordas-pizza.index')
             ->with('success', 'Borda atualizada com sucesso!');
