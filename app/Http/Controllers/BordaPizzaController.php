@@ -30,6 +30,10 @@ class BordaPizzaController extends Controller
      */
     public function store(Request $request)
     {
+        $request->merge([
+            'ativo' => $request->input('ativo') === 'true'
+        ]);
+        
         $request->validate([
             'nome' => 'required|string|max:100',
             'preco_adicional' => 'required|numeric|min:0',
