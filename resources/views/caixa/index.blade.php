@@ -4,10 +4,6 @@
 
 @section('content_header')
     <h1>Gestão de Caixa</h1>
-@stop
-
-@section('content')
-<div class="container">
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -19,62 +15,86 @@
             {{ session('error') }}
         </div>
     @endif
+@stop
 
-    <!-- Card de Status do Caixa -->
-    <div class="card mb-4">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Status do Caixa</h5>
+@section('content')
+<div class="">
+    @if($caixaAberto = $caixas->firstWhere('data_fechamento', null))
+    <div class="card card-success">
+        <div class="card-header">
+            <h5>Caixa Aberto <strong>{{ $caixaAberto->data_abertura->format('d/m/Y H:i') }}</strong></h5>
         </div>
         <div class="card-body">
-            @if($caixaAberto = $caixas->firstWhere('data_fechamento', null))
-                <div class="alert alert-warning">
-                    <h5>Caixa Aberto</h5>
-                    <p><strong>Aberto em:</strong> {{ $caixaAberto->data_abertura->format('d/m/Y H:i') }}</p>
-                    <p><strong>Por:</strong> {{ $caixaAberto->user->name }}</p>
-                    <p><strong>Saldo Inicial:</strong> R$ {{ number_format($caixaAberto->saldo_inicial, 2, ',', '.') }}</p>
-                    
-                    <form action="{{ route('caixa.fechar', $caixaAberto->id) }}" method="POST" class="mt-3">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="saldo_final">Saldo Final</label>
-                                    <input type="number" step="0.01" class="form-control" id="saldo_final" name="saldo_final" required>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="total_vendas">Total de Vendas</label>
-                                    <input type="number" step="0.01" class="form-control" id="total_vendas" name="total_vendas" required>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="observacoes">Observações</label>
-                                    <input type="text" class="form-control" id="observacoes" name="observacoes">
-                                </div>
+            <div class="d-flex flex-wrap gap-3 mb-4">
+                <div class="card card-outline card-secondary flex-fill text-center shadow-sm mx-2">
+                    <div class="card-body">
+                        <p class="h3 mb-0">
+                            <strong>Total:</strong><br> 
+                            R$ {{ number_format($caixaAberto->saldo_inicial + $caixaAberto->total_vendas, 2, ',', '.') }}
+                        </p>
+                    </div>
+                </div>
+                <div class="card card-outline card-secondary flex-fill text-center shadow-sm mx-2">
+                    <div class="card-body">
+                        <div>
+                            <a href="/caixa/{{ $caixaAberto->id }}" class="btn btn-primary btn-lg w-100 mb-2 d-flex justify-content-center align-items-center gap-2">
+                                <span class="badge bg-success">67</span>
+                                <i class="fas fa-inbox"></i> Gerenciar Pedidos
+                            </a>
+                        </div>
+                        <div>
+                            <button class="btn btn-success btn-lg w-100 mb-2 d-flex justify-content-center align-items-center gap-2">
+                                <i class="fas fa-plus"></i> Novo Pedido
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-outline card-secondary p-3">
+                <form action="{{ route('caixa.fechar', $caixaAberto->id) }}" method="POST">
+                    @csrf
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <textarea class="form-control" name="observacoes" id="observacoes" cols="20" rows="5" placeholder="Escreva suas observações"></textarea>
+                                <label for="observacoes">Observações</label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-danger">
-                            <i class="fas fa-lock"></i> Fechar Caixa
-                        </button>
-                    </form>
-                </div>
-            @else
-                <div class="alert alert-success">
-                    <h5>Caixa Fechado</h5>
-                    <p>Nenhum caixa aberto no momento.</p>
-                    <a href="{{ route('caixa.create') }}" class="btn btn-success">
-                        <i class="fas fa-lock-open"></i> Abrir Caixa
-                    </a>
-                </div>
-            @endif
-        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input type="number" step="0.01" class="form-control" id="saldo_final" name="saldo_final" required>
+                                <label for="saldo_final">Saldo Final</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-floating">
+                                <input type="number" step="0.01" class="form-control" id="total_vendas" name="total_vendas" required>
+                                <label for="total_vendas">Total de Vendas</label>
+                            </div>
+                        </div>
+                    </div>
+            
+                    <button type="submit" class="btn btn-danger btn-lg">
+                        <i class="fas fa-lock"></i> Fechar Caixa
+                    </button>
+                </form>
+            </div>
+        </div>        
     </div>
+    @else
+        <div class="alert alert-success">
+            <h5>Caixa Fechado</h5>
+            <p>Nenhum caixa aberto no momento.</p>
+            <a href="{{ route('caixa.create') }}" class="btn btn-success">
+                <i class="fas fa-lock-open"></i> Abrir Caixa
+            </a>
+        </div>
+    @endif
 
     <!-- Histórico de Caixas -->
-    <div class="card">
-        <div class="card-header bg-secondary text-white">
+    <div class="card card-outline card-secondary">
+        <div class="card-header">
             <h5 class="mb-0">Histórico de Caixas</h5>
         </div>
         <div class="card-body">

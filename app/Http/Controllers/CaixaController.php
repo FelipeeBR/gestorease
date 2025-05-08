@@ -32,6 +32,8 @@ class CaixaController extends Controller
         $request->validate([
             'saldo_inicial' => 'required|numeric|min:0',
             'observacoes' => 'nullable|string'
+        ], [
+            'saldo_inicial.required' => 'O campo Saldo Inicial é obrigatório.'
         ]);
 
         $caixa = Caixa::create([
@@ -62,6 +64,9 @@ class CaixaController extends Controller
             'saldo_final' => 'required|numeric|min:0',
             'total_vendas' => 'required|numeric|min:0',
             'observacoes' => 'nullable|string'
+        ], [
+            'saldo_final.required' => 'O campo Saldo Final é obrigatório.',
+            'total_vendas.required' => 'O campo Total de Vendas é obrigatório.'
         ]);
 
         $caixa->update([
