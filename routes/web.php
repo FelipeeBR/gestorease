@@ -15,15 +15,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['verifica.role:admin'])->group(function () {
+Route::middleware(['auth.role:admin'])->group(function () {
     Route::resource('users', UserController::class);
 });
 
-Route::middleware(['verifica.role:gerente'])->group(function () {
+Route::middleware(['auth.role:gerente'])->group(function () {
     Route::resource('produtos', ProdutoController::class);
 });
 
-Route::resource('mesas', MesaController::class);
+Route::middleware(['auth.role:garcom'])->group(function () {
+    Route::resource('mesas', MesaController::class);
+});
+
 Route::resource('pizzas', VariacaoPizzaController::class);
 Route::resource('categorias', CategoriaController::class);
 Route::resource('bordas-pizza', BordaPizzaController::class);
