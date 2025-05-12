@@ -35,11 +35,10 @@
                     </div>
                 </div>
                 <div class="card card-outline card-secondary flex-fill text-center shadow-sm mx-2">
-                    <div class="card-body">
+                    <div class="card-body row">
                         <div>
                             <a href="/caixa/{{ $caixaAberto->id }}" class="btn btn-primary btn-lg w-100 mb-2 d-flex justify-content-center align-items-center gap-2">
-                                <span class="badge bg-success">67</span>
-                                <i class="fas fa-inbox"></i> Gerenciar Pedidos
+                                <i class="fas fa-inbox"></i> Gerenciar Caixa
                             </a>
                         </div>
                         <div>

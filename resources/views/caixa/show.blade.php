@@ -2,16 +2,23 @@
 
 @section('title', 'Detalhes do Caixa')
 
-@section('content')
-<div class="container">
-    <div class="row mb-4">
-        <div class="col-md-4 text-end">
-            <a href="{{ route('caixa.index') }}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left"></i> Voltar
-            </a>
+@section('content_header')
+    <h1>Detalhes do Caixa</h1>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
         </div>
-    </div>
+    @endif
 
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+@stop
+
+@section('content')
+<div class="">
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
             <h5 class="mb-0">Informações Básicas</h5>
@@ -41,43 +48,81 @@
     </div>
 
     @if($caixa->data_fechamento)
-    <div class="card mb-4">
-        <div class="card-header bg-info text-white">
-            <h5 class="mb-0">Resumo Financeiro</h5>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card bg-light mb-3">
-                        <div class="card-body text-center">
-                            <h6 class="card-title">Total de Vendas</h6>
-                            <p class="h4 text-primary">R$ {{ number_format($caixa->total_vendas, 2, ',', '.') }}</p>
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Resumo Financeiro</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card bg-light mb-3">
+                            <div class="card-body text-center">
+                                <h6 class="card-title">Total de Vendas</h6>
+                                <p class="h4 text-primary">R$ {{ number_format($caixa->total_vendas, 2, ',', '.') }}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card bg-light mb-3">
-                        <div class="card-body text-center">
-                            <h6 class="card-title">Diferença</h6>
-                            @php
-                                $diferenca = $caixa->saldo_final - ($caixa->saldo_inicial + $caixa->total_vendas);
-                                $classe = $diferenca >= 0 ? 'text-success' : 'text-danger';
-                            @endphp
-                            <p class="h4 {{ $classe }}">R$ {{ number_format($diferenca, 2, ',', '.') }}</p>
+                    <div class="col-md-4">
+                        <div class="card bg-light mb-3">
+                            <div class="card-body text-center">
+                                <h6 class="card-title">Diferença</h6>
+                                @php
+                                    $diferenca = $caixa->saldo_final - ($caixa->saldo_inicial + $caixa->total_vendas);
+                                    $classe = $diferenca >= 0 ? 'text-success' : 'text-danger';
+                                @endphp
+                                <p class="h4 {{ $classe }}">R$ {{ number_format($diferenca, 2, ',', '.') }}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card bg-light mb-3">
-                        <div class="card-body text-center">
-                            <h6 class="card-title">Movimentação Total</h6>
-                            <p class="h4 text-dark">R$ {{ number_format($caixa->saldo_inicial + $caixa->total_vendas, 2, ',', '.') }}</p>
+                    <div class="col-md-4">
+                        <div class="card bg-light mb-3">
+                            <div class="card-body text-center">
+                                <h6 class="card-title">Movimentação Total</h6>
+                                <p class="h4 text-dark">R$ {{ number_format($caixa->saldo_inicial + $caixa->total_vendas, 2, ',', '.') }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @else
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Pedidos</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Pedido N°</th>
+                                <th>Status</th>
+                                <th>Tipo</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($caixas as $caixa)
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <a href="" class="btn btn-sm btn-info">
+                                            <i class="fas fa-eye"></i> Visiualizar
+                                        </a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="text-center">Nenhum pedido registrado</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     @endif
 
     @if($caixa->observacoes)
@@ -92,9 +137,9 @@
     @endif
     <!--&& auth()->user()->can('fechar-caixa')-->
     @if(!$caixa->data_fechamento)
-    <div class="mt-4 text-end">
-        <a href="{{ route('caixa.fechar', $caixa->id) }}" class="btn btn-danger">
-            <i class="fas fa-lock"></i> Fechar Caixa
+    <div class="card-footer">
+        <a href="{{ route('caixa.index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Voltar
         </a>
     </div>
     @endif
