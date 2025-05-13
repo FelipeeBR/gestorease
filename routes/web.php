@@ -7,6 +7,7 @@ use App\Http\Controllers\VariacaoPizzaController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\BordaPizzaController;
 use App\Http\Controllers\CaixaController;
+use App\Http\Controllers\ComandaController;
 use App\Models\Categoria;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,10 @@ Route::middleware(['auth.role:gerente'])->group(function () {
 
 Route::middleware(['auth.role:garcom'])->group(function () {
     Route::resource('mesas', MesaController::class);
+});
+
+Route::prefix('caixa')->name('caixa.')->middleware(['auth.role:caixa'])->group(function () {
+    Route::resource('comanda', ComandaController::class);
 });
 
 Route::resource('pizzas', VariacaoPizzaController::class);

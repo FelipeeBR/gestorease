@@ -44,6 +44,11 @@
                     @endif
                 </div>
             </div>
+            <div>
+                <a href="{{ route('caixa.comanda.create') }}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Novo Pedido
+                </a>
+            </div>
         </div>
     </div>
 
@@ -95,18 +100,18 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Pedido N°</th>
+                                <th>N° Pedido</th>
                                 <th>Status</th>
                                 <th>Tipo</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($caixas as $caixa)
+                            @forelse($comandas as $comanda)
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{ $comanda->id }}</td>
+                                    <td>{{ $comanda->status }}</td>
+                                    <td>{{ $comanda->tipo }}</td>
                                     <td>
                                         <a href="" class="btn btn-sm btn-info">
                                             <i class="fas fa-eye"></i> Visiualizar

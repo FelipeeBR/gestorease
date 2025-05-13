@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Caixa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Comanda;
 
 class CaixaController extends Controller
 {
@@ -48,9 +49,11 @@ class CaixaController extends Controller
     }
 
     // Mostrar um caixa específico
-    public function show(Caixa $caixa)
+    public function show($id)
     {
-        return view('caixa.show', compact('caixa'));
+        $caixa = Caixa::with('user')->findOrFail($id);
+        $comandas = Comanda::where('caixa_id', $id)->orderBy('created_at', 'desc')->get();
+        return view('caixa.show', compact('caixa','comandas'));
     }
 
     // Fechar o caixa

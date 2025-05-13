@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Comanda;
+use App\Models\Mesa;
+use App\Models\Caixa;
 
 class ComandaController extends Controller
 {
@@ -11,7 +13,16 @@ class ComandaController extends Controller
     public function index()
     {
         $comandas = Comanda::orderBy('created_at', 'desc')->get();
-        return response()->json($comandas);
+        //return response()->json($comandas);
+        return view('caixa.show', compact('comandas'));
+    }
+
+    public function create()
+    {
+        $comanda = new Comanda();
+        $mesas = Mesa::query()->where('status', 'livre')->get();
+        $caixa = Caixa::query()->where('data_fechamento', null)->first();
+        return view('caixa.comanda.create', compact('comanda', 'mesas', 'caixa'));
     }
 
     // Mostrar uma comanda específica
@@ -34,11 +45,15 @@ class ComandaController extends Controller
             'total' => 'required|numeric',
             'caixa_id' => 'required|exists:caixas,id',
             'observacoes' => 'nullable|string',
+        ], [
+            'tipo.required' => 'O campo Tipo é obrigatório.',
+            'status.required' => 'O campo Status é obrigatório.',
+            'caixa_id.required' => 'O campo Caixa é obrigatório.',
         ]);
 
         $comanda = Comanda::create($validated);
 
-        return response()->json($comanda, 201);
+         return view('caixa.show', compact('comanda'));
     }
 
     // Atualizar comanda
