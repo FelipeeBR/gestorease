@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Comanda;
 use App\Models\Mesa;
 use App\Models\Caixa;
+use App\Models\Produto;
+use App\Models\VariacaoPizza;
+use App\Models\BordaPizza;
 
 class ComandaController extends Controller
 {
@@ -29,7 +32,10 @@ class ComandaController extends Controller
     public function show($id)
     {
         $comanda = Comanda::with('itens')->findOrFail($id);
-        return response()->json($comanda);
+        $produtos = Produto::all();
+        $variacoes_pizza = VariacaoPizza::all();
+        $bordas_pizza = BordaPizza::all();
+        return view('caixa.comanda.show', compact('comanda', 'produtos', 'variacoes_pizza', 'bordas_pizza'));
     }
 
     // Criar nova comanda

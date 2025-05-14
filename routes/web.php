@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\BordaPizzaController;
 use App\Http\Controllers\CaixaController;
 use App\Http\Controllers\ComandaController;
+use App\Http\Controllers\ItemComandaController;
 use App\Models\Categoria;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +32,8 @@ Route::middleware(['auth.role:garcom'])->group(function () {
 Route::prefix('caixa')->name('caixa.')->middleware(['auth.role:caixa'])->group(function () {
     Route::resource('comanda', ComandaController::class);
 });
+
+Route::post('caixa/comanda/{comanda}', [ItemComandaController::class, 'store'])->name('caixa.comanda.store');
 
 Route::resource('pizzas', VariacaoPizzaController::class);
 Route::resource('categorias', CategoriaController::class);

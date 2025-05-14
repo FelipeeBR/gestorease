@@ -4,24 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ItemComanda;
+use App\Models\Produto;
 
 class ItemComandaController extends Controller
 {
     // Adicionar item na comanda
-    public function store(Request $request)
+    public function store(Request $request, $comanda)
     {
         $validated = $request->validate([
-            'comanda_id' => 'required|exists:comandas,id',
             'produto_id' => 'required|exists:produtos,id',
             'quantidade' => 'required|integer|min:1',
-            'preco_unitario' => 'required|numeric|min:0',
         ]);
 
-        // Calcula subtotal
-        $validated['subtotal'] = $validated['quantidade'] * $validated['preco_unitario'];
+        $produto = Produto::findOrFail($validated['produto_id']);
+        $validated['preco_unitario'] = $produto->preco_venda;
+        $validated['comanda_id'] = $comanda;
+        $validated['subtotal'] = $validated['quantidade'] * $produto->preco;
 
         $item = ItemComanda::create($validated);
 
-        return response()->json($item, 201);
+        return redirect()->back()->with('success', 'Item adicionado com sucesso!');
     }
 }

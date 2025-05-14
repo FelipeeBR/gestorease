@@ -113,7 +113,7 @@
                                     <td>{{ $comanda->status }}</td>
                                     <td>{{ $comanda->tipo }}</td>
                                     <td>
-                                        <a href="" class="btn btn-sm btn-info">
+                                        <a href="{{ route('caixa.comanda.show', $comanda->id) }}" class="btn btn-sm btn-info">
                                             <i class="fas fa-eye"></i> Visiualizar
                                         </a>
                                     </td>
