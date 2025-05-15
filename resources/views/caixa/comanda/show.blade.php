@@ -58,13 +58,17 @@
                             <select name="variacao_pizza" id="variacao_pizza" class="form-control">
                                 <option value="">Selecione o tamanho</option>
                                 @foreach($variacoes_pizza as $variacao)
-                                    <option value="{{ $variacao->id }}">{{ $variacao->tamanho }} - R$ {{ number_format($variacao->preco, 2, ',', '.') }}</option>
+                                    @foreach($tamanhos_pizza as $tamanho)
+                                        @if($variacao->tamanho_pizza_id == $tamanho->id)
+                                            <option value="{{ $variacao->id }}">{{ $tamanho->nome }} - R$ {{ number_format($variacao->preco, 2, ',', '.') }}</option>
+                                        @endif
+                                    @endforeach
                                 @endforeach
                             </select>
                         </div>
                         <div>
-                            <label for="borda_pizza">Borda da Pizza</label>
-                            <select name="borda_pizza" id="borda_pizza" class="form-control">
+                            <label for="borda_id">Borda da Pizza</label>
+                            <select name="borda_id" id="borda_id" class="form-control">
                                 <option value="">Selecione a borda</option>
                                 @foreach($bordas_pizza as $borda)
                                     <option value="{{ $borda->id }}">{{ $borda->nome }} - R$ {{ number_format($borda->preco_adicional, 2, ',', '.') }}</option>
@@ -108,7 +112,22 @@
                 <ul class="list-group">
                     @foreach($comanda->itens as $item)
                         <li class="list-group-item">
-                            {{ $item->produto->nome }} - {{ $item->quantidade }} - R$ {{ number_format($item->preco_unitario, 2, ',', '.') }}
+                            @if($item->borda_id !== null)
+                                @php
+                                    $borda = $bordas_pizza->firstWhere('id', $item->borda_id);
+                                @endphp
+
+                                @if($borda)
+                                    {{ $item->produto->nome }} + {{ $borda->nome }} - 
+                                    R$ {{ number_format($item->preco_unitario + $borda->preco_adicional, 2, ',', '.') }}
+                                @else
+                                    {{ $item->produto->nome }} - 
+                                    R$ {{ number_format($item->preco_unitario, 2, ',', '.') }}
+                                @endif
+                            @else
+                                {{ $item->produto->nome }} - 
+                                R$ {{ number_format($item->preco_unitario, 2, ',', '.') }}
+                            @endif
                         </li>
                     @endforeach
                 </ul>
@@ -131,16 +150,14 @@
             const preco = selectedOption.getAttribute('data-preco');
 
             if (categoriaId == '3') {
-                // Produto é pizza → mostra campos e espera variação
                 tamanhoGroup.style.display = 'block';
                 variacaoPizzaSelect.setAttribute('required', 'required');
-                precoUnitarioInput.value = ''; // limpa o preço
+                precoUnitarioInput.value = ''; 
             } else {
-                // Produto comum → esconde campos de variação e usa preço direto
                 tamanhoGroup.style.display = 'none';
                 variacaoPizzaSelect.removeAttribute('required');
                 variacaoPizzaSelect.value = '';
-                precoUnitarioInput.value = preco; // ← Aqui está o preço vindo do produto
+                precoUnitarioInput.value = preco; 
             }
         });
 

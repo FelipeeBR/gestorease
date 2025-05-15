@@ -14,12 +14,14 @@ class ItemComandaController extends Controller
         $validated = $request->validate([
             'produto_id' => 'required|exists:produtos,id',
             'quantidade' => 'required|integer|min:1',
+            'borda_id' => 'nullable|exists:borda_pizza,id'
         ]);
 
         $produto = Produto::findOrFail($validated['produto_id']);
-        $validated['preco_unitario'] = $produto->preco_venda;
+        $validated['preco_unitario'] = $request->preco_unitario;
+        $validated['borda_id'] = $request->borda_id;
         $validated['comanda_id'] = $comanda;
-        $validated['subtotal'] = $validated['quantidade'] * $produto->preco_unitario;
+        $validated['subtotal'] = $validated['quantidade'] * $request->preco_unitario;
 
         $item = ItemComanda::create($validated);
 

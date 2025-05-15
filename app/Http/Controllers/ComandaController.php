@@ -9,6 +9,7 @@ use App\Models\Caixa;
 use App\Models\Produto;
 use App\Models\VariacaoPizza;
 use App\Models\BordaPizza;
+use App\Models\TamanhoPizza;
 
 class ComandaController extends Controller
 {
@@ -35,7 +36,10 @@ class ComandaController extends Controller
         $produtos = Produto::all();
         $variacoes_pizza = VariacaoPizza::all();
         $bordas_pizza = BordaPizza::all();
-        return view('caixa.comanda.show', compact('comanda', 'produtos', 'variacoes_pizza', 'bordas_pizza'));
+        $tamanhos_pizza = TamanhoPizza::all();
+        return view('caixa.comanda.show', compact(
+            'comanda', 'produtos', 'variacoes_pizza', 'bordas_pizza', 'tamanhos_pizza'
+        ));
     }
 
     // Criar nova comanda

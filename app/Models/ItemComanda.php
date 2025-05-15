@@ -14,6 +14,7 @@ class ItemComanda extends Model
     protected $fillable = [
         'comanda_id',
         'produto_id',
+        'borda_id',
         'quantidade',
         'preco_unitario',
         'subtotal',
