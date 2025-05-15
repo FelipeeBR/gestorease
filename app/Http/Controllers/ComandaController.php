@@ -59,7 +59,7 @@ class ComandaController extends Controller
 
         $comanda = Comanda::create($validated);
 
-         return view('caixa.show', compact('comanda'));
+        return redirect()->route('caixa.comanda.show', ['comanda' => $comanda->id]);
     }
 
     // Atualizar comanda

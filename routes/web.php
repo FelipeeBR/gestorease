@@ -33,7 +33,7 @@ Route::prefix('caixa')->name('caixa.')->middleware(['auth.role:caixa'])->group(f
     Route::resource('comanda', ComandaController::class);
 });
 
-Route::post('caixa/comanda/{comanda}', [ItemComandaController::class, 'store'])->name('caixa.comanda.store');
+Route::post('caixa/comanda/{comanda}', [ItemComandaController::class, 'store'])->name('caixa.comanda.item.store');
 
 Route::resource('pizzas', VariacaoPizzaController::class);
 Route::resource('categorias', CategoriaController::class);

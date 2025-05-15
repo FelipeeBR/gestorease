@@ -19,7 +19,7 @@ class ItemComandaController extends Controller
         $produto = Produto::findOrFail($validated['produto_id']);
         $validated['preco_unitario'] = $produto->preco_venda;
         $validated['comanda_id'] = $comanda;
-        $validated['subtotal'] = $validated['quantidade'] * $produto->preco;
+        $validated['subtotal'] = $validated['quantidade'] * $produto->preco_unitario;
 
         $item = ItemComanda::create($validated);
 

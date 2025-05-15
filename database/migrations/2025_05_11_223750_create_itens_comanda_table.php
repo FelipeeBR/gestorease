@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('comanda_id')->constrained();
             $table->foreignId('produto_id')->constrained();
+            $table->foreignId('borda_id')->nullable()->constrained()->references('id')->on('borda_pizza');
             $table->integer('quantidade');
             $table->decimal('preco_unitario', 10, 2);
             $table->decimal('subtotal', 10, 2); // preco_unitario * quantidade

@@ -38,14 +38,14 @@
                 <h5 class="mb-0">Adicionar</h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('caixa.comanda.store', $comanda->id) }}" method="POST">
+                <form action="{{ route('caixa.comanda.item.store', $comanda->id) }}" method="POST">
                     @csrf
                     <div class="form-group">
                         <label for="produto_id">Produto</label>
                         <select name="produto_id" id="produto_id" class="form-control" required>
                             <option value="">Selecione...</option>
                             @foreach($produtos as $produto)
-                                <option value="{{ $produto->id }}" data-categoria="{{ $produto->categoria_id }}">
+                                <option value="{{ $produto->id }}" data-categoria="{{ $produto->categoria_id }}" data-preco="{{ $produto->preco_venda }}">
                                     {{ $produto->nome }}
                                 </option>
                             @endforeach
@@ -91,7 +91,8 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="text" name="preco_unitario" id="preco_unitario" class="form-control" value={{ number_format($produto->preco_venda, 2, ',', '.') }}>
+                        <label for="preco_unitario">Valor Unitário</label>
+                        <input type="text" name="preco_unitario" id="preco_unitario" class="form-control" readonly>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Adicionar</button>
@@ -107,7 +108,7 @@
                 <ul class="list-group">
                     @foreach($comanda->itens as $item)
                         <li class="list-group-item">
-                            {{ $item->produto->nome }} - {{ $item->quantidade }} - R$ {{ number_format($item->preco, 2, ',', '.') }}
+                            {{ $item->produto->nome }} - {{ $item->quantidade }} - R$ {{ number_format($item->preco_unitario, 2, ',', '.') }}
                         </li>
                     @endforeach
                 </ul>
@@ -122,58 +123,64 @@
         const produtoSelect = document.getElementById('produto_id');
         const tamanhoGroup = document.getElementById('tamanho-group');
         const variacaoPizzaSelect = document.getElementById('variacao_pizza');
+        const precoUnitarioInput = document.getElementById('preco_unitario');
 
         produtoSelect.addEventListener('change', function () {
             const selectedOption = this.options[this.selectedIndex];
             const categoriaId = selectedOption.getAttribute('data-categoria');
+            const preco = selectedOption.getAttribute('data-preco');
 
-            // Mostra o campo de tamanho apenas se for pizza (categoria_id == 3)
             if (categoriaId == '3') {
+                // Produto é pizza → mostra campos e espera variação
                 tamanhoGroup.style.display = 'block';
                 variacaoPizzaSelect.setAttribute('required', 'required');
+                precoUnitarioInput.value = ''; // limpa o preço
             } else {
+                // Produto comum → esconde campos de variação e usa preço direto
                 tamanhoGroup.style.display = 'none';
                 variacaoPizzaSelect.removeAttribute('required');
                 variacaoPizzaSelect.value = '';
+                precoUnitarioInput.value = preco; // ← Aqui está o preço vindo do produto
+            }
+        });
+
+        variacaoPizzaSelect.addEventListener('change', function () {
+            const selectedOption = this.options[this.selectedIndex];
+            const text = selectedOption.textContent;
+
+            const match = text.match(/R\$ ([\d.,]+)/);
+            if (match) {
+                let precoStr = match[1].replace('.', '').replace(',', '.');
+                precoUnitarioInput.value = parseFloat(precoStr).toFixed(2);
             }
         });
 
         $('.btn-number').click(function(e) {
             e.preventDefault();
-            
             const fieldName = $(this).attr('data-field');
             const type = $(this).attr('data-type');
             const input = $("input[name='" + fieldName + "']");
             let currentVal = parseInt(input.val());
-            
+
             if (!isNaN(currentVal)) {
-                if (type === 'minus') {
-                    if (currentVal > input.attr('min')) {
-                        input.val(currentVal - 1).change();
-                    }
-                } else if (type === 'plus') {
-                    if (currentVal < input.attr('max')) {
-                        input.val(currentVal + 1).change();
-                    }
+                if (type === 'minus' && currentVal > input.attr('min')) {
+                    input.val(currentVal - 1).change();
+                } else if (type === 'plus' && currentVal < input.attr('max')) {
+                    input.val(currentVal + 1).change();
                 }
             } else {
                 input.val(1);
             }
         });
 
-        // Garante que só números sejam inseridos
         $('.input-number').keydown(function(e) {
-            // Permite: backspace, delete, tab, escape, enter e .
             if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
-                // Permite: Ctrl+A, Ctrl+C, Ctrl+V
                 (e.keyCode === 65 && e.ctrlKey === true) || 
                 (e.keyCode === 67 && e.ctrlKey === true) ||
                 (e.keyCode === 86 && e.ctrlKey === true) ||
-                // Permite: Home, End, Left, Right
                 (e.keyCode >= 35 && e.keyCode <= 39)) {
                 return;
             }
-            // Garante que é um número
             if ((e.shiftKey || e.keyCode < 48 || e.keyCode > 57)) {
                 e.preventDefault();
             }

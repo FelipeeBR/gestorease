@@ -27,15 +27,7 @@
             <h3 class="card-title">Preencha os Campos</h3>
         </div>
         <div class="card-body">
-            @include('caixa.comanda.form', ['comanda' => $comanda, 'mesas' => $mesas])
+            @include('caixa.comanda.form', ['comanda' => $comanda, 'mesas' => $mesas, 'caixa' => $caixa])
         </div>
     </div>
-@stop
-
-@section('css')
-    <link rel="stylesheet" href="/vendor/adminlte/dist/css/adminlte.min.css">
-@stop
-
-@section('js')
-    <script src="/vendor/adminlte/dist/js/adminlte.min.js"></script>
 @stop

@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(CategoriaSeeder::class);
         $this->call(TamanhoPizzaSeeder::class);
+        $this->call(MesaSeeder::class);
         // User::factory(10)->create();
 
         /*User::factory()->create([
