@@ -161,7 +161,7 @@
                                     @endphp
 
                                     @if($borda)
-                                        {{ $item->produto->nome }} + {{ $borda->nome }}
+                                        {{ $item->produto->nome }} <br><small class="text-muted">+ {{ $borda->nome }} (R$ {{ number_format($bordas_pizza->firstWhere('id', $item->borda_id)->preco_adicional, 2, ',', '.') }})</small>
 
                                     @else
                                         {{ $item->produto->nome }}
