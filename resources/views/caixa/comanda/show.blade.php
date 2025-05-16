@@ -3,7 +3,7 @@
 @section('title', 'Comanda #'.$comanda->id)
 
 @section('content_header')
-    <h1>Comanda #{{ $comanda->id }}</h1>
+    <h1><i class="fas fa-clipboard"></i> Comanda #{{ $comanda->id }}</h1>
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -19,118 +19,184 @@
 
 @section('content')
     <div>
-        <div class="card card-primary">
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">Informações</h5>
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h5 class="mb-0">Informações</h5>  
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6">
-                        <p><strong>Data:</strong> {{ $comanda->updated_at->format('d/m/Y H:i:s') }}</p>
-                        <p><strong>Total:</strong> R$ {{ number_format($comanda->total, 2, ',', '.') }}</p>
+                    <div class="col-md-4">
+                        <div class="mb-4">
+                            <h4 class="text-success">
+                                <strong>Total:</strong> R$ {{ number_format($comanda->total, 2, ',', '.') }}
+                            </h4>
+                        </div>
                     </div>
+                    <div class="col-md-8">
+                        <div class="card card-outline card-info mb-3 shadow-sm">
+                            <div class="card-header">
+                                <i class="fas fa-sticky-note"></i> Observações
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-2">{{ $comanda->observacoes ?? 'Nenhuma observação registrada.' }}</p>
+                                <a href="{{ route('caixa.comanda.edit', $comanda->id) }}" class="btn btn-outline-primary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div>
+                    <small class="text-muted">
+                        <i class="fas fa-clock"></i>
+                        <strong>Abertura:</strong> {{ $comanda->created_at->timezone('America/Sao_Paulo')->format('d/m/Y H:i') }}
+                    </small>
                 </div>
             </div>
         </div>
 
-        <div class="card card-secondary">
-            <div class="card-header bg-secondary text-white">
+        <div class="card card-outline card-success">
+            <div class="card-header">
                 <h5 class="mb-0">Adicionar</h5>
             </div>
             <div class="card-body">
                 <form action="{{ route('caixa.comanda.item.store', $comanda->id) }}" method="POST">
                     @csrf
-                    <div class="form-group">
-                        <label for="produto_id">Produto</label>
-                        <select name="produto_id" id="produto_id" class="form-control" required>
-                            <option value="">Selecione...</option>
-                            @foreach($produtos as $produto)
-                                <option value="{{ $produto->id }}" data-categoria="{{ $produto->categoria_id }}" data-preco="{{ $produto->preco_venda }}">
-                                    {{ $produto->nome }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group" id="tamanho-group" style="display: none;">
-                        <div>
-                            <label for="variacao_pizza">Tamanho da Pizza</label>
-                            <select name="variacao_pizza" id="variacao_pizza" class="form-control">
-                                <option value="">Selecione o tamanho</option>
-                                @foreach($variacoes_pizza as $variacao)
-                                    @foreach($tamanhos_pizza as $tamanho)
-                                        @if($variacao->tamanho_pizza_id == $tamanho->id)
-                                            <option value="{{ $variacao->id }}">{{ $tamanho->nome }} - R$ {{ number_format($variacao->preco, 2, ',', '.') }}</option>
-                                        @endif
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="produto_id">Produto</label>
+                            <select name="produto_id" id="produto_id" class="form-control" required>
+                                <option value="">Selecione...</option>
+                                @foreach($produtos as $produto)
+                                    <option value="{{ $produto->id }}" data-categoria="{{ $produto->categoria_id }}" data-preco="{{ $produto->preco_venda }}">
+                                        {{ $produto->nome }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+    
+                        <div class="col-sm-6" id="tamanho-group" style="display: none;">
+                            <div>
+                                <label for="variacao_pizza">Tamanho da Pizza</label>
+                                <select name="variacao_pizza" id="variacao_pizza" class="form-control">
+                                    <option value="">Selecione o tamanho</option>
+                                    @foreach($variacoes_pizza as $variacao)
+                                        @foreach($tamanhos_pizza as $tamanho)
+                                            @if($variacao->tamanho_pizza_id == $tamanho->id)
+                                                <option value="{{ $variacao->id }}">{{ $tamanho->nome }} - R$ {{ number_format($variacao->preco, 2, ',', '.') }}</option>
+                                            @endif
+                                        @endforeach
                                     @endforeach
-                                @endforeach
-                            </select>
-                        </div>
-                        <div>
-                            <label for="borda_id">Borda da Pizza</label>
-                            <select name="borda_id" id="borda_id" class="form-control">
-                                <option value="">Selecione a borda</option>
-                                @foreach($bordas_pizza as $borda)
-                                    <option value="{{ $borda->id }}">{{ $borda->nome }} - R$ {{ number_format($borda->preco_adicional, 2, ',', '.') }}</option>
-                                @endforeach
-                            </select>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="borda_id">Borda da Pizza</label>
+                                <select name="borda_id" id="borda_id" class="form-control">
+                                    <option value="">Sem borda</option>
+                                    @foreach($bordas_pizza as $borda)
+                                        <option value="{{ $borda->id }}">{{ $borda->nome }} - R$ {{ number_format($borda->preco_adicional, 2, ',', '.') }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    
+                    <div class="row">
+                        <div class="col-sm-2 form-group">
+                            <label for="quantidade">Quantidade</label>
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="quantidade">
+                                        <span class="fas fa-minus"></span>
+                                    </button>
+                                </span>
+                                <input type="text" name="quantidade" id="quantidade" class="form-control input-number" value="1" min="1" max="100">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="quantidade">
+                                        <span class="fa fa-plus"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+    
+                        <div class="col-sm-2">
+                            <label for="preco_unitario">Valor Unitário</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">R$</span>
+                                </div>
+                                <input type="text" name="preco_unitario" id="preco_unitario" class="form-control" readonly>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
-                        <label for="quantidade">Quantidade</label>
-                        <div class="input-group">
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-danger btn-number"  data-type="minus" data-field="quantidade">
-                                    <span class="fas fa-minus"></span>
-                                </button>
-                            </span>
-                            <input type="text" name="quantidade" id="quantidade" class="form-control input-number" value="1" min="1" max="100">
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-success btn-number" data-type="plus" data-field="quantidade">
-                                    <span class="fa fa-plus"></span>
-                                </button>
-                            </span>
-                        </div>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Adicionar</button>
                     </div>
-
-                    <div class="form-group">
-                        <label for="preco_unitario">Valor Unitário</label>
-                        <input type="text" name="preco_unitario" id="preco_unitario" class="form-control" readonly>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Adicionar</button>
                 </form>
             </div>
         </div>
 
-        <div class="card card-success">
-            <div class="card-header bg-success text-white">
-                <h5 class="mb-0">Itens</h5>
+        <div class="card card-outline card-secondary">
+            <div class="card-header">
+                <h5 class="mb-0">Itens Pedidos</h5>
             </div>
-            <div class="card-body">
-                <ul class="list-group">
-                    @foreach($comanda->itens as $item)
-                        <li class="list-group-item">
-                            @if($item->borda_id !== null)
-                                @php
-                                    $borda = $bordas_pizza->firstWhere('id', $item->borda_id);
-                                @endphp
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Valor Unitário</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($comanda->itens as $item)
+                        <tr>
+                            <td>
+                                @if($item->borda_id !== null)
+                                    @php
+                                        $borda = $bordas_pizza->firstWhere('id', $item->borda_id);
+                                    @endphp
 
-                                @if($borda)
-                                    {{ $item->produto->nome }} + {{ $borda->nome }} - 
-                                    R$ {{ number_format($item->preco_unitario + $borda->preco_adicional, 2, ',', '.') }}
+                                    @if($borda)
+                                        {{ $item->produto->nome }} + {{ $borda->nome }}
+
+                                    @else
+                                        {{ $item->produto->nome }}
+                                    @endif
                                 @else
-                                    {{ $item->produto->nome }} - 
+                                    {{ $item->produto->nome }}
+                                @endif
+                            </td>
+                            <td>{{ $item->quantidade }}</td>
+                            <td>
+                                @if($item->borda_id !== null)
+                                    @php
+                                        $borda = $bordas_pizza->firstWhere('id', $item->borda_id);
+                                    @endphp
+
+                                    @if($borda)
+                                        R$ {{ number_format($item->preco_unitario, 2, ',', '.') }}
+                                    @else
+                                        R$ {{ number_format($item->preco_unitario, 2, ',', '.') }}
+                                    @endif
+                                @else
                                     R$ {{ number_format($item->preco_unitario, 2, ',', '.') }}
                                 @endif
-                            @else
-                                {{ $item->produto->nome }} - 
-                                R$ {{ number_format($item->preco_unitario, 2, ',', '.') }}
-                            @endif
-                        </li>
-                    @endforeach
-                </ul>
+                            </td>
+                            <td>R$ {{ $item->subtotal }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="3">Total</th>
+                            <th>R$ {{ number_format($comanda->total, 2, ',', '.') }}</th>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
         </div>
     </div>
@@ -143,6 +209,38 @@
         const tamanhoGroup = document.getElementById('tamanho-group');
         const variacaoPizzaSelect = document.getElementById('variacao_pizza');
         const precoUnitarioInput = document.getElementById('preco_unitario');
+        const bordaSelect = document.getElementById('borda_id');
+
+        function extractPrice(optionText) {
+            const match = optionText.match(/R\$ ([\d.,]+)/);
+            if(match) {
+                let precoStr = match[1].replace('.', '').replace(',', '.');
+                return parseFloat(precoStr);
+            }
+            return 0;
+        }
+
+        function updateTotalPrice() {
+            let basePrice = 0;
+            if(produtoSelect.selectedIndex > 0) {
+                const selectedProduto = produtoSelect.options[produtoSelect.selectedIndex];
+                const categoriaId = selectedProduto.getAttribute('data-categoria');
+                
+                if (categoriaId == '3' && variacaoPizzaSelect.selectedIndex > 0) {
+                    basePrice = extractPrice(variacaoPizzaSelect.options[variacaoPizzaSelect.selectedIndex].text);
+                } else {
+                    basePrice = parseFloat(selectedProduto.getAttribute('data-preco')) || 0;
+                }
+            }
+            
+            let bordaPrice = 0;
+            if (bordaSelect.selectedIndex > 0) {
+                bordaPrice = extractPrice(bordaSelect.options[bordaSelect.selectedIndex].text);
+            }
+            
+            const totalPrice = basePrice + bordaPrice;
+            precoUnitarioInput.value = totalPrice.toFixed(2);
+        }
 
         produtoSelect.addEventListener('change', function () {
             const selectedOption = this.options[this.selectedIndex];
@@ -159,17 +257,16 @@
                 variacaoPizzaSelect.value = '';
                 precoUnitarioInput.value = preco; 
             }
+            
+            updateTotalPrice();
         });
 
-        variacaoPizzaSelect.addEventListener('change', function () {
-            const selectedOption = this.options[this.selectedIndex];
-            const text = selectedOption.textContent;
+        variacaoPizzaSelect.addEventListener('change', function() {
+            updateTotalPrice();
+        });
 
-            const match = text.match(/R\$ ([\d.,]+)/);
-            if (match) {
-                let precoStr = match[1].replace('.', '').replace(',', '.');
-                precoUnitarioInput.value = parseFloat(precoStr).toFixed(2);
-            }
+        bordaSelect.addEventListener('change', function() {
+            updateTotalPrice();
         });
 
         $('.btn-number').click(function(e) {

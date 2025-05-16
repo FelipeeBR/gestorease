@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ItemComanda;
 use App\Models\Produto;
+use App\Models\Comanda;
 
 class ItemComandaController extends Controller
 {
-    // Adicionar item na comanda
     public function store(Request $request, $comanda)
     {
         $validated = $request->validate([
@@ -17,13 +17,16 @@ class ItemComandaController extends Controller
             'borda_id' => 'nullable|exists:borda_pizza,id'
         ]);
 
-        $produto = Produto::findOrFail($validated['produto_id']);
         $validated['preco_unitario'] = $request->preco_unitario;
         $validated['borda_id'] = $request->borda_id;
         $validated['comanda_id'] = $comanda;
         $validated['subtotal'] = $validated['quantidade'] * $request->preco_unitario;
 
-        $item = ItemComanda::create($validated);
+        ItemComanda::create($validated);
+
+        $comanda = Comanda::findOrFail($comanda);
+        $comanda->total += $validated['subtotal'];
+        $comanda->save();
 
         return redirect()->back()->with('success', 'Item adicionado com sucesso!');
     }
