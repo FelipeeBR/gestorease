@@ -85,7 +85,7 @@ class ComandaController extends Controller
 
         $comanda->update($validated);
 
-        return response()->json($comanda);
+        return redirect()->route('caixa.comanda.show', ['comanda' => $comanda->id]);
     }
 
     // Deletar comanda
@@ -95,5 +95,29 @@ class ComandaController extends Controller
         $comanda->delete();
 
         return response()->json(['message' => 'Comanda deletada com sucesso']);
+    }
+
+    public function edit($id)
+    {
+        $comanda = Comanda::findOrFail($id);
+        $mesas = Mesa::query()->where('status', 'livre')->get();
+        $caixa = Caixa::query()->where('data_fechamento', null)->first();
+        return view('caixa.comanda.edit', compact('comanda', 'mesas', 'caixa'));
+    }
+
+    public function fechar($id)
+    {
+        $comanda = Comanda::findOrFail($id);
+        $comanda->status = 'fechada';
+        $comanda->save();
+        return redirect()->route('caixa.comanda.show', ['comanda' => $comanda->id]);
+    }
+
+    public function cancelar($id)
+    {
+        $comanda = Comanda::findOrFail($id);
+        $comanda->status = 'cancelada';
+        $comanda->save();
+        return redirect()->route('caixa.comanda.show', ['comanda' => $comanda->id]);
     }
 }
