@@ -26,10 +26,14 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="mb-4">
-                            <h4 class="text-success">
-                                <strong>Total:</strong> R$ {{ number_format($comanda->total, 2, ',', '.') }}
-                            </h4>
+                        <div class="card card-outline card-secondary flex-fill text-center shadow-sm mx-2">
+                            <div class="card-body">
+                                <div class="mb-4">
+                                    <h4 class="text-success">
+                                        <strong>Total:</strong> R$ {{ number_format($comanda->total, 2, ',', '.') }}
+                                    </h4>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -44,16 +48,22 @@
                                         <i class="fas fa-edit"></i>
                                     </a>
                                 </div>
-                                <div class="row">
-                                    <form action="{{ route('caixa.comanda.fechar', $comanda->id) }}" method="POST" style="display: inline;">
-                                        @csrf
-                                        <button type="submit" class="btn btn-success"><i class="fas fa-lock"></i> Fechar Comanda</button>
-                                    </form>
-                                    <form action="{{ route('caixa.comanda.cancelar', $comanda->id) }}" method="POST" style="display: inline;">
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i> Cancelar Comanda</button>
-                                    </form>
-                                </div>
+                                @if($comanda->status == 'aberta')
+                                    <div class="row">
+                                        <div class="col-md-auto">
+                                            <form action="{{ route('caixa.comanda.fechar', $comanda->id) }}" method="POST" style="display: inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-success"><i class="fas fa-lock"></i> Fechar Comanda</button>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-auto">
+                                            <form action="{{ route('caixa.comanda.cancelar', $comanda->id) }}" method="POST" style="display: inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i> Cancelar Comanda</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -164,6 +174,7 @@
                             <th>Quantidade</th>
                             <th>Valor Unitário</th>
                             <th>Subtotal</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -202,6 +213,13 @@
                                 @endif
                             </td>
                             <td>R$ {{ $item->subtotal }}</td>
+                            <td>
+                                <form action="{{ route('caixa.comanda.item.destroy', $item->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

@@ -30,4 +30,14 @@ class ItemComandaController extends Controller
 
         return redirect()->back()->with('success', 'Item adicionado com sucesso!');
     }
+
+    public function destroy($id)
+    {
+        $item = ItemComanda::findOrFail($id);
+        $comanda = Comanda::findOrFail($item->comanda_id);
+        $comanda->total -= $item->subtotal;
+        $comanda->save();
+        $item->delete();
+        return redirect()->back()->with('success', 'Item excluído com sucesso!');
+    }
 }

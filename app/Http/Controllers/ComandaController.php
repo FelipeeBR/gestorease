@@ -108,6 +108,11 @@ class ComandaController extends Controller
     public function fechar($id)
     {
         $comanda = Comanda::findOrFail($id);
+        $caixa = Caixa::query()->where('data_fechamento', null)->first();
+        
+        $caixa->total_vendas += $comanda->total;
+        $caixa->save();
+
         $comanda->status = 'fechada';
         $comanda->save();
         return redirect()->route('caixa.comanda.show', ['comanda' => $comanda->id]);

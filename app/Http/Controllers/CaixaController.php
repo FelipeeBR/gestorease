@@ -63,19 +63,28 @@ class CaixaController extends Controller
             return back()->with('error', 'Este caixa já está fechado.');
         }
 
+        $request->merge([
+            'saldo_final' => str_replace(['.', ','], ['', '.'], $request->saldo_final),
+            'total_vendas' => str_replace(['.', ','], ['', '.'], $request->total_vendas)
+        ]);
+
         $request->validate([
             'saldo_final' => 'required|numeric|min:0',
             'total_vendas' => 'required|numeric|min:0',
             'observacoes' => 'nullable|string'
         ], [
             'saldo_final.required' => 'O campo Saldo Final é obrigatório.',
-            'total_vendas.required' => 'O campo Total de Vendas é obrigatório.'
+            'total_vendas.required' => 'O campo Total de Vendas é obrigatório.',
+            'total_vendas.min' => 'O campo Total de Vendas deve ser maior ou igual a zero.',
+            'saldo_final.min' => 'O campo Saldo Final deve ser maior ou igual a zero.',
+            'saldo_final.numeric' => 'O campo Saldo Final deve ser um número.',
+            'total_vendas.numeric' => 'O campo Total de Vendas deve ser um número.'
         ]);
 
         $caixa->update([
             'data_fechamento' => now(),
-            'saldo_final' => $request->saldo_final,
-            'total_vendas' => $request->total_vendas,
+            'saldo_final' => intval($request->saldo_final),
+            'total_vendas' => intval($request->total_vendas),
             'observacoes' => $request->observacoes ?? $caixa->observacoes
         ]);
 

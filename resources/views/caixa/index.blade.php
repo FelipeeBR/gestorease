@@ -22,7 +22,7 @@
     @if($caixaAberto = $caixas->firstWhere('data_fechamento', null))
     <div class="card card-success">
         <div class="card-header">
-            <h5>Caixa Aberto <strong>{{ $caixaAberto->data_abertura->format('d/m/Y H:i') }}</strong></h5>
+            <h5>Caixa Aberto <strong>{{ $caixaAberto->data_abertura->timezone('America/Sao_Paulo')->format('d/m/Y H:i') }}</strong></h5>
         </div>
         <div class="card-body">
             <div class="d-flex flex-wrap gap-3 mb-4">
@@ -35,16 +35,18 @@
                     </div>
                 </div>
                 <div class="card card-outline card-secondary flex-fill text-center shadow-sm mx-2">
-                    <div class="card-body row">
-                        <div>
-                            <a href="/caixa/{{ $caixaAberto->id }}" class="btn btn-primary btn-lg w-100 mb-2 d-flex justify-content-center align-items-center gap-2">
-                                <i class="fas fa-inbox"></i> Gerenciar Caixa
-                            </a>
-                        </div>
-                        <div>
-                            <button class="btn btn-success btn-lg w-100 mb-2 d-flex justify-content-center align-items-center gap-2">
-                                <i class="fas fa-plus"></i> Novo Pedido
-                            </button>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-auto">
+                                <a href="/caixa/{{ $caixaAberto->id }}" class="btn btn-primary btn-lg w-100 mb-2 d-flex justify-content-center align-items-center gap-2">
+                                    <i class="fas fa-inbox"></i> Gerenciar Caixa
+                                </a>
+                            </div>
+                            <div class="col-md-auto">
+                                <a href="/caixa/comanda/create" class="btn btn-success btn-lg w-100 mb-2 d-flex justify-content-center align-items-center gap-2">
+                                    <i class="fas fa-plus"></i> Novo Pedido
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -62,13 +64,13 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input type="number" step="0.01" class="form-control" id="saldo_final" name="saldo_final" required>
+                                <input type="text" class="form-control" id="saldo_final" name="saldo_final" value="{{ number_format($caixaAberto->saldo_inicial + $caixaAberto->total_vendas, 2, ',', '.') }}">
                                 <label for="saldo_final">Saldo Final</label>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" >
                             <div class="form-floating">
-                                <input type="number" step="0.01" class="form-control" id="total_vendas" name="total_vendas" required>
+                                <input type="text" class="form-control" id="total_vendas" name="total_vendas" value="{{ number_format($caixaAberto->total_vendas, 2, ',', '.') }}">
                                 <label for="total_vendas">Total de Vendas</label>
                             </div>
                         </div>
@@ -113,8 +115,8 @@
                     <tbody>
                         @forelse($caixas as $caixa)
                             <tr>
-                                <td>{{ $caixa->data_abertura->format('d/m/Y H:i') }}</td>
-                                <td>{{ $caixa->data_fechamento ? $caixa->data_fechamento->format('d/m/Y H:i') : '-' }}</td>
+                                <td>{{ $caixa->data_abertura->timezone('America/Sao_Paulo')->format('d/m/Y H:i') }}</td>
+                                <td>{{ $caixa->data_fechamento ? $caixa->data_fechamento->timezone('America/Sao_Paulo')->format('d/m/Y H:i') : '-' }}</td>
                                 <td>{{ $caixa->user->name }}</td>
                                 <td>R$ {{ number_format($caixa->saldo_inicial, 2, ',', '.') }}</td>
                                 <td>{{ $caixa->saldo_final ? 'R$ ' . number_format($caixa->saldo_final, 2, ',', '.') : '-' }}</td>

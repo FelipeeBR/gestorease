@@ -33,13 +33,13 @@
                             <span class="badge bg-success">Aberto</span>
                         @endif
                     </p>
-                    <p><strong>Data de Abertura:</strong> {{ $caixa->data_abertura->format('d/m/Y H:i:s') }}</p>
+                    <p><strong>Data de Abertura:</strong> {{ $caixa->data_abertura->timezone('America/Sao_Paulo')->format('d/m/Y H:i') }}</p>
                     <p><strong>Usuário Responsável:</strong> {{ $caixa->user->name ?? 'N/A' }}</p>
                 </div>
                 <div class="col-md-6">
                     <p><strong>Saldo Inicial:</strong> R$ {{ number_format($caixa->saldo_inicial, 2, ',', '.') }}</p>
                     @if($caixa->data_fechamento)
-                        <p><strong>Data de Fechamento:</strong> {{ $caixa->data_fechamento->format('d/m/Y H:i:s') }}</p>
+                        <p><strong>Data de Fechamento:</strong> {{ $caixa->data_fechamento->timezone('America/Sao_Paulo')->format('d/m/Y H:i') }}</p>
                         <p><strong>Saldo Final:</strong> R$ {{ number_format($caixa->saldo_final, 2, ',', '.') }}</p>
                     @endif
                 </div>
