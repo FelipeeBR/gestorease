@@ -3,7 +3,7 @@
 @section('title', 'Detalhes do Caixa')
 
 @section('content_header')
-    <h1><i class="fa fa-box"></i>Detalhes do Caixa</h1>
+    <h4><i class="fa fa-box"></i>Detalhes do Caixa</h4>
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -19,8 +19,8 @@
 
 @section('content')
 <div class="">
-    <div class="card mb-4">
-        <div class="card-header bg-primary text-white">
+    <div class="card card-outline card-info mb-4">
+        <div class="card-header">
             <h5 class="mb-0">Informações Básicas</h5>
         </div>
         <div class="card-body">
@@ -92,7 +92,7 @@
             </div>
         </div>
     @else
-        <div class="card card-outline card-info">
+        <div class="card card-outline card-primary">
             <div class="card-header">
                 <h5 class="mb-0">Pedidos</h5>
             </div>
