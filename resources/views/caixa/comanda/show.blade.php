@@ -2,23 +2,54 @@
 
 @section('title', 'Comanda #'.$comanda->id)
 
+@php
+    $bgClass = 'bg-success'; 
+    if ($comanda->status === 'aberta') {
+        $bgClass = 'bg-success';
+    } elseif ($comanda->status === 'fechada') {
+        $bgClass = 'bg-danger';
+    } elseif ($comanda->status === 'cancelada') {
+        $bgClass = 'bg-secondary';
+    }
+@endphp
+
 @section('content_header')
-    <h1><i class="fas fa-clipboard"></i> Comanda #{{ $comanda->id }} {{ $comanda->status }}</h1>
+    <h1><i class="fas fa-clipboard"></i> Comanda #{{ $comanda->id }} <span class="badge {{ $bgClass }}">{{ $comanda->status }}</span></h1>
     @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+        <script>
+            $(document).ready(function() {
+                toastr.success('{{ session('success') }}');
+            });
+        </script>
     @endif
 
     @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
+        <script>
+            $(document).ready(function() {
+                toastr.error('{{ session('error') }}');
+            });
+        </script>
     @endif
 @stop
 
 @section('content')
     <div>
+        @if($comanda->status == 'aberta')
+            <div class="row mb-4 d-flex flex-row-reverse">
+                <div class="col-md-auto">
+                    <form action="{{ route('caixa.comanda.fechar', $comanda->id) }}" method="POST" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-success"><i class="fas fa-lock"></i> Fechar Comanda</button>
+                    </form>
+                </div>
+                <div class="col-md-auto">
+                    <form action="{{ route('caixa.comanda.cancelar', $comanda->id) }}" method="POST" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i> Cancelar Comanda</button>
+                    </form>
+                </div>
+            </div>
+        @endif
         <div class="card card-outline card-primary">
             <div class="card-header">
                 <h5 class="mb-0">Informações</h5>  
@@ -29,15 +60,15 @@
                         <div class="card card-outline card-secondary flex-fill text-center shadow-sm mx-2">
                             <div class="card-body">
                                 <div class="mb-4">
-                                    <h4 class="text-success">
+                                    <p class="h3 mb-0">
                                         <strong>Total:</strong> R$ {{ number_format($comanda->total, 2, ',', '.') }}
-                                    </h4>
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <div class="card card-outline card-info mb-3 shadow-sm">
+                        <div class="card card-outline card-secondary mb-3 shadow-sm">
                             <div class="card-header">
                                 <i class="fas fa-sticky-note"></i> Ações
                             </div>
@@ -48,22 +79,6 @@
                                         <i class="fas fa-edit"></i>
                                     </a>
                                 </div>
-                                @if($comanda->status == 'aberta')
-                                    <div class="row">
-                                        <div class="col-md-auto">
-                                            <form action="{{ route('caixa.comanda.fechar', $comanda->id) }}" method="POST" style="display: inline;">
-                                                @csrf
-                                                <button type="submit" class="btn btn-success"><i class="fas fa-lock"></i> Fechar Comanda</button>
-                                            </form>
-                                        </div>
-                                        <div class="col-md-auto">
-                                            <form action="{{ route('caixa.comanda.cancelar', $comanda->id) }}" method="POST" style="display: inline;">
-                                                @csrf
-                                                <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i> Cancelar Comanda</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                @endif
                             </div>
                         </div>
                     </div>

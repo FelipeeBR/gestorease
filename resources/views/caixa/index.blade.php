@@ -20,7 +20,7 @@
 @section('content')
 <div class="">
     @if($caixaAberto = $caixas->firstWhere('data_fechamento', null))
-    <div class="card card-success">
+    <div class="card card-outline card-success">
         <div class="card-header">
             <h5>Caixa Aberto <strong>{{ $caixaAberto->data_abertura->timezone('America/Sao_Paulo')->format('d/m/Y H:i') }}</strong></h5>
         </div>

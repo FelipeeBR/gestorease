@@ -3,7 +3,7 @@
 @section('title', 'Detalhes do Caixa')
 
 @section('content_header')
-    <h1><i class="fa fa-file"></i>Detalhes do Caixa</h1>
+    <h1><i class="fa fa-box"></i>Detalhes do Caixa</h1>
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -44,12 +44,13 @@
                     @endif
                 </div>
             </div>
-            <div>
-                <a href="{{ route('caixa.comanda.create') }}" class="btn btn-primary">
-                    <i class="fas fa-plus"></i> Novo Pedido
-                </a>
-            </div>
         </div>
+    </div>
+
+    <div class="mb-4 d-flex flex-row-reverse">
+        <a href="{{ route('caixa.comanda.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Novo Pedido
+        </a>
     </div>
 
     @if($caixa->data_fechamento)
@@ -91,8 +92,8 @@
             </div>
         </div>
     @else
-        <div class="card mb-4">
-            <div class="card-header bg-info text-white">
+        <div class="card card-outline card-info">
+            <div class="card-header">
                 <h5 class="mb-0">Pedidos</h5>
             </div>
             <div class="card-body">
