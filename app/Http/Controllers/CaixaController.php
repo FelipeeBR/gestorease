@@ -59,7 +59,16 @@ class CaixaController extends Controller
     // Fechar o caixa
     public function fechar(Request $request, Caixa $caixa)
     {
-        if (!$caixa->isAberto()) {
+        $comandas = Comanda::where([
+            ['caixa_id', $caixa->id],
+            ['status', 'aberta']
+        ])->get();
+
+        if($comandas->count() > 0) {
+            return back()->with('error', 'Existem comandas abertas neste caixa. Feche-as antes de fechar o caixa.');
+        }
+        
+        if(!$caixa->isAberto()) {
             return back()->with('error', 'Este caixa já está fechado.');
         }
 
