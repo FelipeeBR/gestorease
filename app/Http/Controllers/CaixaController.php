@@ -83,8 +83,8 @@ class CaixaController extends Controller
 
         $caixa->update([
             'data_fechamento' => now(),
-            'saldo_final' => intval($request->saldo_final),
-            'total_vendas' => intval($request->total_vendas),
+            'saldo_final' => (float) $request->saldo_final,
+            'total_vendas' => (float) $request->total_vendas,
             'observacoes' => $request->observacoes ?? $caixa->observacoes
         ]);
 

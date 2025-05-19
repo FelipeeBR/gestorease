@@ -3,7 +3,7 @@
 @section('title', 'Gestão de Caixa')
 
 @section('content_header')
-    <h1>Gestão de Caixa</h1>
+    <h1><i class="fa fa-cash-register"></i>Gestão de Caixa</h1>
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -62,13 +62,13 @@
                                 <label for="observacoes">Observações</label>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4" style="display: none">
                             <div class="form-floating">
                                 <input type="text" class="form-control" id="saldo_final" name="saldo_final" value="{{ number_format($caixaAberto->saldo_inicial + $caixaAberto->total_vendas, 2, ',', '.') }}">
                                 <label for="saldo_final">Saldo Final</label>
                             </div>
                         </div>
-                        <div class="col-md-4" >
+                        <div class="col-md-4" style="display: none">
                             <div class="form-floating">
                                 <input type="text" class="form-control" id="total_vendas" name="total_vendas" value="{{ number_format($caixaAberto->total_vendas, 2, ',', '.') }}">
                                 <label for="total_vendas">Total de Vendas</label>

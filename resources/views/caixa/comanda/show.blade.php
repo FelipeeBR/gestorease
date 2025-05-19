@@ -42,7 +42,7 @@
                                 <i class="fas fa-sticky-note"></i> Ações
                             </div>
                             <div class="card-body">
-                                <div class="row">
+                                <div class="row mb-3">
                                     <p class="mb-2"><strong>Observações:</strong> {{ $comanda->observacoes ?? 'Nenhuma observação registrada.' }}</p>
                                     <a href="{{ route('caixa.comanda.edit', $comanda->id) }}" class="btn btn-outline-primary">
                                         <i class="fas fa-edit"></i>
@@ -214,11 +214,13 @@
                             </td>
                             <td>R$ {{ $item->subtotal }}</td>
                             <td>
-                                <form action="{{ route('caixa.comanda.item.destroy', $item->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                                </form>
+                                @if($comanda->status == 'aberta')
+                                    <form action="{{ route('caixa.comanda.item.destroy', $item->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                         @endforeach

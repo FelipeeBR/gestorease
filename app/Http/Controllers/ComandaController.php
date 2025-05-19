@@ -61,6 +61,12 @@ class ComandaController extends Controller
             'caixa_id.required' => 'O campo Caixa é obrigatório.',
         ]);
 
+        $mesa = Mesa::find($validated['numero_mesa']);
+        if($mesa) {
+            $mesa->status = 'ocupada';
+            $mesa->save();
+        }
+
         $comanda = Comanda::create($validated);
 
         return redirect()->route('caixa.comanda.show', ['comanda' => $comanda->id]);
@@ -109,6 +115,11 @@ class ComandaController extends Controller
     {
         $comanda = Comanda::findOrFail($id);
         $caixa = Caixa::query()->where('data_fechamento', null)->first();
+        $mesa = Mesa::find($comanda->numero_mesa);
+        if($mesa) {
+            $mesa->status = 'livre';
+            $mesa->save();
+        }
         
         $caixa->total_vendas += $comanda->total;
         $caixa->save();
@@ -121,6 +132,11 @@ class ComandaController extends Controller
     public function cancelar($id)
     {
         $comanda = Comanda::findOrFail($id);
+        $mesa = Mesa::find($comanda->numero_mesa);
+        if($mesa) {
+            $mesa->status = 'livre';
+            $mesa->save();
+        }
         $comanda->status = 'cancelada';
         $comanda->save();
         return redirect()->route('caixa.comanda.show', ['comanda' => $comanda->id]);

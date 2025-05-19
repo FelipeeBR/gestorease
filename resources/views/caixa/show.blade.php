@@ -3,7 +3,7 @@
 @section('title', 'Detalhes do Caixa')
 
 @section('content_header')
-    <h1>Detalhes do Caixa</h1>
+    <h1><i class="fa fa-file"></i>Detalhes do Caixa</h1>
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}

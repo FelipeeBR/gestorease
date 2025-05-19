@@ -3,7 +3,7 @@
 @section('title', 'Nova Comanda')
 
 @section('content_header')
-    <h1>Nova Comanda</h1>
+    <h1><i class="fas fa-clipboard"></i> Nova Comanda</h1>
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -22,7 +22,7 @@
 @stop
 
 @section('content')
-    <div class="card card-primary">
+    <div class="card card-outline card-primary">
         <div class="card-header">
             <h3 class="card-title">Preencha os Campos</h3>
         </div>
