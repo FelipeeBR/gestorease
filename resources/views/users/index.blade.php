@@ -3,7 +3,26 @@
 @section('title', 'Usuários')
 
 @section('content_header')
-    <h1>Usuários</h1>
+    <h4><i class="fa fa-users"></i> Usuários</h4>
+    @if(session('success'))
+        @section('js')
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    toastr.success('{{ session('success') }}');
+                });
+            </script>
+        @endsection
+    @endif
+
+    @if(session('error'))
+        @section('js')
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    toastr.error('{{ session('error') }}');
+                });
+            </script>
+        @endsection
+    @endif
 @stop
 
 @section('content')

@@ -3,21 +3,25 @@
 @section('title', 'Criar Produto')
 
 @section('content_header')
-    <h1>Novo Produto</h1>
+    <h4><i class="fa fa-plus-square"></i> Novo Produto</h4>
     @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+        @section('js')
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    toastr.success('{{ session('success') }}');
+                });
+            </script>
+        @endsection
     @endif
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+    @if($errors->any())
+        @section('js')
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    toastr.error('{{ $errors->first() }}');
+                });
+            </script>
+        @endsection
     @endif
 @stop
 

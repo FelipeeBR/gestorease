@@ -22,10 +22,14 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nome' => 'required|string|max:100', 
+            'nome' => 'required|string|min:3|max:100', 
+        ],[
+            'nome.required' => 'O campo nome é obrigatório',
+            'nome.min' => 'O campo nome deve ter no mínimo 3 caracteres',
+            'nome.max' => 'O campo nome deve ter no máximo 100 caracteres',
         ]);
         Categoria::create($validated);
-        return redirect()->route('categorias.index');
+        return redirect()->route('categorias.index')->with('success', 'Categoria criada com sucesso!');
     }
 
     public function edit($id)

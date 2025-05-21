@@ -3,17 +3,25 @@
 @section('title', 'Gestão de Caixa')
 
 @section('content_header')
-    <h4><i class="fa fa-cash-register me-2"></i>Gestão de Caixa</h4>
+    <h4><i class="fa fa-cash-register me-2"></i> Gestão de Caixa</h4>
     @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+        @section('js')
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    toastr.success('{{ session('success') }}');
+                });
+            </script>
+        @endsection
     @endif
 
     @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
+        @section('js')
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    toastr.error('{{ session('error') }}');
+                });
+            </script>
+        @endsection
     @endif
 @stop
 

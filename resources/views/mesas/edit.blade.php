@@ -3,7 +3,7 @@
 @section('title', 'Editar Mesa')
 
 @section('content_header')
-    <h1>Editar Mesa</h1>
+    <h4><i class="fas fa-pen-square"></i> Editar Mesa</h4>
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}

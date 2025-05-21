@@ -6,7 +6,26 @@
 @section('title', 'Variações de Pizza')
 
 @section('content_header')
-    <h1>Variações de Pizza</h1>
+    <h4><i class="fa fa-pizza-slice"></i> Variações de Pizza</h4>
+    @if(session('success'))
+        @section('js')
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    toastr.success('{{ session('success') }}');
+                });
+            </script>
+        @endsection
+    @endif
+
+    @if(session('error'))
+        @section('js')
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    toastr.error('{{ session('error') }}');
+                });
+            </script>
+        @endsection
+    @endif
 @stop
 
 @section('content')

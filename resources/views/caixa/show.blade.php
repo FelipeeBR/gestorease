@@ -3,17 +3,25 @@
 @section('title', 'Detalhes do Caixa')
 
 @section('content_header')
-    <h4><i class="fa fa-box"></i>Detalhes do Caixa</h4>
+    <h4><i class="fa fa-box"></i> Detalhes do Caixa</h4>
     @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
+        @section('js')
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    toastr.success('{{ session('success') }}');
+                });
+            </script>
+        @endsection
     @endif
 
     @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
+        @section('js')
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    toastr.error('{{ session('error') }}');
+                });
+            </script>
+        @endsection
     @endif
 @stop
 
@@ -49,7 +57,7 @@
 
     <div class="mb-4 d-flex flex-row-reverse">
         <a href="{{ route('caixa.comanda.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Novo Pedido
+            <i class="fas fa-plus"></i> Nova Comanda
         </a>
     </div>
 

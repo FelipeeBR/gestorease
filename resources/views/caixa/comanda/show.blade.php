@@ -14,21 +14,25 @@
 @endphp
 
 @section('content_header')
-    <h1><i class="fas fa-clipboard"></i> Comanda #{{ $comanda->id }} <span class="badge {{ $bgClass }}">{{ $comanda->status }}</span></h1>
+    <h4><i class="fas fa-clipboard"></i> Comanda #{{ $comanda->id }} <span class="badge {{ $bgClass }}">{{ $comanda->status }}</span></h4>
     @if(session('success'))
-        <script>
-            $(document).ready(function() {
-                toastr.success('{{ session('success') }}');
-            });
-        </script>
+        @section('js')
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    toastr.success('{{ session('success') }}');
+                });
+            </script>
+        @endsection
     @endif
 
     @if(session('error'))
-        <script>
-            $(document).ready(function() {
-                toastr.error('{{ session('error') }}');
-            });
-        </script>
+        @section('js')
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    toastr.error('{{ session('error') }}');
+                });
+            </script>
+        @endsection
     @endif
 @stop
 
