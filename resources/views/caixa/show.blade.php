@@ -54,12 +54,13 @@
             </div>
         </div>
     </div>
-
-    <div class="mb-4 d-flex flex-row-reverse">
-        <a href="{{ route('caixa.comanda.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Nova Comanda
-        </a>
-    </div>
+    @if($caixa->data_fechamento == null)
+        <div class="mb-4 d-flex flex-row-reverse">
+            <a href="{{ route('caixa.comanda.create') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Nova Comanda
+            </a>
+        </div>
+    @endif
 
     @if($caixa->data_fechamento)
         <div class="card mb-4">

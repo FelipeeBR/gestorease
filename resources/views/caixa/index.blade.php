@@ -98,12 +98,18 @@
         </div>        
     </div>
     @else
-        <div class="alert alert-success">
-            <h5>Caixa Fechado</h5>
-            <p>Nenhum caixa aberto no momento.</p>
-            <a href="{{ route('caixa.create') }}" class="btn btn-success">
-                <i class="fas fa-lock-open"></i> Abrir Caixa
-            </a>
+        <div class="card card-outline card-success">
+            <div class="card-header">
+                <h5 class="mb-0">Caixa Fechado</h5>
+            </div>
+            <div class="card-body">
+                <p>Nenhum caixa aberto no momento.</p>
+            </div>
+            <div class="card-footer">
+                <a href="{{ route('caixa.create') }}" class="btn btn-success">
+                    <i class="fas fa-lock-open"></i> Abrir Caixa
+                </a>
+            </div>
         </div>
     @endif
 
@@ -114,7 +120,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table table-hover text-nowrap">
                     <thead>
                         <tr>
                             <th>Data Abertura</th>
@@ -124,6 +130,56 @@
                             <th>Saldo Final</th>
                             <th>Total Vendas</th>
                             <th>Ações</th>
+                        </tr>
+                        <tr>
+                            <form method="GET" action="{{ route('caixa.index') }}">
+                                <th>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text bg-gradient-info">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" 
+                                            name="data_abertura" 
+                                            class="form-control form-control-sm datetimepicker-input" 
+                                            id="data_abertura_filter"
+                                            placeholder="Filtrar Data"
+                                            value="{{ request('data_abertura') }}"
+                                            data-toggle="datetimepicker"
+                                            data-target="#data_abertura_filter">
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text bg-gradient-info">
+                                                <i class="fas fa-calendar-alt"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" 
+                                            name="data_fechamento" 
+                                            class="form-control form-control-sm datetimepicker-input" 
+                                            id="data_fechamento_filter"
+                                            placeholder="Filtrar Data"
+                                            value="{{ request('data_fechamento') }}"
+                                            data-toggle="datetimepicker"
+                                            data-target="#data_fechamento_filter">
+                                    </div>
+                                </th>
+                                <th><input type="text" name="name" class="form-control form-control-sm" placeholder="Filtrar Nome" value="{{ request('name') }}"></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th>
+                                    <button type="submit" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-filter"></i> Filtrar
+                                    </button>
+                                    <a href="{{ route('caixa.index') }}" class="btn btn-secondary btn-sm ml-2">
+                                        <i class="fas fa-backspace"></i> Limpar Filtros
+                                    </a>
+                                </th>
+                            </form>
                         </tr>
                     </thead>
                     <tbody>
@@ -156,13 +212,37 @@
 
 @section('js')
 <script>
-    document.querySelector('.iniciar-fechamento').addEventListener('click', function() {
-        this.style.display = 'none';
-        document.querySelector('.observacoes-container').style.display = 'block';
-    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const iniciarFechamento = document.querySelector('.iniciar-fechamento');
+        if (iniciarFechamento) {
+            iniciarFechamento.addEventListener('click', function() {
+                this.style.display = 'none';
+                document.querySelector('.observacoes-container').style.display = 'block';
+            });
+        }
 
-    document.querySelector('.confirmar-fechamento').addEventListener('click', function(e) {
-        const observacoes = document.getElementById('observacoes').value;
+        const confirmarFechamento = document.querySelector('.confirmar-fechamento');
+        if (confirmarFechamento) {
+            confirmarFechamento.addEventListener('click', function(e) {
+                const observacoes = document.getElementById('observacoes').value;
+            });
+        }
+
+        $(function() {
+            moment.locale('pt-br');
+            $('#data_abertura_filter').datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'pt-br'
+            });
+        });
+
+        $(function() {
+            moment.locale('pt-br');
+            $('#data_fechamento_filter').datetimepicker({
+                format: 'DD/MM/YYYY',
+                locale: 'pt-br'
+            });
+        });
     });
 </script>
 @stop

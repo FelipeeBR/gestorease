@@ -6,17 +6,37 @@ use App\Models\Caixa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Comanda;
+use App\Models\User;
+use Carbon\Carbon;
 
 class CaixaController extends Controller
 {
-    // Listar todos os caixas
-    public function index()
+    public function index(Request $request)
     {
-        $caixas = Caixa::with('user')->latest()->get();
+        $query = Caixa::with('user')->latest();
+
+        if($request->filled('data_abertura')) {
+            $dataFormatada = Carbon::createFromFormat('d/m/Y', $request->data_abertura)
+                ->format('Y-m-d');
+            $query->whereDate('data_abertura', $dataFormatada);
+        }
+
+        if($request->filled('data_fechamento')) {
+            $dataFormatada = Carbon::createFromFormat('d/m/Y', $request->data_fechamento)
+                ->format('Y-m-d');
+            $query->whereDate('data_fechamento', $dataFormatada);
+        }
+
+        if($request->filled('name')) {
+            $query->whereHas('user', function($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->name . '%');
+            });
+        }
+
+        $caixas = $query->paginate(15);
         return view('caixa.index', compact('caixas'));
     }
 
-    // Mostrar formulário para abrir novo caixa
     public function create()
     {
         if (Caixa::whereNull('data_fechamento')->exists()) {

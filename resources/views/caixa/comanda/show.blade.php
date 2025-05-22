@@ -74,11 +74,11 @@
                     <div class="col-md-8">
                         <div class="card card-outline card-secondary mb-3 shadow-sm">
                             <div class="card-header">
-                                <i class="fas fa-sticky-note"></i> Ações
+                                <i class="fas fa-sticky-note"></i> Observações
                             </div>
                             <div class="card-body">
                                 <div class="row mb-3">
-                                    <p class="mb-2"><strong>Observações:</strong> {{ $comanda->observacoes ?? 'Nenhuma observação registrada.' }}</p>
+                                    <p class="mb-2">{{ $comanda->observacoes ?? 'Nenhuma observação registrada.' }}</p>
                                     <a href="{{ route('caixa.comanda.edit', $comanda->id) }}" class="btn btn-outline-primary">
                                         <i class="fas fa-edit"></i>
                                     </a>
