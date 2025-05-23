@@ -111,7 +111,7 @@ class ComandaController extends Controller
         return view('caixa.comanda.edit', compact('comanda', 'mesas', 'caixa'));
     }
 
-    public function fechar($id)
+    public function fechar($id, Request $request)
     {
         $comanda = Comanda::findOrFail($id);
         $caixa = Caixa::query()->where('data_fechamento', null)->first();
@@ -124,6 +124,7 @@ class ComandaController extends Controller
         $caixa->total_vendas += $comanda->total;
         $caixa->save();
 
+        $comanda->forma_pagamento = $request->input('forma_pagamento');
         $comanda->status = 'fechada';
         $comanda->save();
         return redirect()->route('caixa.comanda.show', ['comanda' => $comanda->id]);

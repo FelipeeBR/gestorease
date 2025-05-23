@@ -39,12 +39,31 @@
 @section('content')
     <div>
         @if($comanda->status == 'aberta')
+            <div>
+                <x-adminlte-modal id="modalMin" title="Fechar Comanda">
+                    <div>
+                        <label for="">Escolha a Forma de Pagamento</label>
+                        <select name="forma_pagamento" id="forma_pagamento" class="form-control">
+                            <option value="dinheiro" {{ old('forma_pagamento', $comanda->forma_pagamento ?? '') == 'dinheiro' ? 'selected' : '' }}>Dinheiro</option>
+                            <option value="debito" {{ old('forma_pagamento', $comanda->forma_pagamento ?? '') == 'debito' ? 'selected' : '' }}>Debito</option>
+                            <option value="credito" {{ old('forma_pagamento', $comanda->forma_pagamento ?? '') == 'credito' ? 'selected' : '' }}>Credito</option>
+                            <option value="pix" {{ old('forma_pagamento', $comanda->forma_pagamento ?? '') == 'pix' ? 'selected' : '' }}>Pix</option>
+                        </select>
+                    </div>
+                    <x-slot name="footerSlot">
+                        <form action="{{ route('caixa.comanda.fechar', $comanda->id) }}" method="POST" style="display: inline;">
+                            @csrf
+                            <input type="hidden" name="forma_pagamento" id="forma_pagamento_hidden">
+                            <button type="submit" class="btn btn-success comanda-fechar"><i class="fas fa-lock"></i> Fechar Comanda</button>
+                        </form>
+                        <x-adminlte-button theme="danger" label="Cancelar" data-dismiss="modal"/>
+                    </x-slot>
+                </x-adminlte-modal>
+            </div>
+
             <div class="row mb-4 d-flex flex-row-reverse">
                 <div class="col-md-auto">
-                    <form action="{{ route('caixa.comanda.fechar', $comanda->id) }}" method="POST" style="display: inline;">
-                        @csrf
-                        <button type="submit" class="btn btn-success"><i class="fas fa-lock"></i> Fechar Comanda</button>
-                    </form>
+                    <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#modalMin"><i class="fas fa-lock"></i> Fechar Comanda</button>
                 </div>
                 <div class="col-md-auto">
                     <form action="{{ route('caixa.comanda.cancelar', $comanda->id) }}" method="POST" style="display: inline;">
@@ -67,6 +86,11 @@
                                     <p class="h3 mb-0">
                                         <strong>Total:</strong> R$ {{ number_format($comanda->total, 2, ',', '.') }}
                                     </p>
+                                    @if($comanda->status == 'fechada')
+                                        <p>
+                                            <strong>Forma de Pagamento:</strong><span class="badge bg-primary h5">{{ $comanda->forma_pagamento ?? 'N/A' }}</span> 
+                                        </p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -357,6 +381,17 @@
             }
             if ((e.shiftKey || e.keyCode < 48 || e.keyCode > 57)) {
                 e.preventDefault();
+            }
+        });
+
+        $('.comanda-fechar').click(function(e) {
+            e.preventDefault();
+            var formaPagamento = document.getElementById('forma_pagamento');
+            if(formaPagamento) {
+                document.getElementById('forma_pagamento_hidden').value = formaPagamento.value;
+                $(this).closest('form').submit();
+            } else {
+                console.error('Elemento forma_pagamento não encontrado!');
             }
         });
     });
