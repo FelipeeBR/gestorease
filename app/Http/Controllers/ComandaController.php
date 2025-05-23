@@ -106,7 +106,8 @@ class ComandaController extends Controller
     public function edit($id)
     {
         $comanda = Comanda::findOrFail($id);
-        $mesas = Mesa::query()->where('status', 'livre')->get();
+        $mesas = Mesa::query()->where('status', 'livre')
+            ->orWhere('id', $comanda->numero_mesa)->get();
         $caixa = Caixa::query()->where('data_fechamento', null)->first();
         return view('caixa.comanda.edit', compact('comanda', 'mesas', 'caixa'));
     }
