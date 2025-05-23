@@ -28,7 +28,7 @@ class ItemComandaController extends Controller
         $comanda->total += $validated['subtotal'];
         $comanda->save();
 
-        return redirect()->back()->with('success', 'Item adicionado com sucesso!');
+        return redirect()->route('caixa.comanda.show', ['comanda' => $comanda->id])->with('success', 'Item adicionado com sucesso!');
     }
 
     public function destroy($id)

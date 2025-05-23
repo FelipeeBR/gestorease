@@ -280,7 +280,7 @@
     </div>
 @stop
 
-@section('js')
+@push('js')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const produtoSelect = document.getElementById('produto_id');
@@ -396,4 +396,4 @@
         });
     });
 </script>
-@endsection
+@endpush
