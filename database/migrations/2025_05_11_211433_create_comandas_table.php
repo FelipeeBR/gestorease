@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('endereco')->nullable();
             $table->string('telefone')->nullable();
             $table->enum('status', ['aberta', 'fechada', 'cancelada']);
+            $table->enum('forma_pagamento', ['dinheiro', 'credito', 'debito', 'pix', 'outro']);
             $table->decimal('total', 10, 2);
             $table->foreignId('caixa_id')->references('id')->on('caixas');
             $table->text('observacoes')->nullable();

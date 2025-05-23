@@ -64,13 +64,14 @@
 
     @if($caixa->data_fechamento)
         <div class="card mb-4">
-            <div class="card-header bg-info text-white">
+            <div class="card-header bg-primary text-white">
                 <h5 class="mb-0">Resumo Financeiro</h5>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="card bg-light mb-3">
+                        <div class="info-box">
+                            <span class="info-box-icon bg-success"><i class="far fa-money-bill-alt"></i></span>
                             <div class="card-body text-center">
                                 <h6 class="card-title">Total de Vendas</h6>
                                 <p class="h4 text-primary">R$ {{ number_format($caixa->total_vendas, 2, ',', '.') }}</p>
@@ -78,7 +79,8 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card bg-light mb-3">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-warning"><i class="fas fa-not-equal"></i></span>
                             <div class="card-body text-center">
                                 <h6 class="card-title">Diferença</h6>
                                 @php
@@ -90,7 +92,8 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="card bg-light mb-3">
+                        <div class="info-box mb-3">
+                            <span class="info-box-icon bg-info"><i class="fas fa-wallet"></i></span>
                             <div class="card-body text-center">
                                 <h6 class="card-title">Movimentação Total</h6>
                                 <p class="h4 text-dark">R$ {{ number_format($caixa->saldo_inicial + $caixa->total_vendas, 2, ',', '.') }}</p>
