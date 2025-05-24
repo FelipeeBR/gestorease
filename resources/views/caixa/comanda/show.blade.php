@@ -66,7 +66,7 @@
                     <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#modalMin"><i class="fas fa-lock"></i> Fechar Comanda</button>
                 </div>
                 <div class="col-md-auto">
-                    <form action="{{ route('caixa.comanda.cancelar', $comanda->id) }}" method="POST" style="display: inline;">
+                    <form action="{{ route('caixa.comanda.cancelar', $comanda->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja cancelar esta comanda?');">
                         @csrf
                         <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i> Cancelar Comanda</button>
                     </form>

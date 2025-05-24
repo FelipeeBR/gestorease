@@ -10,6 +10,7 @@ use App\Models\Produto;
 use App\Models\VariacaoPizza;
 use App\Models\BordaPizza;
 use App\Models\TamanhoPizza;
+use App\Models\ItemComanda;
 
 class ComandaController extends Controller
 {
@@ -116,6 +117,15 @@ class ComandaController extends Controller
     {
         $comanda = Comanda::findOrFail($id);
         $caixa = Caixa::query()->where('data_fechamento', null)->first();
+        $itens = ItemComanda::where('comanda_id', $comanda->id)->get();
+
+        foreach($itens as $item) {
+            $produto = Produto::find($item->produto_id);
+            if(!$produto || $produto->quantidade_estoque < $item->quantidade) {
+                return back()->with('error', "Produto ID {$item->produto_id} não encontrado ou estoque insuficiente");
+            }
+        }
+
         $mesa = Mesa::find($comanda->numero_mesa);
         if($mesa) {
             $mesa->status = 'livre';
@@ -125,10 +135,16 @@ class ComandaController extends Controller
         $caixa->total_vendas += $comanda->total;
         $caixa->save();
 
+        foreach($itens as $item) {
+            Produto::where('id', $item->produto_id)
+                ->decrement('quantidade_estoque', $item->quantidade);
+        }
+
         $comanda->forma_pagamento = $request->input('forma_pagamento');
         $comanda->status = 'fechada';
         $comanda->save();
-        return redirect()->route('caixa.comanda.show', ['comanda' => $comanda->id]);
+
+        return redirect()->route('caixa.comanda.show', ['comanda' => $comanda->id])->with('success', 'Comanda fechada e estoque atualizado com sucesso!');;
     }
 
     public function cancelar($id)
