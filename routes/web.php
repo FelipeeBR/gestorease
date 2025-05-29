@@ -37,11 +37,10 @@ Route::post('caixa/comanda/{comanda}', [ItemComandaController::class, 'store'])-
 Route::delete('caixa/comanda/{comanda}', [ItemComandaController::class, 'destroy'])->name('caixa.comanda.item.destroy');
 Route::post('caixa/comanda/{comanda}/fechar', [ComandaController::class, 'fechar'])->name('caixa.comanda.fechar');
 Route::post('caixa/comanda/{comanda}/cancelar', [ComandaController::class, 'cancelar'])->name('caixa.comanda.cancelar');
-Route::get('/caixa/{caixa}', [CaixaController::class, 'show'])->name('caixa.show');
-
 Route::middleware(['auth.role:caixa'])->group(function () {
     Route::resource('caixa', CaixaController::class);
 });
+Route::get('/caixa/{caixa}', [CaixaController::class, 'show'])->name('caixa.show');
 
 Route::resource('pizzas', VariacaoPizzaController::class);
 Route::resource('categorias', CategoriaController::class);

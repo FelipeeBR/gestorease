@@ -313,7 +313,7 @@ return [
         // Sidebar items:
         [
             'type' => 'sidebar-menu-search',
-            'text' => 'pesquisar',
+            'text' => 'Pesquisar',
         ],
         [
             'text' => 'blog',
@@ -324,23 +324,24 @@ return [
             'text' => 'Gestão de Caixa',
             'url' => '/caixa',
             'icon' => 'fa fa-fw fa-cash-register',
-            //'label' => 4,
             'label_color' => 'success',
         ],
         [
+            'key' => 'pedido',
             'text' => 'Pedidos',
             'url' => 'admin/pedidos',
             'icon' => 'fa fa-fw fa-file-powerpoint',
             'label' => 30,
             'label_color' => 'success',
         ],
-        [
+       /* [
+            'key' => 'mesa',
             'text' => 'Mesas',
             'url' => '/mesas',
             'icon' => 'fa fa-fw fa-table',
             'label' => 12,
             'label_color' => 'info',
-        ],
+        ],*/
         [
             'text' => 'Produtos',
             'icon' => 'fas fa-fw fa-barcode',
