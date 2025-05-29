@@ -28,21 +28,9 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card card-outline card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Lista de Usuários</h3>
-
-                    <div class="card-tools">
-                        <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" name="table_search" class="form-control float-right" placeholder="Pesquisar">
-
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default">
-                                <i class="fas fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="card-body table-responsive p-0">
                     <table class="table table-hover text-nowrap">
@@ -52,9 +40,31 @@
                                 <th>NOME</th>
                                 <th>EMAIL</th>
                                 <th>FUNÇÕES</th>
-                                <th>CRIADO</th>
-                                <th>ATUALIZADO</th>
+                                <th>CRIADO EM</th>
+                                <th>ATUALIZADO EM</th>
                                 <th><a href="/users/create" class="btn btn-primary"><i class="fas fa-plus"></i> Novo Usuário</a></th>
+                            </tr>
+                            <tr>
+                                <form action="">
+                                    <th></th>
+                                    <th>
+                                        <input type="text" class="form-control form-control-sm" name="name" id="name" placeholder="Filtrar Nome">
+                                    </th>
+                                    <th>
+                                        <input type="text" class="form-control form-control-sm" name="email" id="email" placeholder="Filtrar Email">
+                                    </th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-filter"></i> Filtrar
+                                        </button>
+                                        <a href="{{ route('users.index') }}" class="btn btn-secondary btn-sm ml-2">
+                                            <i class="fas fa-backspace"></i> Limpar Filtros
+                                        </a>
+                                    </th>
+                                </form>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,8 +82,8 @@
                                             @endforelse
                                         </ol>
                                     </td>
-                                    <td>{{ $user->created_at }}</td>
-                                    <td>{{ $user->updated_at }}</td>
+                                    <td>{{ $user->created_at->timezone('America/Sao_Paulo')->format('d/m/Y H:i') }}</td>
+                                    <td>{{ $user->updated_at->timezone('America/Sao_Paulo')->format('d/m/Y H:i') }}</td>
                                     <td class="d-flex flex-row project-actions text-right">
                                         <div class="mx-1">
                                             <a href="/users/{{ $user->id }}/edit" class="btn btn-success"><i class="fas fa-edit"></i></a>
@@ -94,6 +104,11 @@
                             @endforelse  
                         </tbody>
                     </table>
+                </div>
+                <div class="card-footer clearfix">
+                    <div class="float-right">
+                        {{ $users->links('pagination::bootstrap-4') }}
+                    </div>
                 </div>
             </div>
         </div>

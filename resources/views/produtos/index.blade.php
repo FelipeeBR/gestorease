@@ -28,7 +28,7 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card card-outline card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Lista de Produtos Vendidos</h3>
                 </div>

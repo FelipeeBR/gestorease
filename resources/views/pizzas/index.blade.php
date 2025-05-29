@@ -31,7 +31,7 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card card-outline card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Lista de Variações de Pizza</h3>
                 </div>
@@ -133,6 +133,11 @@
                             @endforelse  
                         </tbody>
                     </table>
+                </div>
+                <div class="card-footer clearfix">
+                    <div class="float-right">
+                        {{ $variacoes->links('pagination::bootstrap-4') }}
+                    </div>
                 </div>
             </div>
         </div>

@@ -22,7 +22,7 @@ class MesaController extends Controller
             $query->where('status', 'like', '%' . $request->status . '%');
         }
 
-        $mesas = $query->get();
+        $mesas = $query->paginate(15);
         return view('mesas.index', compact('mesas'));
     }
 

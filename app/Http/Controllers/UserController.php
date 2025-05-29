@@ -12,10 +12,21 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::paginate(3);
+        $query = User::query();
 
+        if ($request->filled('name')) {
+            $query->where('name', 'like', '%' . $request->name . '%');
+        }
+        if ($request->filled('email')) {
+            $query->where('email', 'like', '%' . $request->email . '%');
+        }
+        /*if ($request->filled('role_id')) {
+            $query->where('role_id', $request->role_id);
+        }*/
+        $users = $query->paginate(15);
+        
         return view('users.index', compact('users'));
     }
 

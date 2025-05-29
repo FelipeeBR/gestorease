@@ -13,6 +13,7 @@ class BordaPizzaController extends Controller
     public function index()
     {
         $bordas = BordaPizza::all();
+        $bordas = BordaPizza::paginate(15);
         return view('bordas-pizza.index', compact('bordas'));
     }
 

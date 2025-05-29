@@ -28,7 +28,7 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card card-outline card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Lista de Categorias</h3>
                 </div>
@@ -49,7 +49,7 @@
                                 <tr>
                                     <td>{{ $categoria->id }}</td>
                                     <td>{{ $categoria->nome }}</td>
-                                    <td>{{ $categoria->updated_at }}</td>
+                                    <td>{{ $categoria->updated_at->timezone('America/Sao_Paulo')->format('d/m/Y H:i') }}</td>
                                     <td class="d-flex flex-row project-actions text-right">
                                         <div class="mx-1">
                                             <a href="/categorias/{{ $categoria->id }}/edit" class="btn btn-success"><i class="fas fa-edit"></i></a>

@@ -28,7 +28,7 @@
 @section('content')
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card card-outline card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Mesas disponíveis</h3>
                 </div>
@@ -104,6 +104,11 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="card-footer clearfix">
+                    <div class="float-right">
+                        {{ $mesas->links('pagination::bootstrap-4') }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -119,5 +124,5 @@
 
 
 @section('js')
-    <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
+
 @stop
