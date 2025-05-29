@@ -29,17 +29,27 @@
                 placeholder="Deixe em branco para manter (somente edição)">
         </div>
 
+        @php
+            $config = [
+                "placeholder" => "Selecione os níveis de acesso",
+                "allowClear" => true,
+            ];
+        @endphp
         <div class="form-group">
-            <label for="inputRole">Nível de Acesso</label>
-            <select class="form-control" id="inputRole" name="role_id" required>
-                <option value="">-- Selecione um nível --</option>
+            <x-adminlte-select2 id="sel2Category" name="role_id[]" label="Nível de Acesso"
+                label-class="text-primary" igroup-size="sm" :config="$config" multiple>
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-gradient-blue">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                </x-slot>
                 @foreach($roles as $role)
                     <option value="{{ $role->id }}"
-                        {{ old('role_id', optional($usuario->roles->first())->id ?? '') == $role->id ? 'selected' : '' }}>
+                        {{ (in_array($role->id, old('role_id', $usuario->roles->pluck('id')->toArray() ?? []))) ? 'selected' : '' }}>
                         {{ ucfirst($role->name) }}
                     </option>
                 @endforeach
-            </select>
+            </x-adminlte-select2>
         </div>
     </div>
 

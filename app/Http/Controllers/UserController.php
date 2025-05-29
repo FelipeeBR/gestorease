@@ -54,7 +54,7 @@ class UserController extends Controller
             'password' => Hash::make($request->input('senha')),
         ]);
         
-        $user->roles()->attach($request->input('role_id'));
+        $user->roles()->sync($request->input('role_id', []));
 
         return redirect()->back()->with('success', 'Usuário cadastrado com sucesso!');
     }
@@ -88,6 +88,7 @@ class UserController extends Controller
             'nome' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id, 
             'senha' => 'nullable|min:6',
+            'role_id' => 'array',
             'role_id' => 'required|exists:roles,id',
         ], [
             'nome.required' => 'O campo Nome é obrigatório.',
@@ -105,7 +106,7 @@ class UserController extends Controller
         }
 
         $usuario->save();
-        $usuario->roles()->sync([$request->input('role_id')]);
+        $usuario->roles()->sync($request->input('role_id', []));
 
         return redirect()->back()->with('success', 'Usuário atualizado com sucesso!');
     }
