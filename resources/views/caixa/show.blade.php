@@ -180,6 +180,11 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="card-footer clearfix">
+                    <div class="float-right">
+                        {{ $comandas->links('pagination::bootstrap-4') }}
+                    </div>
+                </div>
             </div>
         </div>
     @endif

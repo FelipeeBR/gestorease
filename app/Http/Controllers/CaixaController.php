@@ -83,7 +83,7 @@ class CaixaController extends Controller
         if($request->filled('tipo')) {
             $query->where('tipo', $request->tipo);
         }
-        $comandas = $query->get();
+        $comandas = $query->paginate(15);
         return view('caixa.show', compact('caixa', 'comandas'));
     }
 
