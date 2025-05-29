@@ -69,11 +69,22 @@ class CaixaController extends Controller
     }
 
     // Mostrar um caixa específico
-    public function show($id)
+    public function show($id, Request $request)
     {
         $caixa = Caixa::with('user')->findOrFail($id);
-        $comandas = Comanda::where('caixa_id', $id)->orderBy('created_at', 'desc')->get();
-        return view('caixa.show', compact('caixa','comandas'));
+        $query = Comanda::where('caixa_id', $id)->orderBy('created_at', 'desc');
+        
+        if($request->filled('id')) {
+            $query->where('id', $request->id);
+        }
+        if($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        if($request->filled('tipo')) {
+            $query->where('tipo', $request->tipo);
+        }
+        $comandas = $query->get();
+        return view('caixa.show', compact('caixa', 'comandas'));
     }
 
     // Fechar o caixa
