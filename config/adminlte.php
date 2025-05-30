@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'logo' => '<b>Gestor</b>EASE',
+    'logo' => 'Gestor EASE',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -110,7 +110,7 @@ return [
     */
 
     'preloader' => [
-        'enabled' => true,
+        'enabled' => false,
         'mode' => 'fullscreen',
         'img' => [
             'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
@@ -365,72 +365,26 @@ return [
                 ],
             ],
         ],
-        ['header' => 'Gerencia de Usuários', 'can'  => 'gerenciar_usuarios',],
+        ['header' => 'Administrador', 'can'  => 'gerenciar_usuarios',],
         [
-            'text' => 'Usuários do Sistema',
-            'route' => 'users.index',
-            'icon' => 'fas fa-fw fa-user',
-            'can'  => 'gerenciar_usuarios', // nome da permissão ou gate
-        ],
-        [
-            'text' => 'Funcionários',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user-tie',
-        ],
-        [
-            'text' => 'multilevel',
-            'icon' => 'fas fa-fw fa-share',
+            'text' => 'Funções do Admin',
+            'icon' => 'fas fa-fw fa-user-cog',
+            'can'  => 'gerenciar_usuarios',
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
+                    'text' => 'Gerenciar Usuários',
+                    'route' => 'users.index',
+                    'icon' => 'fas fa-fw fa-user',
+                    'can'  => 'gerenciar_usuarios',
                 ],
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
+                   'text' => 'Gerenciar Funcionários',
+                    'url' => 'admin/settings',
+                    'icon' => 'fas fa-fw fa-user-tie',
+                    'can'  => 'gerenciar_usuarios',
                 ],
             ],
         ],
-        /*['header' => 'labels'],
-        [
-            'text' => 'important',
-            'icon_color' => 'red',
-            'url' => '#',
-        ],
-        [
-            'text' => 'warning',
-            'icon_color' => 'yellow',
-            'url' => '#',
-        ],
-        [
-            'text' => 'information',
-            'icon_color' => 'cyan',
-            'url' => '#',
-        ],*/
     ],
 
     /*
