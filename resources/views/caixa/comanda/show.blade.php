@@ -63,7 +63,10 @@
 
             <div class="row mb-4 d-flex flex-row-reverse">
                 <div class="col-md-auto">
-                    <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#modalMin"><i class="fas fa-lock"></i> Fechar Comanda</button>
+                    <button class="btn btn-primary no-print" onclick="printComanda()"><i class="fas fa-print"></i> Imprimir</button>
+                </div>
+                <div class="col-md-auto">
+                    <button class="btn btn-success" data-toggle="modal" data-target="#modalMin"><i class="fas fa-lock"></i> Fechar Comanda</button>
                 </div>
                 <div class="col-md-auto">
                     <form action="{{ route('caixa.comanda.cancelar', $comanda->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja cancelar esta comanda?');">
@@ -277,6 +280,77 @@
                 </table>
             </div>
         </div>
+
+        <div id="print-area" style="display:none;">
+            <div style="width:58mm; font-family: monospace; font-size: 12px; word-wrap: break-word;">
+                <div style="text-align: center;">
+                    <strong>ESTABELECIMENTO PIZZARIA</strong><br>
+                    Endereço: Rua Exemplo, 123<br>
+                    Tel: (00) 1234-5678
+                </div>
+                <hr style="border-top: 1px dashed #000; margin: 5px 0;">
+                <div>
+                    <strong>COMANDA: #{{ $comanda->id }}</strong><br>
+                    Data: {{ now()->format('d/m/Y H:i') }}<br>
+                    Cliente: {{ $comanda->cliente ?? 'Consumidor' }}<br>
+                    Atendente: {{ auth()->user()->name ?? 'Sistema' }}
+                </div>
+                <hr style="border-top: 1px dashed #000; margin: 5px 0;">
+                
+                <table style="width:100%; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left; width: 60%;">Item</th>
+                            <th style="text-align: center;">Qtd</th>
+                            <th style="text-align: right;">Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($comanda->itens as $item)
+                        <tr>
+                            <td style="text-align: left;">
+                                @if($item->borda_id !== null)
+                                    @php
+                                        $borda = $bordas_pizza->firstWhere('id', $item->borda_id);
+                                    @endphp
+
+                                    @if($borda)
+                                        {{ $item->produto->nome }} <br><small class="text-muted">+ {{ $borda->nome }} (R$ {{ number_format($bordas_pizza->firstWhere('id', $item->borda_id)->preco_adicional, 2, ',', '.') }})</small>
+
+                                    @else
+                                        {{ $item->produto->nome }}
+                                    @endif
+                                @else
+                                    {{ $item->produto->nome }}
+                                @endif
+                            </td>
+                            <td style="text-align: center;">{{ $item->quantidade }}</td>
+                            <td style="text-align: right;">R$ {{ number_format($item->preco_unitario, 2, ',', '.') }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                
+                <hr style="border-top: 1px dashed #000; margin: 5px 0;">
+                
+                <div style="text-align: right;">
+                    <strong>TOTAL: R$ {{ number_format($comanda->total, 2, ',', '.') }}</strong>
+                </div>
+                
+                @if($comanda->forma_pagamento)
+                <div>
+                    <strong>Pagamento:</strong> {{ ucfirst($comanda->forma_pagamento) }}
+                </div>
+                @endif
+                
+                <hr style="border-top: 1px dashed #000; margin: 5px 0;">
+                
+                <div style="text-align: center; font-size: 10px;">
+                    Obrigado pela preferência!<br>
+                    Volte sempre!
+                </div>
+            </div>
+        </div>
     </div>
 @stop
 
@@ -395,5 +469,52 @@
             }
         });
     });
+
+    function printComanda() {
+        // Cria um clone da área de impressão
+        const printContent = document.getElementById('print-area').cloneNode(true);
+        printContent.style.display = 'block';
+        
+        // Cria uma nova janela
+        const printWindow = window.open('', '_blank', 'width=800,height=600');
+        
+        // Escreve o conteúdo na nova janela
+        printWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Comanda #{{ $comanda->id }}</title>
+                <style>
+                    body { 
+                        font-family: monospace; 
+                        font-size: 12px; 
+                        margin: 0; 
+                        padding: 5px;
+                        width: 58mm;
+                    }
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+                    hr {
+                        border-top: 1px dashed #000;
+                        margin: 3px 0;
+                    }
+                </style>
+            </head>
+            <body>
+                ${printContent.innerHTML}
+            </body>
+            </html>
+        `);
+        
+        printWindow.document.close();
+        
+        // Espera o conteúdo carregar antes de imprimir
+        setTimeout(function() {
+            printWindow.print();
+            printWindow.close();
+        }, 200);
+    }
 </script>
 @endpush

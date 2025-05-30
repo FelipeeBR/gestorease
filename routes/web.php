@@ -27,7 +27,7 @@ Route::middleware(['auth.role:gerente'])->group(function () {
     Route::resource('produtos', ProdutoController::class);
 });
 
-Route::middleware(['auth.role:garcom'])->group(function () {
+Route::middleware(['auth.role:garcom,caixa'])->group(function () {
     Route::resource('mesas', MesaController::class);
 });
 
@@ -53,7 +53,7 @@ Route::resource('categorias', CategoriaController::class);
 Route::resource('bordas-pizza', BordaPizzaController::class);
 Route::post('/caixa/{caixa}/fechar', [CaixaController::class, 'fechar'])->name('caixa.fechar');
 
-Route::middleware(['auth.role:gerente'])->group(function () {
+Route::middleware(['auth.role:caixa'])->group(function () {
     Route::resource('pedidos', PedidoController::class);
 });
 
