@@ -9,6 +9,7 @@ use App\Http\Controllers\BordaPizzaController;
 use App\Http\Controllers\CaixaController;
 use App\Http\Controllers\ComandaController;
 use App\Http\Controllers\ItemComandaController;
+use App\Http\Controllers\TamanhoPizzaController;
 use App\Models\Categoria;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,10 @@ Route::middleware(['auth.role:caixa'])->group(function () {
     Route::resource('caixa', CaixaController::class);
 });
 Route::get('/caixa/{caixa}', [CaixaController::class, 'show'])->name('caixa.show');
+
+Route::middleware(['auth.role:admin'])->group(function () {
+    Route::resource('tamanho-pizza', TamanhoPizzaController::class);
+});
 
 Route::resource('pizzas', VariacaoPizzaController::class);
 Route::resource('categorias', CategoriaController::class);

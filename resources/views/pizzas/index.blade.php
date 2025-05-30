@@ -49,6 +49,7 @@
                                         <i class="fas fa-plus"></i> Nova Variação
                                     </a>
                                     <a href="/bordas-pizza" class="btn btn-warning"><i class="fas fa-list"></i> Bordas Pizza</a>
+                                    <a href="/tamanho-pizza" class="btn btn-danger"><i class="fas fa-list"></i> Tamanhos Pizza</a>
                                 </th>
                             </tr>
                             <!-- Linha de filtros -->

@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Criar Borda Pizza')
+@section('title', 'Adicionar Borda Pizza')
 
 @section('content_header')
-    <h1>Criar Borda Pizza</h1>
+    <h1>Adicionar Borda Pizza</h1>
     @if(session('success'))
         <x-adminlte-alert theme="success" title="Successo">
             {{ session('success') }}

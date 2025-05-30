@@ -8,9 +8,7 @@
     @endif
 
     <div class="card-body">
-
         <div class="row">
-            <!-- Produto -->
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="produto_id">Produto (Pizza)</label>
@@ -31,7 +29,6 @@
                 </div>
             </div>
     
-            <!-- Tamanho -->
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="tamanho_pizza_id">Tamanho</label>
@@ -54,7 +51,6 @@
         </div>
     
         <div class="row">
-            <!-- Preço -->
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="preco">Preço</label>
@@ -89,7 +85,6 @@
                 </div>
             </div> -->
     
-            <!-- Tipo -->
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="tipo">Tipo</label>

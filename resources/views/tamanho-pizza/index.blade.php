@@ -1,9 +1,12 @@
 @extends('adminlte::page')
 
-@section('title', 'Bordas Pizza')
+@section('plugins.TempusDominusBs4', true)
+@section('plugins.Moment', true)
+
+@section('title', 'Tamanhos de Pizza')
 
 @section('content_header')
-    <h4><i class="fa fa-pizza-slice"></i> Bordas Pizza</h4>
+    <h4><i class="fa fa-pizza-slice"></i> Tamanhos de Pizza</h4>
     @if(session('success'))
         @section('js')
             <script type="text/javascript">
@@ -30,7 +33,7 @@
         <div class="col-12">
             <div class="card card-outline card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Lista de Bordas</h3>
+                    <h3 class="card-title">Lista de Tamanhos</h3>
                 </div>
                 <div class="card-body table-responsive p-0">
                     <table class="table table-hover text-nowrap">
@@ -38,24 +41,24 @@
                             <tr>
                                 <th>ID</th>
                                 <th>NOME</th>
-                                <th>STATUS</th>
+                                <th>ATUALIZADO EM</th>
                                 <th>
-                                    <a href="/bordas-pizza/create" class="btn btn-primary"><i class="fas fa-plus"></i> Nova Borda</a>
+                                    <a href="/tamanho-pizza/create" class="btn btn-primary"><i class="fas fa-plus"></i> Novo Tamanho</a>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($bordas as $borda)
+                            @forelse ($tamanhos as $tamanho)
                                 <tr>
-                                    <td>{{ $borda->id }}</td>
-                                    <td>{{ $borda->nome }}</td>
-                                    <td>{{ ($borda->ativo == '1' || $borda->ativo === true ? 'Ativo' : 'Inativo') }}</td>
+                                    <td>{{ $tamanho->id }}</td>
+                                    <td>{{ $tamanho->nome }}</td>
+                                    <td>{{ $tamanho->updated_at->timezone('America/Sao_Paulo')->format('d/m/Y H:i') }}</td>
                                     <td class="d-flex flex-row project-actions text-right">
                                         <div class="mx-1">
-                                            <a href="/bordas-pizza/{{ $borda->id }}/edit" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                                            <a href="/tamanho-pizza/{{ $tamanho->id }}/edit" class="btn btn-success"><i class="fas fa-edit"></i></a>
                                         </div>
                                         <div class="mx-1">
-                                            <form action="{{ route('bordas-pizza.destroy', $borda->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta borda?');">
+                                            <form action="{{ route('tamanho-pizza.destroy', $tamanho->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta tamanho?');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i></button>
@@ -73,19 +76,10 @@
                 </div>
                 <div class="card-footer clearfix">
                     <div class="float-right">
-                        {{ $bordas->links('pagination::bootstrap-4') }}
+                        {{ $tamanhos->links('pagination::bootstrap-4') }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-@stop
-
-@section('css')
-    {{-- Add here extra stylesheets --}}
-    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
-@stop
-
-@section('js')
-    <script> console.log(""); </script>
 @stop
