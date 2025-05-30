@@ -10,6 +10,7 @@ use App\Http\Controllers\CaixaController;
 use App\Http\Controllers\ComandaController;
 use App\Http\Controllers\ItemComandaController;
 use App\Http\Controllers\TamanhoPizzaController;
+use App\Http\Controllers\PedidoController;
 use App\Models\Categoria;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +44,7 @@ Route::middleware(['auth.role:caixa'])->group(function () {
 });
 Route::get('/caixa/{caixa}', [CaixaController::class, 'show'])->name('caixa.show');
 
-Route::middleware(['auth.role:admin'])->group(function () {
+Route::middleware(['auth.role:gerente'])->group(function () {
     Route::resource('tamanho-pizza', TamanhoPizzaController::class);
 });
 
@@ -51,6 +52,10 @@ Route::resource('pizzas', VariacaoPizzaController::class);
 Route::resource('categorias', CategoriaController::class);
 Route::resource('bordas-pizza', BordaPizzaController::class);
 Route::post('/caixa/{caixa}/fechar', [CaixaController::class, 'fechar'])->name('caixa.fechar');
+
+Route::middleware(['auth.role:gerente'])->group(function () {
+    Route::resource('pedidos', PedidoController::class);
+});
 
 //Route::resource('users', UserController::class);
 //Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');

@@ -321,19 +321,20 @@ return [
             'can' => 'manage-blog',
         ],
         [
+            'key' => 'caixa',
             'text' => 'Gestão de Caixa',
             'url' => '/caixa',
             'icon' => 'fa fa-fw fa-cash-register',
             'label_color' => 'success',
         ],
-        [
+        /*[
             'key' => 'pedido',
             'text' => 'Pedidos',
-            'url' => 'admin/pedidos',
+            'url' => '/pedidos',
             'icon' => 'fa fa-fw fa-file-powerpoint',
             'label' => 30,
             'label_color' => 'success',
-        ],
+        ],*/
        /* [
             'key' => 'mesa',
             'text' => 'Mesas',

@@ -49,6 +49,15 @@ class AppServiceProvider extends ServiceProvider
 
         //Add menu Mesas
         $this->app['events']->listen(BuildingMenu::class, function (BuildingMenu $event) {
+            $event->menu->addAfter('caixa',[
+                'key' => 'pedido',
+                'text' => 'Pedidos',
+                'url'  => '/pedidos',
+                'icon' => 'fa fa-fw fa-file-powerpoint',
+                'label'       => \App\Models\Comanda::query()->where('status', 'aberta')->count(),
+                'label_color' => 'success',
+            ]);
+
             $event->menu->addAfter('pedido', [
                 'text' => 'Mesas',
                 'url' => '/mesas',
