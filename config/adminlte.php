@@ -354,15 +354,15 @@ return [
                     'icon' => 'fa fa-fw fa-pen-alt',
                 ],
                 [
-                    'text' => 'Pizzas',
+                    'text' => 'Gerenciar Pizzas',
                     'url' => '/pizzas',
                     'icon' => 'fa fa-fw fa-pizza-slice',
                 ],
-                [
+                /*[
                     'text' => 'Bebidas',
                     'url' => '/bebidas',
                     'icon' => 'fa fa-fw fa-cocktail',
-                ],
+                ],*/
             ],
         ],
         ['header' => 'Administrador', 'can'  => 'gerenciar_usuarios',],
@@ -381,6 +381,12 @@ return [
                    'text' => 'Gerenciar Funcionários',
                     'url' => 'admin/settings',
                     'icon' => 'fas fa-fw fa-user-tie',
+                    'can'  => 'gerenciar_usuarios',
+                ],
+                [
+                    'text' => 'Gerenciar Empresa',
+                    'url' => '/empresa',
+                    'icon' => 'fas fa-fw fa-building',
                     'can'  => 'gerenciar_usuarios',
                 ],
             ],

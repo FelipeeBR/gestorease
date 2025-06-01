@@ -77,6 +77,13 @@
   </section>
 @stop
 
+@section('footer')
+    <strong>Copyright © 2025.</strong>
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Versão Beta</b> 1.0
+    </div>
+@stop
+
 @section('css')
     {{-- Add here extra stylesheets --}}
     {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}

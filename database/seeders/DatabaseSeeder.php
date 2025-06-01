@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CategoriaSeeder::class);
         $this->call(TamanhoPizzaSeeder::class);
         $this->call(MesaSeeder::class);
+        $this->call(EmpresaSeeder::class);
         // User::factory(10)->create();
 
         /*User::factory()->create([
