@@ -365,9 +365,9 @@ return [
                 ],*/
             ],
         ],
-        ['header' => 'Administrador', 'can'  => 'gerenciar_usuarios',],
+        ['header' => 'Gerente e Admin', 'can'  => 'gerenciar_usuarios',],
         [
-            'text' => 'Funções do Admin',
+            'text' => 'Menu',
             'icon' => 'fas fa-fw fa-user-cog',
             'can'  => 'gerenciar_usuarios',
             'submenu' => [
@@ -384,7 +384,7 @@ return [
                     'can'  => 'gerenciar_usuarios',
                 ],
                 [
-                    'text' => 'Gerenciar Empresa',
+                    'text' => 'Dados Empresa',
                     'url' => '/empresa',
                     'icon' => 'fas fa-fw fa-building',
                     'can'  => 'gerenciar_usuarios',

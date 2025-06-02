@@ -105,8 +105,9 @@ class VariacaoPizzaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(VariacaoPizza $variacaoPizza)
+    public function edit($id)
     {
+        $variacaoPizza = VariacaoPizza::findOrFail($id);
         $categoria_pizza = Cache::remember('categoria_pizza', now()->addDay(), function () {
             return Categoria::where('nome', 'pizza')->firstOrFail();
         });
@@ -122,25 +123,14 @@ class VariacaoPizzaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, VariacaoPizza $variacaoPizza)
+    public function update(Request $request, string $id)
     {
+        $variacaoPizza = VariacaoPizza::findOrFail($id);
         $validated = $request->validate([
             'produto_id' => 'required|exists:produtos,id',
-            'tamanho_pizza_id' => [
-                'required',
-                'exists:tamanhos_pizza,id',
-                Rule::unique('variacoes_pizza')
-                    ->where(function ($query) use ($request) {
-                        return $query->where('produto_id', $request->produto_id)
-                                    ->where('tamanho_pizza_id', $request->tamanho_pizza_id);
-                    })
-                    ->ignore($variacaoPizza->id)
-            ],
+            'tamanho_pizza_id' => 'required|exists:tamanho_pizza,id',
             'preco' => 'required|numeric|min:0.01',
-            'estoque' => 'required|integer|min:0',
             'tipo' => 'required|in:salgada,doce'
-        ], [
-            'tamanho_pizza_id.unique' => 'Já existe uma variação para este produto com o mesmo tamanho.'
         ]);
 
         $variacaoPizza->update($validated);
@@ -148,6 +138,7 @@ class VariacaoPizzaController extends Controller
         return redirect()->route('pizzas.index')
             ->with('success', 'Variação atualizada com sucesso!');
     }
+
 
     /**
      * Remove the specified resource from storage.

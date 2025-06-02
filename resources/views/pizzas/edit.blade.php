@@ -26,10 +26,10 @@
 @stop
 
 @section('content')
-    <div class="card card-warning">
+    <div class="card card-outline card-warning">
         <div class="card-header">
             <h3 class="card-title">Atualize os Campos</h3>
         </div>
-        @include('pizzas.form', ['variacaoPizza' => $variacaoPizza])
+        @include('pizzas.form', ['variacao' => $variacaoPizza, 'produtos' => $produtos, 'tamanhos' => $tamanhos])
     </div>
 @stop

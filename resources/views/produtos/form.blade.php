@@ -44,7 +44,7 @@
         
         <div class="form-group">
             <label for="descricao">Descrição (Ex: Ingredientes)</label>
-            <textarea class="form-control" id="descricao" name="descricao" rows="3">{{ old('descricao', $produto->descricao ?? '') }}</textarea>
+            <textarea class="form-control" id="descricao" name="descricao" rows="3" placeholder="Opcional">{{ old('descricao', $produto->descricao ?? '') }}</textarea>
         </div>
         
         <div class="form-group" style="{{ isset($produto->categoria_id) && $produto->categoria_id == 3 ? 'display: none;' : '' }}">

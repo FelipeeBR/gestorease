@@ -93,7 +93,7 @@ class ProdutoController extends Controller
 
         $produto->save();
 
-        return redirect()->back()->with('success', 'Produto atualizado com sucesso!');
+        return redirect()->route('produtos.index')->with('success', 'Produto atualizado com sucesso!');
     }
 
     public function destroy(string $id)

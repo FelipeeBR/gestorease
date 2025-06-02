@@ -38,6 +38,10 @@ class MesaController extends Controller
         $validated = $request->validate([
             'numero' => 'required|string|max:50|unique:mesas',
             'status' => 'sometimes|in:livre,ocupada,reservada,inativa'
+        ], [
+            'numero.required' => 'O campo Número é obrigatório.',
+            'numero.unique' => 'O Número da mesa ja foi cadastrado.',
+            'status.in' => 'O campo Status deve ser livre, ocupada, reservada ou inativa.'
         ]);
 
         $mesa = Mesa::create([
