@@ -64,7 +64,7 @@
                         @forelse($comandas as $comanda)
                             <tr>
                                 <td>{{ $comanda->id }}</td>
-                                <td>{{ $comanda->tipo }}</td>
+                                <td class="text-uppercase">{{ $comanda->tipo }}</td>
                                 <td>
                                     <a href="{{ route('caixa.comanda.show', $comanda->id) }}" class="btn btn-sm btn-info">
                                         <i class="fas fa-eye"></i> Visiualizar
