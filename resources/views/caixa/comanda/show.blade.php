@@ -14,7 +14,7 @@
 @endphp
 
 @section('content_header')
-    <h4><i class="fas fa-clipboard"></i> Comanda #{{ $comanda->id }} <span class="badge {{ $bgClass }}">{{ $comanda->status }}</span></h4>
+    <h4><i class="fas fa-clipboard"></i> Comanda #{{ $comanda->id }} <span class="badge text-uppercase {{ $bgClass }}">{{ $comanda->status }}</span></h4>
     @if(session('success'))
         @section('js')
             <script type="text/javascript">
@@ -287,13 +287,14 @@
                 </table>
             </div>
         </div>
-        {{-- Documento de Comanda --}}
+        {{-- Documento de Impressão Comanda --}}
         <div id="print-area" style="display:none;">
             <div style="width:58mm; font-family: monospace; font-size: 12px; word-wrap: break-word;">
                 <div style="text-align: center;">
                     <strong>{{ $empresa->nome }}</strong><br>
                     Endereço: {{ $empresa->endereco }}, {{ $empresa->numero }}<br>
-                    Tel: (00) 1234-5678
+                    Tel: {{ isset($empresa->telefone) ? preg_replace("/(\d{2})(\d{4,5})(\d{4})/", "(\$1) \$2-\$3", $empresa->telefone) : 'N/A' }}
+                    {{ isset($empresa->cnpj) ? preg_replace("/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", $empresa->cnpj) : 'N/A' }}
                 </div>
                 <hr style="border-top: 1px dashed #000; margin: 5px 0;">
                 <div>

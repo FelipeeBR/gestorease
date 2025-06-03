@@ -49,13 +49,14 @@
 
         <!-- Campos para Delivery -->
         <div class="form-group campo-delivery">
-            <label for="endereco">Endereço</label>
+            <label for="endereco">Endereço (Rua, Bairro, Número)</label>
             <textarea name="endereco" id="endereco" class="form-control">{{ old('endereco', $comanda->endereco ?? '') }}</textarea>
         </div>
 
         <div class="form-group campo-delivery">
             <label for="telefone">Telefone</label>
-            <input type="text" name="telefone" id="telefone" class="form-control" value="{{ old('telefone', $comanda->telefone ?? '') }}">
+            <input type="text" name="telefone" id="telefone" class="form-control" value="{{ old('telefone', $comanda->telefone ?? '') }}"
+             data-inputmask='"mask": "(99) 99999-9999"' data-mask placeholder="(__) _____-____">
         </div>
 
         <!-- Campos comuns a todos -->
@@ -117,6 +118,7 @@
     // Executar ao carregar a página para configurar campos iniciais
     $(document).ready(function() {
         mostrarCamposPorTipo();
+        $('#telefone').inputmask('(99) 99999-9999');
     });
 </script>
 @stop
