@@ -16,7 +16,7 @@ class EmpresaSeeder extends Seeder
         $empresa = new Empresa();
         $empresa->nome = 'Gestor EASE';
         $empresa->cnpj = '00.000.000/0001-00';
-        $empresa->telefone = 'N/A';
+        $empresa->telefone = '(00) 00000-0000';
         $empresa->email = 'N/A';
         $empresa->endereco = 'N/A';
         $empresa->numero = 'N/A';

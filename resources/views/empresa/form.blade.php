@@ -20,15 +20,15 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="telefone">CNPJ</label>
-                        <input type="text" class="form-control" id="cnpj" name="cnpj" 
-                            value="{{ old('cnpj', $empresa->cnpj ?? '') }}" required>
+                        <input type="text" class="form-control" id="cnpj" name="cnpj" data-inputmask="'mask': '99.999.999/9999-99'"
+                            value="{{ old('cnpj', $empresa->cnpj ?? '') }}" data-mask placeholder="__.___.___/____-__" required>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="telefone">Telefone</label>
-                        <input type="text" class="form-control" id="telefone" name="telefone" 
-                            value="{{ old('telefone', $empresa->telefone ?? '') }}" required>
+                        <input type="text" class="form-control" id="telefone" name="telefone" data-inputmask='"mask": "(99) 99999-9999"' 
+                            value="{{ old('telefone', $empresa->telefone ?? '') }}" data-mask placeholder="(__) _____-____" required>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -48,8 +48,8 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="cep">CEP</label>
-                        <input type="text" class="form-control" id="cep" name="cep" 
-                            value="{{ old('cep', $empresa->cep ?? '') }}" required>
+                        <input type="text" class="form-control" id="cep" name="cep"  data-inputmask="'mask': '99999-999'"
+                            value="{{ old('cep', $empresa->cep ?? '') }}" data-mask placeholder="_____-___" required>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -87,3 +87,13 @@
         </div>
     </div>
 </form>
+
+@section('js')
+    <script>
+        $(document).ready(function(){
+            $('#telefone').inputmask('(99) 99999-9999'); 
+            $('#cnpj').inputmask('99.999.999/9999-99'); 
+            $('#cep').inputmask('99999-999');
+        });
+    </script>
+@endsection
