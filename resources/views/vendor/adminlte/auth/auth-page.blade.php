@@ -27,7 +27,7 @@
     <div class="{{ $auth_type ?? 'login' }}-box">
 
         {{-- Logo --}}
-        <div class="{{ $auth_type ?? 'login' }}-logo">
+        <div class="{{ $auth_type ?? 'login' }}-logo font-weight-bold">
             <a href="{{ $dashboard_url }}">
 
                 {{-- Logo Image --}}
