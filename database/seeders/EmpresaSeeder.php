@@ -15,15 +15,15 @@ class EmpresaSeeder extends Seeder
     {
         $empresa = new Empresa();
         $empresa->nome = 'Gestor EASE';
-        $empresa->cnpj = '00.000.000/0001-00';
-        $empresa->telefone = '(00) 00000-0000';
+        $empresa->cnpj = '00000000000100';
+        $empresa->telefone = '00000000000';
         $empresa->email = 'N/A';
         $empresa->endereco = 'N/A';
         $empresa->numero = 'N/A';
         $empresa->bairro = 'N/A';
         $empresa->cidade = 'N/A';
         $empresa->uf = 'MG';
-        $empresa->cep = '00000-000';
+        $empresa->cep = '00000000';
         $empresa->save();
     }
 }

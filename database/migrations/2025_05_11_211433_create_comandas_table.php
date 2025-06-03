@@ -23,6 +23,8 @@ return new class extends Migration
             $table->decimal('total', 10, 2);
             $table->foreignId('caixa_id')->references('id')->on('caixas');
             $table->text('observacoes')->nullable();
+            $table->decimal('taxa_entrega', 10, 2)->default(0);
+            $table->decimal('desconto', 10, 2)->default(0);
             $table->timestamps();
         });
     }

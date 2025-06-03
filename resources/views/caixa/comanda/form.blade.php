@@ -59,6 +59,11 @@
              data-inputmask='"mask": "(99) 99999-9999"' data-mask placeholder="(__) _____-____">
         </div>
 
+        <div class="form-group campo-delivery">
+            <label for="taxa_entrega">Taxa de Entrega</label>
+            <input type="number" step="0.01" name="taxa_entrega" id="taxa_entrega" class="form-control" value="{{ old('taxa_entrega', $comanda->taxa_entrega ?? 0) }}">
+        </div>
+
         <!-- Campos comuns a todos -->
         <div class="form-group">
             <label for="status">Status</label>
