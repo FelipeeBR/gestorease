@@ -15,6 +15,7 @@ class ItemComanda extends Model
         'comanda_id',
         'produto_id',
         'borda_id',
+        'variacao_pizza_id',
         'quantidade',
         'preco_unitario',
         'subtotal',
@@ -30,5 +31,10 @@ class ItemComanda extends Model
     public function produto()
     {
         return $this->belongsTo(Produto::class);
+    }
+
+    public function variacaoPizza()
+    {
+        return $this->belongsTo(VariacaoPizza::class, 'variacao_pizza_id');
     }
 }

@@ -11,6 +11,7 @@ use App\Models\VariacaoPizza;
 use App\Models\BordaPizza;
 use App\Models\TamanhoPizza;
 use App\Models\ItemComanda;
+use App\Models\Empresa;
 
 class ComandaController extends Controller
 {
@@ -33,13 +34,15 @@ class ComandaController extends Controller
     // Mostrar uma comanda específica
     public function show($id)
     {
-        $comanda = Comanda::with('itens')->findOrFail($id);
+        //$comanda = Comanda::with('itens')->findOrFail($id);
+        $comanda = Comanda::with('itens.variacaoPizza.tamanhoPizza')->findOrFail($id);
         $produtos = Produto::all();
         $variacoes_pizza = VariacaoPizza::all();
         $bordas_pizza = BordaPizza::all();
         $tamanhos_pizza = TamanhoPizza::all();
+        $empresa = Empresa::first();
         return view('caixa.comanda.show', compact(
-            'comanda', 'produtos', 'variacoes_pizza', 'bordas_pizza', 'tamanhos_pizza'
+            'comanda', 'produtos', 'variacoes_pizza', 'bordas_pizza', 'tamanhos_pizza', 'empresa'
         ));
     }
 

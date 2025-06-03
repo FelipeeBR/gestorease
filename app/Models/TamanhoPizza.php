@@ -16,6 +16,11 @@ class TamanhoPizza extends Model
         return $this->hasMany(VariacaoPizza::class);
     }
 
+    public function variacoes()
+    {
+        return $this->hasMany(VariacaoPizza::class, 'tamanho_pizza_id');
+    }
+
     public static function boot()
     {
         parent::boot();

@@ -76,6 +76,14 @@
                 </div>
             </div>
         @endif
+
+        @if($comanda->status == 'fechada')
+            <div class="row mb-4 d-flex flex-row-reverse">
+                <div class="col-md-auto">
+                    <button class="btn btn-primary no-print" onclick="printComanda()"><i class="fas fa-print"></i> Imprimir</button>
+                </div>
+            </div>
+        @endif
         <div class="card card-outline card-primary">
             <div class="card-header">
                 <h5 class="mb-0">Informações</h5>  
@@ -233,8 +241,7 @@
                                     @endphp
 
                                     @if($borda)
-                                        {{ $item->produto->nome }} <br><small class="text-muted">+ {{ $borda->nome }} (R$ {{ number_format($bordas_pizza->firstWhere('id', $item->borda_id)->preco_adicional, 2, ',', '.') }})</small>
-
+                                        {{ $item->produto->nome }} ({{ $item->variacaoPizza->tamanhoPizza->nome ?? '' }}) <br><small class="text-muted">+ {{ $borda->nome }} (R$ {{ number_format($bordas_pizza->firstWhere('id', $item->borda_id)->preco_adicional, 2, ',', '.') }})</small>
                                     @else
                                         {{ $item->produto->nome }}
                                     @endif
@@ -280,18 +287,18 @@
                 </table>
             </div>
         </div>
-
+        {{-- Documento de Comanda --}}
         <div id="print-area" style="display:none;">
             <div style="width:58mm; font-family: monospace; font-size: 12px; word-wrap: break-word;">
                 <div style="text-align: center;">
-                    <strong>ESTABELECIMENTO PIZZARIA</strong><br>
-                    Endereço: Rua Exemplo, 123<br>
+                    <strong>{{ $empresa->nome }}</strong><br>
+                    Endereço: {{ $empresa->endereco }}, {{ $empresa->numero }}<br>
                     Tel: (00) 1234-5678
                 </div>
                 <hr style="border-top: 1px dashed #000; margin: 5px 0;">
                 <div>
                     <strong>COMANDA: #{{ $comanda->id }}</strong><br>
-                    Data: {{ now()->format('d/m/Y H:i') }}<br>
+                    Data: {{ $comanda->created_at->timezone('America/Sao_Paulo')->format('d/m/Y H:i') }}<br>
                     Cliente: {{ $comanda->cliente ?? 'Consumidor' }}<br>
                     Atendente: {{ auth()->user()->name ?? 'Sistema' }}
                 </div>
@@ -338,9 +345,9 @@
                 </div>
                 
                 @if($comanda->forma_pagamento)
-                <div>
-                    <strong>Pagamento:</strong> {{ ucfirst($comanda->forma_pagamento) }}
-                </div>
+                    <div>
+                        <strong>Pagamento:</strong> {{ ucfirst($comanda->forma_pagamento) }}
+                    </div>
                 @endif
                 
                 <hr style="border-top: 1px dashed #000; margin: 5px 0;">
