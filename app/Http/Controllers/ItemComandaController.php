@@ -17,6 +17,7 @@ class ItemComandaController extends Controller
             'borda_id' => 'nullable|exists:borda_pizza,id'
         ]);
 
+        $validated['variacao_pizza_id'] = $request->variacao_pizza;
         $validated['preco_unitario'] = $request->preco_unitario;
         $validated['borda_id'] = $request->borda_id;
         $validated['comanda_id'] = $comanda;

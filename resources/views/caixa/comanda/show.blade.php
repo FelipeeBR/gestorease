@@ -241,12 +241,12 @@
                                     @endphp
 
                                     @if($borda)
-                                        {{ $item->produto->nome }} ({{ $item->variacaoPizza->tamanhoPizza->nome ?? '' }}) <br><small class="text-muted">+ {{ $borda->nome }} (R$ {{ number_format($bordas_pizza->firstWhere('id', $item->borda_id)->preco_adicional, 2, ',', '.') }})</small>
+                                        {{ $item->produto->nome }} <br><small class="text-muted">{{ $item->variacaoPizza->tamanhoPizza->nome ?? '' }} + {{ $borda->nome }} (R$ {{ number_format($bordas_pizza->firstWhere('id', $item->borda_id)->preco_adicional, 2, ',', '.') }})</small>
                                     @else
-                                        {{ $item->produto->nome }}
+                                        {{ $item->produto->nome }} <br><small class="text-muted">{{ $item->variacaoPizza->tamanhoPizza->nome ?? '' }}</small>
                                     @endif
                                 @else
-                                    {{ $item->produto->nome }}
+                                    {{ $item->produto->nome }} <br><small class="text-muted">{{ $item->variacaoPizza->tamanhoPizza->nome ?? '' }}</small>
                                 @endif
                             </td>
                             <td>{{ $item->quantidade }}</td>
@@ -322,13 +322,13 @@
                                     @endphp
 
                                     @if($borda)
-                                        {{ $item->produto->nome }} <br><small class="text-muted">+ {{ $borda->nome }} (R$ {{ number_format($bordas_pizza->firstWhere('id', $item->borda_id)->preco_adicional, 2, ',', '.') }})</small>
+                                        {{ $item->produto->nome }} <br><small class="text-muted">{{ $item->variacaoPizza->tamanhoPizza->nome ?? '' }} + {{ $borda->nome }} (R$ {{ number_format($bordas_pizza->firstWhere('id', $item->borda_id)->preco_adicional, 2, ',', '.') }})</small>
 
                                     @else
-                                        {{ $item->produto->nome }}
+                                        {{ $item->produto->nome }} <br><small class="text-muted">{{ $item->variacaoPizza->tamanhoPizza->nome ?? '' }}</small>
                                     @endif
                                 @else
-                                    {{ $item->produto->nome }}
+                                    {{ $item->produto->nome }} <br><small class="text-muted">{{ $item->variacaoPizza->tamanhoPizza->nome ?? '' }}</small>
                                 @endif
                             </td>
                             <td style="text-align: center;">{{ $item->quantidade }}</td>

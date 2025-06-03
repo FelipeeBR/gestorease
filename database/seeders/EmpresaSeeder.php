@@ -14,16 +14,16 @@ class EmpresaSeeder extends Seeder
     public function run(): void
     {
         $empresa = new Empresa();
-        $empresa->nome = 'N/A';
-        $empresa->cnpj = 'N/A';
+        $empresa->nome = 'Gestor EASE';
+        $empresa->cnpj = '00.000.000/0001-00';
         $empresa->telefone = 'N/A';
         $empresa->email = 'N/A';
         $empresa->endereco = 'N/A';
         $empresa->numero = 'N/A';
         $empresa->bairro = 'N/A';
         $empresa->cidade = 'N/A';
-        $empresa->uf = 'NA';
-        $empresa->cep = 'N/A';
+        $empresa->uf = 'MG';
+        $empresa->cep = '00000-000';
         $empresa->save();
     }
 }
