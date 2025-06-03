@@ -19,6 +19,7 @@ class Comanda extends Model
         'total',
         'caixa_id',
         'observacoes',
+        'taxa_entrega',
     ];
 
     // Relacionamento com Caixa

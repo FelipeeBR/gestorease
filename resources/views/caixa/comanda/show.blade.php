@@ -103,6 +103,13 @@
                                         </p>
                                     @endif
                                 </div>
+                                @if($comanda->tipo == 'delivery')
+                                    <div>
+                                        <p>
+                                            <strong>Taxa de Entrega:</strong><span> R$ {{ number_format($comanda->taxa_entrega, 2, ',', '.') }}</span>
+                                        </p>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>

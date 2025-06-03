@@ -59,6 +59,7 @@ class ComandaController extends Controller
             'total' => 'required|numeric',
             'caixa_id' => 'required|exists:caixas,id',
             'observacoes' => 'nullable|string',
+            'taxa_entrega' => 'nullable|numeric',
         ], [
             'tipo.required' => 'O campo Tipo é obrigatório.',
             'status.required' => 'O campo Status é obrigatório.',
@@ -73,7 +74,7 @@ class ComandaController extends Controller
 
         $comanda = Comanda::create($validated);
 
-        return redirect()->route('caixa.comanda.show', ['comanda' => $comanda->id]);
+        return redirect()->route('caixa.comanda.show', ['comanda' => $comanda->id])->with('success', 'Comanda criada com sucesso!');
     }
 
     // Atualizar comanda
@@ -91,11 +92,12 @@ class ComandaController extends Controller
             'total' => 'nullable|numeric',
             'caixa_id' => 'nullable|exists:caixas,id',
             'observacoes' => 'nullable|string',
+            'taxa_entrega' => 'nullable|numeric',
         ]);
 
         $comanda->update($validated);
 
-        return redirect()->route('caixa.comanda.show', ['comanda' => $comanda->id]);
+        return redirect()->route('caixa.comanda.show', ['comanda' => $comanda->id])->with('success', 'Comanda atualizada com sucesso!');
     }
 
     // Deletar comanda
@@ -104,7 +106,7 @@ class ComandaController extends Controller
         $comanda = Comanda::findOrFail($id);
         $comanda->delete();
 
-        return response()->json(['message' => 'Comanda deletada com sucesso']);
+        return redirect()->route('caixa.index')->with('success', 'Comanda excluida com sucesso!');
     }
 
     public function edit($id)
