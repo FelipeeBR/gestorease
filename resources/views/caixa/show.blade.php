@@ -189,6 +189,92 @@
         </div>
     @endif
 
+    @if($caixa->data_fechamento)
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h5 class="mb-0">Pedidos</h5>
+            </div>
+            <div class="card-body">
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>N° Comanda</th>
+                                <th>Status</th>
+                                <th>Tipo</th>
+                                <th>Ações</th>
+                            </tr>
+                            <tr>
+                                <form method="GET" action="{{ route('caixa.show', ['caixa' => $caixa->id]) }}">
+                                    <input type="hidden" name="caixa_id" value="{{ $caixa->id }}">
+                                    <th>
+                                        <input type="text" name="id" id="id" class="form-control form-control-sm" placeholder="N° Pedido">
+                                    </th>
+                                    <th>
+                                        <select type="text" name="status" id="status" class="form-control form-control-sm" placeholder="Filtrar Status">
+                                            <option value="">-- Filtrar Status --</option>
+                                            <option value="aberta" {{ request('status') == 'aberta' ? 'selected' : '' }}>Aberta</option>
+                                            <option value="fechada" {{ request('status') == 'fechada' ? 'selected' : '' }}>Fechada</option>
+                                            <option value="cancelada" {{ request('status') == 'cancelada' ? 'selected' : '' }}>Cancelada</option>
+                                        </select>
+                                    </th>
+                                    <th>
+                                        <select type="text" name="tipo" id="tipo" class="form-control form-control-sm" placeholder="Filtrar Tipo">
+                                            <option value="">-- Filtrar Tipo --</option>
+                                            <option value="mesa" {{ request('tipo') == 'mesa' ? 'selected' : '' }}>Mesa</option>
+                                            <option value="delivery" {{ request('tipo') == 'delivery' ? 'selected' : '' }}>Delivery</option>
+                                            <option value="balcao" {{ request('tipo') == 'balcao' ? 'selected' : '' }}>Balcão</option>
+                                        </select>
+                                    </th>
+                                    <th>
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-filter"></i> Filtrar
+                                        </button>
+                                    </th>
+                                </form> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($comandas as $comanda)
+                                @php
+                                    $bgClass = 'bg-success'; 
+                                    if ($comanda->status === 'aberta') {
+                                        $bgClass = 'bg-success';
+                                    } elseif ($comanda->status === 'fechada') {
+                                        $bgClass = 'bg-danger';
+                                    } elseif ($comanda->status === 'cancelada') {
+                                        $bgClass = 'bg-secondary';
+                                    }
+                                @endphp
+                                <tr>
+                                    <td>{{ $comanda->id }}</td>
+                                    <td>
+                                        <span class="badge {{ $bgClass }} text-uppercase">{{ $comanda->status }}</span>
+                                    </td>
+                                    <td class="text-uppercase">{{ $comanda->tipo }}</td>
+                                    <td>
+                                        <a href="{{ route('caixa.comanda.show', $comanda->id) }}" class="btn btn-sm btn-info">
+                                            <i class="fas fa-eye"></i> Visiualizar
+                                        </a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="text-center">Nenhum pedido registrado</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer clearfix">
+                    <div class="float-right">
+                        {{ $comandas->links('pagination::bootstrap-4') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     @if($caixa->observacoes)
     <div class="card">
         <div class="card-header bg-secondary text-white">
