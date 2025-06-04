@@ -94,22 +94,27 @@
                         <div class="card card-outline card-secondary flex-fill text-center shadow-sm mx-2">
                             <div class="card-body">
                                 <div class="mb-4">
-                                    <p class="h3 mb-0">
-                                        <strong>Total:</strong> R$ {{ number_format($comanda->total, 2, ',', '.') }}
-                                    </p>
+                                    @if($comanda->tipo == 'delivery')
+                                        <div>
+                                            <p>
+                                                <strong>Taxa de Entrega:</strong><span> R$ {{ number_format($comanda->taxa_entrega, 2, ',', '.') }} + <strong>Pedido:</strong> R$ {{ number_format($comanda->total, 2, ',', '.') }}</span>
+                                            </p>
+                                            <p class="h3 mb-0">
+                                                <strong>Total:</strong> R$ {{ number_format($comanda->total+$comanda->taxa_entrega, 2, ',', '.') }}
+                                            </p>
+                                        </div>
+                                    @else
+                                        <p class="h3 mb-0">
+                                            <strong>Total:</strong> R$ {{ number_format($comanda->total, 2, ',', '.') }}
+                                        </p>
+                                    @endif
+
                                     @if($comanda->status == 'fechada')
                                         <p>
                                             <strong>Forma de Pagamento:</strong><span class="badge bg-primary h5">{{ $comanda->forma_pagamento ?? 'N/A' }}</span> 
                                         </p>
                                     @endif
                                 </div>
-                                @if($comanda->tipo == 'delivery')
-                                    <div>
-                                        <p>
-                                            <strong>Taxa de Entrega:</strong><span> R$ {{ number_format($comanda->taxa_entrega, 2, ',', '.') }}</span>
-                                        </p>
-                                    </div>
-                                @endif
                             </div>
                         </div>
                     </div>
@@ -295,77 +300,153 @@
             </div>
         </div>
         {{-- Documento de Impressão Comanda --}}
-        <div id="print-area" style="display:none;">
-            <div style="width:58mm; font-family: monospace; font-size: 12px; word-wrap: break-word;">
-                <div style="text-align: center;">
-                    <strong>{{ $empresa->nome }}</strong><br>
-                    Endereço: {{ $empresa->endereco }}, {{ $empresa->numero }}<br>
-                    Tel: {{ isset($empresa->telefone) ? preg_replace("/(\d{2})(\d{4,5})(\d{4})/", "(\$1) \$2-\$3", $empresa->telefone) : 'N/A' }}
-                    {{ isset($empresa->cnpj) ? preg_replace("/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", $empresa->cnpj) : 'N/A' }}
-                </div>
-                <hr style="border-top: 1px dashed #000; margin: 5px 0;">
-                <div>
-                    <strong>COMANDA: #{{ $comanda->id }}</strong><br>
-                    Data: {{ $comanda->created_at->timezone('America/Sao_Paulo')->format('d/m/Y H:i') }}<br>
-                    Cliente: {{ $comanda->cliente ?? 'Consumidor' }}<br>
-                    Atendente: {{ auth()->user()->name ?? 'Sistema' }}
-                </div>
-                <hr style="border-top: 1px dashed #000; margin: 5px 0;">
-                
-                <table style="width:100%; border-collapse: collapse;">
-                    <thead>
-                        <tr>
-                            <th style="text-align: left; width: 60%;">Item</th>
-                            <th style="text-align: center;">Qtd</th>
-                            <th style="text-align: right;">Valor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($comanda->itens as $item)
-                        <tr>
-                            <td style="text-align: left;">
-                                @if($item->borda_id !== null)
-                                    @php
-                                        $borda = $bordas_pizza->firstWhere('id', $item->borda_id);
-                                    @endphp
+        @if($comanda->tipo == 'delivery')
+            <div id="print-area" style="display:none;">
+                <div style="width:58mm; font-family: monospace; font-size: 12px; word-wrap: break-word;">
+                    <div style="text-align: center;">
+                        <strong>{{ $empresa->nome }}</strong><br>
+                        Endereço: {{ $empresa->endereco }}, {{ $empresa->numero }}<br>
+                        Tel: {{ isset($empresa->telefone) ? preg_replace("/(\d{2})(\d{4,5})(\d{4})/", "(\$1) \$2-\$3", $empresa->telefone) : 'N/A' }}
+                        {{ isset($empresa->cnpj) ? preg_replace("/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", $empresa->cnpj) : 'N/A' }}
+                    </div>
+                    <hr style="border-top: 1px dashed #000; margin: 5px 0;">
+                    <div>
+                        <strong>COMANDA: #{{ $comanda->id }}</strong><br>
+                        Data: {{ $comanda->created_at->timezone('America/Sao_Paulo')->format('d/m/Y H:i') }}<br>
+                        Cliente: {{ $comanda->cliente ?? 'Consumidor' }}<br>
+                        Endereço: {{ $comanda->endereco ?? 'N/A' }}<br>
+                        Telefone: {{ $comanda->telefone ?? 'N/A' }}
+                        <hr style="border-top: 1px dashed #000; margin: 5px 0;">
+                        Atendente: {{ auth()->user()->name ?? 'Sistema' }}
+                    </div>
+                    <hr style="border-top: 1px dashed #000; margin: 5px 0;">
+                    
+                    <table style="width:100%; border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th style="text-align: left; width: 60%;">Item</th>
+                                <th style="text-align: center;">Qtd</th>
+                                <th style="text-align: right;">Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($comanda->itens as $item)
+                            <tr>
+                                <td style="text-align: left;">
+                                    @if($item->borda_id !== null)
+                                        @php
+                                            $borda = $bordas_pizza->firstWhere('id', $item->borda_id);
+                                        @endphp
 
-                                    @if($borda)
-                                        {{ $item->produto->nome }} <br><small class="text-muted">{{ $item->variacaoPizza->tamanhoPizza->nome ?? '' }} + {{ $borda->nome }} (R$ {{ number_format($bordas_pizza->firstWhere('id', $item->borda_id)->preco_adicional, 2, ',', '.') }})</small>
+                                        @if($borda)
+                                            {{ $item->produto->nome }} <br><small class="text-muted">{{ $item->variacaoPizza->tamanhoPizza->nome ?? '' }} + {{ $borda->nome }} (R$ {{ number_format($bordas_pizza->firstWhere('id', $item->borda_id)->preco_adicional, 2, ',', '.') }})</small>
 
+                                        @else
+                                            {{ $item->produto->nome }} <br><small class="text-muted">{{ $item->variacaoPizza->tamanhoPizza->nome ?? '' }}</small>
+                                        @endif
                                     @else
                                         {{ $item->produto->nome }} <br><small class="text-muted">{{ $item->variacaoPizza->tamanhoPizza->nome ?? '' }}</small>
                                     @endif
-                                @else
-                                    {{ $item->produto->nome }} <br><small class="text-muted">{{ $item->variacaoPizza->tamanhoPizza->nome ?? '' }}</small>
-                                @endif
-                            </td>
-                            <td style="text-align: center;">{{ $item->quantidade }}</td>
-                            <td style="text-align: right;">R$ {{ number_format($item->preco_unitario, 2, ',', '.') }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                
-                <hr style="border-top: 1px dashed #000; margin: 5px 0;">
-                
-                <div style="text-align: right;">
-                    <strong>TOTAL: R$ {{ number_format($comanda->total, 2, ',', '.') }}</strong>
-                </div>
-                
-                @if($comanda->forma_pagamento)
-                    <div>
-                        <strong>Pagamento:</strong> {{ ucfirst($comanda->forma_pagamento) }}
+                                </td>
+                                <td style="text-align: center;">{{ $item->quantidade }}</td>
+                                <td style="text-align: right;">R$ {{ number_format($item->preco_unitario, 2, ',', '.') }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    
+                    <hr style="border-top: 1px dashed #000; margin: 5px 0;">
+                    Taxa de Entrega: R$ {{ number_format($comanda->taxa_entrega, 2, ',', '.') }}<br>
+                    <div style="text-align: right;">
+                        <strong>TOTAL: R$ {{ number_format($comanda->total+$comanda->taxa_entrega, 2, ',', '.') }}</strong>
                     </div>
-                @endif
-                
-                <hr style="border-top: 1px dashed #000; margin: 5px 0;">
-                
-                <div style="text-align: center; font-size: 10px;">
-                    Obrigado pela preferência!<br>
-                    Volte sempre!
+                    
+                    @if($comanda->forma_pagamento)
+                        <div>
+                            <strong>Pagamento:</strong> {{ ucfirst($comanda->forma_pagamento) }}
+                        </div>
+                    @endif
+                    
+                    <hr style="border-top: 1px dashed #000; margin: 5px 0;">
+                    
+                    <div style="text-align: center; font-size: 10px;">
+                        Obrigado pela preferência!<br>
+                        Volte sempre!
+                    </div>
                 </div>
             </div>
-        </div>
+        @else
+            <div id="print-area" style="display:none;">
+                <div style="width:58mm; font-family: monospace; font-size: 12px; word-wrap: break-word;">
+                    <div style="text-align: center;">
+                        <strong>{{ $empresa->nome }}</strong><br>
+                        Endereço: {{ $empresa->endereco }}, {{ $empresa->numero }}<br>
+                        Tel: {{ isset($empresa->telefone) ? preg_replace("/(\d{2})(\d{4,5})(\d{4})/", "(\$1) \$2-\$3", $empresa->telefone) : 'N/A' }}
+                        {{ isset($empresa->cnpj) ? preg_replace("/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", $empresa->cnpj) : 'N/A' }}
+                    </div>
+                    <hr style="border-top: 1px dashed #000; margin: 5px 0;">
+                    <div>
+                        <strong>COMANDA: #{{ $comanda->id }}</strong><br>
+                        Data: {{ $comanda->created_at->timezone('America/Sao_Paulo')->format('d/m/Y H:i') }}<br>
+                        Atendente: {{ auth()->user()->name ?? 'Sistema' }}
+                    </div>
+                    <hr style="border-top: 1px dashed #000; margin: 5px 0;">
+                    
+                    <table style="width:100%; border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th style="text-align: left; width: 60%;">Item</th>
+                                <th style="text-align: center;">Qtd</th>
+                                <th style="text-align: right;">Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($comanda->itens as $item)
+                            <tr>
+                                <td style="text-align: left;">
+                                    @if($item->borda_id !== null)
+                                        @php
+                                            $borda = $bordas_pizza->firstWhere('id', $item->borda_id);
+                                        @endphp
+
+                                        @if($borda)
+                                            {{ $item->produto->nome }} <br><small class="text-muted">{{ $item->variacaoPizza->tamanhoPizza->nome ?? '' }} + {{ $borda->nome }} (R$ {{ number_format($bordas_pizza->firstWhere('id', $item->borda_id)->preco_adicional, 2, ',', '.') }})</small>
+
+                                        @else
+                                            {{ $item->produto->nome }} <br><small class="text-muted">{{ $item->variacaoPizza->tamanhoPizza->nome ?? '' }}</small>
+                                        @endif
+                                    @else
+                                        {{ $item->produto->nome }} <br><small class="text-muted">{{ $item->variacaoPizza->tamanhoPizza->nome ?? '' }}</small>
+                                    @endif
+                                </td>
+                                <td style="text-align: center;">{{ $item->quantidade }}</td>
+                                <td style="text-align: right;">R$ {{ number_format($item->preco_unitario, 2, ',', '.') }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    
+                    <hr style="border-top: 1px dashed #000; margin: 5px 0;">
+                    
+                    <div style="text-align: right;">
+                        <strong>TOTAL: R$ {{ number_format($comanda->total, 2, ',', '.') }}</strong>
+                    </div>
+                    
+                    @if($comanda->forma_pagamento)
+                        <div>
+                            <strong>Pagamento:</strong> {{ ucfirst($comanda->forma_pagamento) }}
+                        </div>
+                    @endif
+                    
+                    <hr style="border-top: 1px dashed #000; margin: 5px 0;">
+                    
+                    <div style="text-align: center; font-size: 10px;">
+                        Obrigado pela preferência!<br>
+                        Volte sempre!
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 @stop
 
