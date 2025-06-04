@@ -59,7 +59,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app['events']->listen(BuildingMenu::class, function (BuildingMenu $event) {
             $event->menu->addAfter('caixa',[
                 'key' => 'pedido',
-                'text' => 'Pedidos',
+                'text' => 'Pedidos Abertos',
                 'url'  => '/pedidos',
                 'icon' => 'fa fa-fw fa-file-powerpoint',
                 'label'       => \App\Models\Comanda::query()->where('status', 'aberta')->count(),
