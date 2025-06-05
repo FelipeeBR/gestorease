@@ -70,10 +70,63 @@
             </a>
           </div>
         </div>
-        <!-- ./col -->
       </div>
-      <!-- /.row (main row) -->
-    </div><!-- /.container-fluid -->
+      <div class="row">
+        <div class="col-lg-6 col-4">
+          <div class="card card-outline card-warning">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i> Produtos com estoque baixo</h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+              </div>
+            </div>
+            <div class="card-body">
+              <table class="table table-hover text-nowrap">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Quantidade</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @forelse ($produtosEstoque as $produto)
+                    <tr>
+                      <td>{{ $produto->id }}</td>
+                      <td>{{ $produto->nome }}</td>
+                      <td>{{ $produto->quantidade_estoque }}</td>
+                    </tr>
+                  @empty
+                    <tr>
+                      <td colspan="3">Nenhum registro encontrado</td>
+                    </tr>
+                  @endforelse
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-4">
+          <div class="card card-outline card-success">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fa fa-info" aria-hidden="true"></i> Informações</h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="info-box">
+                <span class="info-box-icon bg-success"><i class="far fa-money-bill-alt"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">Vendas Realizadas</span>
+                  <span class="info-box-number">{{ $vendasFinalizadas->count() ?? 0 }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 @stop
 

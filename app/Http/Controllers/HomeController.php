@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comanda;
 use App\Models\User;
 use App\Models\Produto;
 use Illuminate\Http\Request;
@@ -27,6 +28,9 @@ class HomeController extends Controller
     {
         $countUsers = User::count();
         $countProdutos = Produto::count();
-        return view('home', compact('countUsers', 'countProdutos'));
+        $produtosEstoque = Produto::where('quantidade_estoque', '<', 10)->get();
+        $vendasFinalizadas = Comanda::where('status', 'Fechada')->get();
+
+        return view('home', compact('countUsers', 'countProdutos', 'produtosEstoque', 'vendasFinalizadas'));
     }
 }
