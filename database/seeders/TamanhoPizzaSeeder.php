@@ -19,6 +19,10 @@ class TamanhoPizzaSeeder extends Seeder
             ['nome' => 'Pequena'],
         ];
 
+        if (TamanhoPizza::count() > 0) {
+            return;
+        }
+
         foreach ($tamanhos as $tamanho) {
             TamanhoPizza::create($tamanho);
         }

@@ -45,7 +45,9 @@ class MesaSeeder extends Seeder
                 'updated_by' => 1
             ]
         ];
-
+        if (Mesa::count() > 0) {
+            return;
+        }
         foreach ($mesas as $mesa) {
             Mesa::create($mesa);
         }

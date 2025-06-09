@@ -20,9 +20,10 @@ class CategoriaSeeder extends Seeder
             ['nome' => 'Prato'],
             ['nome' => 'Lanche']
         ];
-
-        foreach ($categorias as $categoria) {
-            Categoria::create($categoria);
+        if(Categoria::count() < 0) {
+            foreach ($categorias as $categoria) {
+                Categoria::create($categoria);
+            }
         }
     }
 }

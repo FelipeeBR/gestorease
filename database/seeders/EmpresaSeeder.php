@@ -13,6 +13,9 @@ class EmpresaSeeder extends Seeder
      */
     public function run(): void
     {
+        if(Empresa::count() > 0) {
+            return;
+        }
         $empresa = new Empresa();
         $empresa->nome = 'Gestor EASE';
         $empresa->cnpj = '00000000000100';
