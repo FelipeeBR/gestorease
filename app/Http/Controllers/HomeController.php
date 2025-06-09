@@ -30,7 +30,8 @@ class HomeController extends Controller
         $countProdutos = Produto::count();
         $produtosEstoque = Produto::where('quantidade_estoque', '<', 10)->get();
         $vendasFinalizadas = Comanda::where('status', 'Fechada')->get();
+        $vendasAbertas = Comanda::where('status', 'Aberta')->count();
 
-        return view('home', compact('countUsers', 'countProdutos', 'produtosEstoque', 'vendasFinalizadas'));
+        return view('home', compact('countUsers', 'countProdutos', 'produtosEstoque', 'vendasFinalizadas', 'vendasAbertas'));
     }
 }

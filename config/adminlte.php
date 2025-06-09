@@ -261,7 +261,7 @@ return [
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
-    'password_reset_url' => 'password/reset',
+    'password_reset_url' => '', //password/reset
     'password_email_url' => 'password/email',
     'profile_url' => false,
     'disable_darkmode_routes' => false,
@@ -365,9 +365,9 @@ return [
                 ],*/
             ],
         ],
-        ['header' => 'Gerente e Admin', 'can'  => 'gerenciar_usuarios',],
+        //['header' => 'Gerente e Admin', 'can'  => 'gerenciar_usuarios',],
         [
-            'text' => 'Menu',
+            'text' => 'Gerente e Admin',
             'icon' => 'fas fa-fw fa-user-cog',
             'can'  => 'gerenciar_usuarios',
             'submenu' => [

@@ -14,7 +14,7 @@
         <div class="col-lg-3 col-6">
           <div class="small-box bg-gradient-success">
             <div class="inner">
-              <h3>{{ $countUsers }}</h3>
+              <h3>{{ $vendasAbertas }}</h3>
               <p>Pedidos Abertos</p>
             </div>
             <div class="icon">
@@ -25,51 +25,58 @@
             </a>
           </div>
         </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <div class="small-box bg-info">
-            <div class="inner">
-              <h3>{{ $countUsers }}</h3>
-              <p>Usuários do Sistema</p>
+
+        @if(Auth::user()->temRole('admin'))
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>{{ $countUsers }}</h3>
+                <p>Usuários do Sistema</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-user-plus"></i>
+              </div>
+              <a href="/users" class="small-box-footer">
+                Mais Informações <i class="fas fa-arrow-circle-right"></i>
+              </a>
             </div>
-            <div class="icon">
-              <i class="fas fa-user-plus"></i>
-            </div>
-            <a href="/users" class="small-box-footer">
-              Mais Informações <i class="fas fa-arrow-circle-right"></i>
-            </a>
           </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <div class="small-box bg-primary">
-            <div class="inner">
-              <h3>{{ $countProdutos }}</h3>
-              <p>Produtos</p>
+        @endif
+     
+        @if(Auth::user()->temRole('gerente'))
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-primary">
+              <div class="inner">
+                <h3>{{ $countProdutos }}</h3>
+                <p>Produtos</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-barcode"></i>
+              </div>
+              <a href="/produtos" class="small-box-footer">
+                Mais Informações <i class="fas fa-arrow-circle-right"></i>
+              </a>
             </div>
-            <div class="icon">
-              <i class="fas fa-barcode"></i>
-            </div>
-            <a href="/produtos" class="small-box-footer">
-              Mais Informações <i class="fas fa-arrow-circle-right"></i>
-            </a>
           </div>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <div class="small-box bg-warning">
-            <div class="inner">
-              <h3>-</h3>
-              <p>Relatórios (EM DESENVOLVIMENTO)</p>
+        @endif
+
+        @if(Auth::user()->temRole('gerente'))
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>-</h3>
+                <p>Relatórios (EM DESENVOLVIMENTO)</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-file"></i>
+              </div>
+              <a href="#" class="small-box-footer">
+                Mais Informações <i class="fas fa-arrow-circle-right"></i>
+              </a>
             </div>
-            <div class="icon">
-              <i class="fas fa-file"></i>
-            </div>
-            <a href="#" class="small-box-footer">
-              Mais Informações <i class="fas fa-arrow-circle-right"></i>
-            </a>
           </div>
-        </div>
+        @endif
+        
       </div>
       <div class="row">
         <div class="col-lg-6 col-4">

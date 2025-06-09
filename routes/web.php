@@ -18,23 +18,23 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::middleware(['auth.role:admin'])->group(function () {
     Route::resource('users', UserController::class);
 });
-
 Route::middleware(['auth.role:gerente'])->group(function () {
     Route::resource('produtos', ProdutoController::class);
 });
-
 Route::middleware(['auth.role:garcom,caixa'])->group(function () {
     Route::resource('mesas', MesaController::class);
 });
+Route::middleware(['auth.role:gerente'])->group(function () {
+    Route::resource('tamanho-pizza', TamanhoPizzaController::class);
+});
 
+// ROTAS CAIXA
 Route::prefix('caixa')->name('caixa.')->middleware(['auth.role:caixa'])->group(function () {
     Route::resource('comanda', ComandaController::class);
 });
-
 Route::post('caixa/comanda/{comanda}', [ItemComandaController::class, 'store'])->name('caixa.comanda.item.store');
 Route::delete('caixa/comanda/{comanda}', [ItemComandaController::class, 'destroy'])->name('caixa.comanda.item.destroy');
 Route::post('caixa/comanda/{comanda}/fechar', [ComandaController::class, 'fechar'])->name('caixa.comanda.fechar');
@@ -43,15 +43,12 @@ Route::middleware(['auth.role:caixa'])->group(function () {
     Route::resource('caixa', CaixaController::class);
 });
 Route::get('/caixa/{caixa}', [CaixaController::class, 'show'])->name('caixa.show');
-
-Route::middleware(['auth.role:gerente'])->group(function () {
-    Route::resource('tamanho-pizza', TamanhoPizzaController::class);
-});
+Route::post('/caixa/{caixa}/fechar', [CaixaController::class, 'fechar'])->name('caixa.fechar');
 
 Route::resource('pizzas', VariacaoPizzaController::class);
 Route::resource('categorias', CategoriaController::class);
 Route::resource('bordas-pizza', BordaPizzaController::class);
-Route::post('/caixa/{caixa}/fechar', [CaixaController::class, 'fechar'])->name('caixa.fechar');
+
 
 Route::middleware(['auth.role:caixa'])->group(function () {
     Route::resource('pedidos', PedidoController::class);
