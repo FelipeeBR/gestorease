@@ -76,10 +76,10 @@
             </div>
           </div>
         @endif
-        
+
       </div>
       <div class="row">
-        <div class="col-lg-6 col-4">
+        <div class="col-md-6 col-12">
           <div class="card card-outline card-warning">
             <div class="card-header">
               <h3 class="card-title"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i> Produtos com estoque baixo</h3>
@@ -88,32 +88,34 @@
               </div>
             </div>
             <div class="card-body">
-              <table class="table table-hover text-nowrap">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Quantidade</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @forelse ($produtosEstoque as $produto)
+              <div class="table-responsive">
+                <table class="table table-hover text-nowrap">
+                  <thead>
                     <tr>
-                      <td>{{ $produto->id }}</td>
-                      <td>{{ $produto->nome }}</td>
-                      <td>{{ $produto->quantidade_estoque }}</td>
+                      <th>ID</th>
+                      <th>Nome</th>
+                      <th>Quantidade</th>
                     </tr>
-                  @empty
-                    <tr>
-                      <td colspan="3">Nenhum registro encontrado</td>
-                    </tr>
-                  @endforelse
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    @forelse ($produtosEstoque as $produto)
+                      <tr>
+                        <td>{{ $produto->id }}</td>
+                        <td>{{ $produto->nome }}</td>
+                        <td>{{ $produto->quantidade_estoque }}</td>
+                      </tr>
+                    @empty
+                      <tr>
+                        <td colspan="3">Nenhum registro encontrado</td>
+                      </tr>
+                    @endforelse
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-lg-6 col-4">
+        <div class="col-md-6 col-12">
           <div class="card card-outline card-success">
             <div class="card-header">
               <h3 class="card-title"><i class="fa fa-info" aria-hidden="true"></i> Informações</h3>

@@ -21,6 +21,9 @@
                 {{-- Configured sidebar links --}}
                 @each('adminlte::partials.sidebar.menu-item', $adminlte->menu('sidebar'), 'item')
             </ul>
+            <div class="border-top my-3 d-flex justify-content-center">
+                <small class="text-white">0.1.0-alpha - Versão Experimental</small>
+            </div>
         </nav>
     </div>
 
