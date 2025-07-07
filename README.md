@@ -1,5 +1,5 @@
 ## 💡 Sobre o projeto
-Sistema para gerenciar pizzaria utilizando AdminLTE e Laravel
+GestorEase - Sistema para gerenciar pizzaria utilizando AdminLTE e Laravel
 ---
 ## ⚒️ Funcionalidades
 - Cadastro de usuários (com níveis de usuarios e permissões)
