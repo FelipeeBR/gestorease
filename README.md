@@ -1,7 +1,7 @@
-## Sobre o projeto
-Sistema para gerenciar pizzaria
+## 💡 Sobre o projeto
+Sistema para gerenciar pizzaria utilizando AdminLTE e Laravel
 ---
-## Funcionalidades
+## ⚒️ Funcionalidades
 - Cadastro de usuários (com níveis de usuarios e permissões)
 - Cadastro de estoque
 - Cadastro de mesas
